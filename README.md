@@ -12,7 +12,7 @@
 ---
 # 目录
 - [配置](#配置)
-- [生成SSH Key](#生成SSH Key)
+- [生成SSH_Key](#生成SSH_Key)
 - [初始化本地仓库](#初始化本地仓库)
 - [文件状态](#文件状态)
 - [日志](#日志)
@@ -57,7 +57,7 @@ git config --global user.email "example@example.com"
 
 
 
-## 生成SSH Key
+## 生成SSH_Key
 ```bash
 # 1、粘贴以下命令，替换为您的GitHub电子邮件地址
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
