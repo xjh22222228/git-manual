@@ -103,7 +103,14 @@ git init --bare
 
 ## 文件状态
 ```bash
+# 完整查看文件状态
 git status
+
+# 以短格式给出输出
+git status -s
+
+# 忽略子模块
+git status --ignore-submodules
 ```
 
 ## 日志
@@ -486,7 +493,7 @@ git config --global credential.helper store
 # windows
 git credential-manager uninstall
 # mac linux
-git config --global credential.helper "" 
+git config --global credential.helper ""
 # 或者
 git config --global --unset credential.helper
 
