@@ -181,6 +181,9 @@ git switch master
 
 # 切换上一个分支
 git checkout -
+
+# 切换远端分支
+git checkout -t origin/dev
 ```
 
 ## 创建分支
@@ -191,8 +194,16 @@ git branch develop
 # 创建develop分支并切换
 git checkout -b develop
 
-# 切换远端分支
-git checkout -t origin/dev
+
+
+# 创建一个空的分支, 不继承父分支，历史记录是空的，一般至少需要执行4步
+git checkout --orphan develop
+# 这一步可选，如果你真的想创建一个没有任何文件的分支
+git rm -rf .
+# 添加并提交，否则分支是隐藏的 （执行这一步之前需要注意当前工作区必须保留一个文件，否则无法提交）
+git add -A && git commit -m "提交"
+# 推送到远程
+git push --set-upstream origin develop
 ```
 
 
