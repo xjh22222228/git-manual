@@ -35,6 +35,7 @@
 - [标签](#标签)
 - [Git Flow](#GitFlow)
 - [子模块](#子模块)
+- [帮助](#帮助)
 - [其他](#其他)
 
 ## 配置
@@ -87,10 +88,17 @@ Host *
 
 
 
-## 初始化本地仓库
+## 初始化仓库
+`git init` 创建一个空的Git仓库或重新初始化一个现有的仓库
 ```bash
 # 会在当前目录生成.git
 git init
+
+# 以安静模式创建，只会打印错误或警告信息
+git init -q
+
+# 创建一个裸仓库, 我们一般不会用到这个命令
+git init --bare
 ```
 
 ## 文件状态
@@ -457,6 +465,19 @@ git rm --cached common
 git commit -am "Remove a submodule" && git push
 ```
 
+
+
+## 帮助
+```bash
+# 详细打印所有git命令
+git help
+
+# 打印所有git命令, 此命令不会有详细信息，更清晰一些
+git help -a
+
+# 列出所有可配置的变量
+git help -c
+```
 
 
 
