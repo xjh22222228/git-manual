@@ -1,8 +1,40 @@
 
 # Git常用命令参考手册 ![](https://img.shields.io/github/license/xjh22222228/git-manual)  [git-repo](https://github.com/xjh22222228/git-manual)
 
----
 
+基本涵盖了在开发中用到的git命令，能满足日常需求。
+
+<center>
+<img src="https://xiejiahe.gitee.io/public/tomato-work/project-9.png" />
+</center>
+
+
+---
+# 目录
+- [配置](#配置)
+- [初始化本地仓库](#初始化本地仓库)
+- [文件状态](#文件状态)
+- [日志](#日志)
+- [克隆](#克隆)
+- [查看分支](#查看分支)
+- [切换分支](#切换分支)
+- [创建分支](#创建分支)
+- [删除分支](#删除分支)
+- [重命名分支](#重命名分支)
+- [代码合并](#代码合并)
+- [暂存](#暂存)
+- [删除](#删除)
+- [提交](#提交)
+- [推送](#推送)
+- [提交](#提交)
+- [拉取最新内容](#拉取最新内容)
+- [查看文件的改动](#查看文件的改动)
+- [回滚版本](#回滚版本)
+- [撤销](#撤销)
+- [标签](#标签)
+- [Git Flow](#GitFlow)
+- [子模块](#子模块)
+- [其他](#其他)
 
 ## 配置
 ```bash
@@ -311,7 +343,7 @@ Git Flow 不是内置命令，需要单独安装
 git flow init
 ```
 
-**功能 Feature**
+**功能**
 ```bash
 # 开启新的功能
 git flow feature start v1.1.0
@@ -323,7 +355,7 @@ git flow feature publish v1.1.0
 git flow feature finish v1.1.0
 ```
 
-**打补丁 hotfix**
+**打补丁**
 hotfix是针对 `master` 进行打补丁的
 ```bash
 # 开启新的 hotfix
@@ -336,7 +368,7 @@ git flow hotfix publish v1.1.0_hotifx
 git flow hotfix finish v1.1.0_hotifx
 ```
 
-**Relase 发布**
+**发布**
 ```bash
 # 开启新的 release
 git flow release start v1.1.0
@@ -350,6 +382,28 @@ git flow release finish v1.1.0
 
 
 
+# 子模块 Submodule
+具体使用还可以看这里 [git submodule子模块使用教程](https://www.xiejiahe.com/blog/detail/5dbceefc0bb52b1c88c30853)
+```bash
+# 添加子模块
+git submodule add https://github.com/xjh22222228/git-manual.git
+
+# 更新，有2种方法
+# 一步到位
+git submodule update --remote
+# 或者进入到子模块项目再拉取
+git pull
+
+# 修复子模块分支指向 detached head
+git submodule foreach -q --recursive 'git checkout $(git config -f $toplevel/.gitmodules submodule.$name.branch || echo master)'
+
+# 删除子模块 common 为子模块名称，一般删除需要三部
+git submodule deinit <common>
+#清除子模块缓存
+git rm --cached common
+# 提交代码并推送
+git commit -am "Remove a submodule" && git push
+```
 
 
 
