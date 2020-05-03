@@ -103,7 +103,14 @@ git init --bare
 
 ## 文件状态
 ```bash
+# 完整查看文件状态
 git status
+
+# 以短格式给出输出
+git status -s
+
+# 忽略子模块
+git status --ignore-submodules
 ```
 
 ## 日志
@@ -120,8 +127,14 @@ git log -p -2
 # 搜索关键词
 git log -S 你好
 
-# 列出提交者贡献数量
+# 列出提交者贡献数量, 只会打印作者和贡献数量
 git shortlog -sn
+
+# 以提交贡献数量排序并打印出message
+git shortlog -n
+
+# 采用邮箱格式化的方式进行查看贡献度
+git shortlog -e
 ```
 
 
@@ -133,8 +146,8 @@ git clone https://github.com/xjh22222228/git-manual.git
 # SSH协议
 git clone git@github.com:xjh22222228/git-manual.git
 
-# 克隆某个分支， -b 后面分支名字
-git clone -b v2.8.0 https://github.com/xjh22222228/git-manual.git
+# 克隆某个分支， -b 指定分支名字
+git clone -b master https://github.com/xjh22222228/git-manual.git
 
 # 递归克隆，如果项目包含子模块就非常有用
 git clone --recursive git@github.com:xjh22222228/git-manual.git
@@ -266,7 +279,7 @@ git push -f
 
 ## 拉取最新内容
 ```bash
-# 推荐使用这个，因为不会做自动合并
+# 推荐，因为不会做自动合并
 git fetch origin master
 
 # 相当于git fetch 然后 git merge
