@@ -301,8 +301,11 @@ git reset --hard <commit_id>
 
 ## 标签
 ```bash
-# 列出标签
+# 列出本地所有标签
 git tag
+
+# 列出远程所有标签
+git ls-remote --tags origin
 
 # 按照特定模式查找标签, `*` 模板搜索
 git tag -l "v1.0.0*"
@@ -331,6 +334,9 @@ git push origin --delete v1.1.0
 
 # 检查标签
 git checkout v1.1.0
+
+# 查看本地某个标签详细信息
+git show v1.1.0
 ```
 
 
@@ -382,7 +388,7 @@ git flow release finish v1.1.0
 
 
 
-## 子模块 Submodule
+## 子模块
 具体使用还可以看这里 [git submodule子模块使用教程](https://www.xiejiahe.com/blog/detail/5dbceefc0bb52b1c88c30853)
 ```bash
 # 添加子模块
