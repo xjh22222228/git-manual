@@ -499,7 +499,7 @@ git config --global credential.helper store
 # windows
 git credential-manager uninstall
 # mac linux
-git config --global credential.helper "" 
+git config --global credential.helper ""
 # 或者
 git config --global --unset credential.helper
 
