@@ -12,6 +12,7 @@
 ---
 # 目录
 - [配置](#配置)
+- [生成SSH Key](#生成SSH Key)
 - [初始化本地仓库](#初始化本地仓库)
 - [文件状态](#文件状态)
 - [日志](#日志)
@@ -53,6 +54,38 @@ git config --global --get user.email
 # 设置邮箱
 git config --global user.email "example@example.com"
 ```
+
+
+
+## 生成SSH Key
+```bash
+# 1、粘贴以下命令，替换为您的GitHub电子邮件地址
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+# 2、当提示“输入要在其中保存密钥的文件”时，按Enter。接受默认文件位置。
+> Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
+
+# 3、在提示符下，键入一个安全密码。
+> Enter passphrase (empty for no passphrase): [Type a passphrase]
+> Enter same passphrase again: [Type passphrase again]
+```
+
+最后需要将生成的 SSH Key 添加到 `ssh config` 中
+```bash
+# 1、编辑
+vim ~/.ssh/config
+
+# 2、粘贴下面到 config 文件中
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa
+```
+
+
+
+
+
 
 ## 初始化本地仓库
 ```bash
