@@ -95,7 +95,14 @@ git init
 
 ## 文件状态
 ```bash
+# 完整查看文件状态
 git status
+
+# 以短格式给出输出
+git status -s
+
+# 忽略子模块
+git status --ignore-submodules
 ```
 
 ## 日志
@@ -125,8 +132,8 @@ git clone https://github.com/xjh22222228/git-manual.git
 # SSH协议
 git clone git@github.com:xjh22222228/git-manual.git
 
-# 克隆某个分支， -b 后面分支名字
-git clone -b v2.8.0 https://github.com/xjh22222228/git-manual.git
+# 克隆某个分支， -b 指定分支名字
+git clone -b master https://github.com/xjh22222228/git-manual.git
 
 # 递归克隆，如果项目包含子模块就非常有用
 git clone --recursive git@github.com:xjh22222228/git-manual.git
