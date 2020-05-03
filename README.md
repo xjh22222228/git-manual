@@ -123,13 +123,13 @@ git shortlog -sn
 git clone https://github.com/xjh22222228/git-manual.git
 
 # SSH协议
-git clone xjh22222228@github.com/xjh22222228/git-manual.git
+git clone git@github.com:xjh22222228/git-manual.git
 
 # 克隆某个分支， -b 后面分支名字
 git clone -b v2.8.0 https://github.com/xjh22222228/git-manual.git
 
 # 递归克隆，如果项目包含子模块就非常有用
-git clone --recursive xjh22222228@github.com/xjh22222228/git-manual.git
+git clone --recursive git@github.com:xjh22222228/git-manual.git
 
 # 克隆深度为1, 不会把历史的记录也克隆，这样可以节省克隆时间
 git clone --depth=1 https://github.com/xjh22222228/git-manual.git
