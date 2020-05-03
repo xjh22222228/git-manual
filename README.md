@@ -32,6 +32,7 @@
 - [回滚版本](#回滚版本)
 - [撤销](#撤销)
 - [标签](#标签)
+- [Rebase](#Rebase)
 - [Git Flow](#GitFlow)
 - [子模块](#子模块)
 - [帮助](#帮助)
@@ -39,20 +40,28 @@
 
 ## 配置
 ```bash
-# 查看配置列表
+# 查看全局配置列表
 git config -l
+# 查看局部配置列表
+git config --local --list
 
-# 查看已设置的用户名
+# 查看已设置的全局用户名/邮箱
 git config --global --get user.name
-
-# 设置用户名
-git config --global user.name "xiejiahe"
-
-# 查看已设置的邮箱
 git config --global --get user.email
 
-# 设置邮箱
+# 设置全局用户名/邮箱
+git config --global user.name "xiejiahe"
 git config --global user.email "example@example.com"
+
+# 设置本地当前工作区仓库用户名/邮箱
+git config --local user.name "xiejiahe"
+git config --local user.email "example@example.com"
+
+# 将默认文本编辑器设置为 emacs
+git config --global core.editor emacs
+
+# 将默认差异化分析工具设置为 vimdiff
+git config --global merge.tool vimdiff
 ```
 
 
@@ -419,6 +428,39 @@ git show v1.1.0
 ```
 
 
+
+
+
+
+
+
+## Rebase
+`git rebase` 主要作用可以将多个commit记录合并为一条
+```bash
+# 操作最近4次提交
+git rebase -i HEAD~4
+# 或者以 commit_id 进行操作
+git rebase -i e88835de905ad396f61a0dc8c040a8ac8a34f3f8
+
+
+# 放弃 git rebase 操作
+git rebase --abort
+
+# 此命令主要用于解决冲突后继续执行
+git rebase --continue
+```
+
+参考：[git rebase将多次commit合并为一条](https://www.xiejiahe.com/blog/detail/5d550e8553d11b2c3ca05cbe)
+
+
+
+
+
+
+
+
+
+
 ## GitFlow
 Git Flow 不是内置命令，需要单独安装
 
@@ -440,7 +482,9 @@ git flow feature publish v1.1.0
 git flow feature finish v1.1.0
 ```
 
+
 **打补丁**
+
 hotfix是针对 `master` 进行打补丁的
 ```bash
 # 开启新的 hotfix
@@ -473,6 +517,12 @@ git flow release finish v1.1.0
 
 ---
 
+
+
+
+
+
+
 ## 子模块
 具体使用还可以看这里 [git submodule子模块使用教程](https://www.xiejiahe.com/blog/detail/5dbceefc0bb52b1c88c30853)
 ```bash
@@ -498,6 +548,10 @@ git commit -am "Remove a submodule" && git push
 
 
 
+
+
+
+
 ## 帮助
 ```bash
 # 详细打印所有git命令
@@ -509,6 +563,10 @@ git help -a
 # 列出所有可配置的变量
 git help -c
 ```
+
+
+
+
 
 
 
