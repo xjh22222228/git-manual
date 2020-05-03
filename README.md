@@ -27,7 +27,6 @@
 - [删除](#删除)
 - [提交](#提交)
 - [推送](#推送)
-- [提交](#提交)
 - [拉取最新内容](#拉取最新内容)
 - [查看文件的改动](#查看文件的改动)
 - [回滚版本](#回滚版本)
@@ -125,7 +124,13 @@ git log -2
 git log -p -2
 
 # 搜索关键词
-git log -S 你好
+git log -S Java
+
+# 只显示合并日志
+git log --merges
+
+# 以图形查看日志记录, --oneline 可选
+git log --graph --oneline
 
 # 列出提交者贡献数量, 只会打印作者和贡献数量
 git shortlog -sn
@@ -135,6 +140,9 @@ git shortlog -n
 
 # 采用邮箱格式化的方式进行查看贡献度
 git shortlog -e
+
+# 查看 README.md 文件的修改历史记录，包括时间、作者以及内容
+git blame README.md
 ```
 
 
@@ -266,8 +274,14 @@ git rm 1.txt
 # -m 提交的信息
 git commit -m "changes log"
 
-# 提交显示diff变化
+# 提交并显示diff变化
 git commit -v
+
+# 允许提交空消息，通常必须指定 -m 参数
+git commit --allow-empty-message
+
+# 重写上一次提交信息，确保当前工作区没有改动
+git commit --amend -m "新的提交信息"
 ```
 
 ## 推送
@@ -405,7 +419,7 @@ git show v1.1.0
 ```
 
 
-## Git Flow
+## GitFlow
 Git Flow 不是内置命令，需要单独安装
 
 **初始化** 每个仓库都必须初始化一次
@@ -500,6 +514,9 @@ git help -c
 
 ## 其他
 ```bash
+# 查看git版本
+git --version
+
 # 查看远程仓库地址
 git remote -v
 
@@ -517,6 +534,15 @@ git config --global --unset credential.helper
 # 清除本地git缓存
 git rm -r --cached .
 ```
+
+
+---
+---
+
+
+**附上一张鹅厂的 git 思维导图**
+
+![](media/map.jpg)
 
 
 
