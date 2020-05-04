@@ -205,12 +205,15 @@ git checkout -t origin/dev
 
 ## 创建分支
 ```bash
-# 创建develop分支
+# 创建develop本地分支
 git branch develop
 
-# 创建develop分支并切换
+# 创建本地develop分支并切换
 git checkout -b develop
 
+# 创建远程分支, 实际上创建本地分支然后推送
+git checkout -b develop
+git push origin develop
 
 
 # 创建一个空的分支, 不继承父分支，历史记录是空的，一般至少需要执行4步
@@ -252,6 +255,9 @@ git merge feature/v1.0.0
 
 # 或者一步法
 git merge feature/v1.0.0 develop
+
+# 以安静模式合并, 把develop分支合并到当前分支并不输出任何信息
+git merge develop -q
 ```
 
 
@@ -276,6 +282,12 @@ git add 的反向操作
 ```bash
 # 删除1.txt 文件
 git rm 1.txt
+
+# 删除当前所有文件, 与rm -rf 命令不同的是不会删除 .git 目录
+git rm -rf .
+
+# 清除当前工作区缓存，但不会删除文件，通常用于修改文件名不生效问题
+git rm -r --cached .
 ```
 
 ## 提交
@@ -540,7 +552,7 @@ git submodule foreach -q --recursive 'git checkout $(git config -f $toplevel/.gi
 
 # 删除子模块 common 为子模块名称，一般删除需要三部
 git submodule deinit <common>
-#清除子模块缓存
+# 清除子模块缓存
 git rm --cached common
 # 提交代码并推送
 git commit -am "Remove a submodule" && git push
