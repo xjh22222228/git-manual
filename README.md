@@ -105,7 +105,7 @@ git init
 # 以安静模式创建，只会打印错误或警告信息
 git init -q
 
-# 创建一个裸仓库, 我们一般不会用到这个命令
+# 创建一个裸仓库, 通常情况下用不上
 git init --bare
 ```
 
@@ -181,13 +181,19 @@ git clone --depth=1 https://github.com/xjh22222228/git-manual.git
 ## 查看分支
 ```bash
 # 查看所有分支
-git branch --all
+git branch -a
 
 # 查看本地分支
 git branch
 
 # 查看远端分支
 git branch -r
+
+# 查看本地分支所关联的远程分支
+git branch -vv
+
+# 查看本地 master 分支创建时间
+git reflog show --date=iso master
 ```
 
 ## 切换分支
@@ -233,14 +239,22 @@ git push --set-upstream origin develop
 git branch -d <branchName>
 
 # 删除远程分支
-git branch -d -r origin/<branchName>
 git push origin :<branchName>
 ```
 
 ## 重命名分支
 ```bash
-# 重命名当前分支
+# 重命名当前分支, 通常情况下需要执行3步
+# 1、修改分支名称
+# 2、删除远程旧分支
+# 3、将重命名分支推送到远程
 git branch -m <branchName>
+git push origin :old_branch
+git push -u origin new_branch
+
+
+# 重命名指定分支
+git branch -m old_branch new_branch
 ```
 
 
@@ -270,7 +284,7 @@ git add -A
 # 暂存某个文件
 git add ./README.md
 
-# 添加当前目录所有改动文件
+# 暂存当前目录所有改动文件
 git add .
 
 # 暂存一系列文件
