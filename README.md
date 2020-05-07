@@ -309,6 +309,9 @@ git rm -r --cached .
 # -m 提交的信息
 git commit -m "changes log"
 
+# 只提交某个文件
+git commit README.md -m "message"
+
 # 提交并显示diff变化
 git commit -v
 
