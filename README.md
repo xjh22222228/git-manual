@@ -57,6 +57,10 @@ git config --global user.email "example@example.com"
 git config --local user.name "xiejiahe"
 git config --local user.email "example@example.com"
 
+# 删除配置
+git config --unset --global user.name
+git config --unset --global user.email
+
 # 将默认文本编辑器设置为 emacs
 git config --global core.editor emacs
 
