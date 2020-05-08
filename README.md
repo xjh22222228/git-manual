@@ -36,6 +36,7 @@
 - [Git Flow](#GitFlow)
 - [子模块](#子模块)
 - [帮助](#帮助)
+- [清空commit历史](#清空commit历史)
 - [其他](#其他)
 
 ## 配置
@@ -596,6 +597,25 @@ git help -a
 # 列出所有可配置的变量
 git help -c
 ```
+
+
+
+## 清空commit历史
+假设当前分支是 `develop`
+```bash
+# 1、新建一个新分支
+git checkout --orphan new_branch
+# 2、暂存所有文件并提交
+git add -A && git commit -m "First commit"
+# 3、删除本地 develop 分支
+git branch -D develop
+# 4、再将 new_branch 分支重命名为 develop
+git branch -m develop
+# 5、强制将 develop 分支推送到远程
+git push -f origin develop
+```
+
+
 
 
 
