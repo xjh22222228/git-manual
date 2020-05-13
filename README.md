@@ -277,6 +277,9 @@ git merge feature/v1.0.0 develop
 
 # 以安静模式合并, 把develop分支合并到当前分支并不输出任何信息
 git merge develop -q
+
+# 合并不编辑消息, 跳过交互
+git merge develop --no-edit
 ```
 
 
