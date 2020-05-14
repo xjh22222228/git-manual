@@ -38,6 +38,7 @@
 - [帮助](#帮助)
 - [清空commit历史](#清空commit历史)
 - [其他](#其他)
+- [奇技淫巧](#奇技淫巧)
 
 ## 配置
 ```bash
@@ -67,6 +68,11 @@ git config --global core.editor emacs
 
 # 将默认差异化分析工具设置为 vimdiff
 git config --global merge.tool vimdiff
+
+
+# 命令别名配置
+# git st 等价于 git status
+git config --global alias.st status
 ```
 
 
@@ -124,6 +130,9 @@ git status -s
 
 # 忽略子模块
 git status --ignore-submodules
+
+# 显示已忽略的文件
+git status --ignored
 ```
 
 ## 日志
@@ -245,6 +254,7 @@ git branch -d <branchName>
 
 # 删除远程分支
 git push origin :<branchName>
+git push origin --delete <branch-name>  # >= 1.7.0
 ```
 
 ## 重命名分支
@@ -650,6 +660,16 @@ git config --global --unset credential.helper
 
 # 清除本地git缓存
 git rm -r --cached .
+```
+
+
+## 奇技淫巧
+美化`git log`, 直逼GUI
+```bash
+# 1、全局配置
+git config --global alias.lg log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+# 2、输入下面命令, 日志变得非常直观化
+git lg
 ```
 
 
