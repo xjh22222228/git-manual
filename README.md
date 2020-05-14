@@ -22,7 +22,7 @@
 - [创建分支](#创建分支)
 - [删除分支](#删除分支)
 - [重命名分支](#重命名分支)
-- [代码合并](#代码合并)
+- [合并](#合并)
 - [暂存](#暂存)
 - [删除](#删除)
 - [提交](#提交)
@@ -266,13 +266,13 @@ git branch -m old_branch new_branch
 ----
 
 
-## 代码合并
+## 合并
 ```bash
 # 两步法, 将 feature/v1.0.0 分支代码合并到 develop
 git checkout develop
 git merge feature/v1.0.0
 
-# 或者一步法
+# 或者一步法, 将 feature/v1.0.0 分支的内容合并到 develop
 git merge feature/v1.0.0 develop
 
 # 以安静模式合并, 把develop分支合并到当前分支并不输出任何信息
@@ -280,6 +280,9 @@ git merge develop -q
 
 # 合并不编辑消息, 跳过交互
 git merge develop --no-edit
+
+# 合并分支后不进行提交
+git merge develop --no-commit
 ```
 
 
