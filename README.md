@@ -35,6 +35,7 @@
 - [Rebase](#Rebase)
 - [Git Flow](#GitFlow)
 - [子模块](#子模块)
+- [Bisect](#Bisect)
 - [帮助](#帮助)
 - [清空commit历史](#清空commit历史)
 - [其他](#其他)
@@ -73,6 +74,9 @@ git config --global merge.tool vimdiff
 # 命令别名配置
 # git st 等价于 git status
 git config --global alias.st status
+
+# 编辑当前仓库配置文件
+git config -e  # 等价 vi .git/config
 ```
 
 
@@ -597,6 +601,23 @@ git commit -am "Remove a submodule" && git push
 ```
 
 
+
+## Bisect
+`Bisect` 二分查找, 用于定位引入Bug的commit，主要4个命令
+```bash
+# 开始
+git bisect start [终点] [起点] # 通过 git log 确定起点和终点
+git bisect start HEAD 4d83cf
+
+# 记录这次的commit是好的
+git bisect good
+
+# 记录这次的commit是坏的
+git bisect bad
+
+# 退出
+git bisect reset
+```
 
 
 
