@@ -70,14 +70,26 @@ git config --global core.editor emacs
 # 将默认差异化分析工具设置为 vimdiff
 git config --global merge.tool vimdiff
 
-
-# 命令别名配置
-# git st 等价于 git status
-git config --global alias.st status
-
 # 编辑当前仓库配置文件
 git config -e  # 等价 vi .git/config
 ```
+
+**命令别名配置**
+```bash
+# git st 等价于 git status
+git config --global alias.st status
+
+# 如果之前添加过，需要添加 --replace-all 进行覆盖
+git config --global alias.st status --replace-all
+
+# 执行外部命令, 只要在前面加 ! 即可
+git config --global alias.st '!echo hello';
+# 可以利用外部命令执行一段复杂的合并代码过程，例如：
+git config --global alias.mg '!git checkout develop && git pull && git merge master && git checkout -';
+```
+
+
+
 
 **给git设置代理**
 ```bash
