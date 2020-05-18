@@ -79,6 +79,22 @@ git config --global alias.st status
 git config -e  # 等价 vi .git/config
 ```
 
+**给git设置代理**
+```bash
+# 设置
+git config --global https.proxy  http://127.0.0.1:1087
+git config --global http.proxy  http://127.0.0.1:1087
+
+# 查看
+git config --global --get http.proxy
+git config --global --get https.proxy
+
+# 取消代理
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+
+
 
 
 ## 生成SSH_Key
@@ -619,6 +635,7 @@ git bisect bad
 git bisect reset
 ```
 
+参考 [https://github.com/bradleyboy/bisectercise](https://github.com/bradleyboy/bisectercise)
 
 
 
