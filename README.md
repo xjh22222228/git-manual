@@ -13,10 +13,11 @@
 # 目录
 - [配置](#配置)
 - [生成SSH_Key](#生成SSH_Key)
-- [初始化本地仓库](#初始化本地仓库)
+- [初始化仓库](#初始化仓库)
+- [克隆](#克隆)
 - [文件状态](#文件状态)
 - [日志](#日志)
-- [克隆](#克隆)
+- [Blame](#Blame)
 - [查看分支](#查看分支)
 - [切换分支](#切换分支)
 - [创建分支](#创建分支)
@@ -136,11 +137,10 @@ Host *
 
 
 
-
-
-
 ## 初始化仓库
 `git init` 创建一个空的Git仓库或重新初始化一个现有的仓库
+
+实际上 `git init` 命令用得不多，通常在网页上进行操作。
 ```bash
 # 会在当前目录生成.git
 git init
@@ -151,6 +151,27 @@ git init -q
 # 创建一个裸仓库, 通常情况下用不上
 git init --bare
 ```
+
+
+## 克隆
+```bash
+# https 协议
+git clone https://github.com/xjh22222228/git-manual.git
+
+# SSH协议
+git clone git@github.com:xjh22222228/git-manual.git
+
+# 克隆某个分支， -b 指定分支名字
+git clone -b master https://github.com/xjh22222228/git-manual.git
+
+# 递归克隆，如果项目包含子模块就非常有用
+git clone --recursive git@github.com:xjh22222228/git-manual.git
+
+# 克隆深度为1, 不会把历史的记录也克隆，这样可以节省克隆时间
+git clone --depth=1 https://github.com/xjh22222228/git-manual.git
+```
+
+
 
 ## 文件状态
 ```bash
@@ -195,33 +216,36 @@ git shortlog -n
 
 # 采用邮箱格式化的方式进行查看贡献度
 git shortlog -e
+```
 
+
+
+## Blame
+`git blame` 意思是责怪，你懂的。
+
+`git blame` 用于查看某个文件的修改历史记录是哪个作者进行了改动。
+```bash
 # 查看 README.md 文件的修改历史记录，包括时间、作者以及内容
 git blame README.md
+
+# 查看谁改动了 README.md 文件的 11行-12行
+git blame -L 11,12 README.md
+git blame -L 11 README.md   # 查看第11行以后
+
+# 显示完整的 hash 值
+git blame -l README.md
+
+# 显示修改的行数
+git blame -n README.md
+
+# 显示作者邮箱
+git blame -e README.md
+
+# 对参数进行一个组合查询
+git blame -enl -L 11 README.md
 ```
 
 
-## 克隆
-```bash
-# https 协议
-git clone https://github.com/xjh22222228/git-manual.git
-
-# SSH协议
-git clone git@github.com:xjh22222228/git-manual.git
-
-# 克隆某个分支， -b 指定分支名字
-git clone -b master https://github.com/xjh22222228/git-manual.git
-
-# 递归克隆，如果项目包含子模块就非常有用
-git clone --recursive git@github.com:xjh22222228/git-manual.git
-
-# 克隆深度为1, 不会把历史的记录也克隆，这样可以节省克隆时间
-git clone --depth=1 https://github.com/xjh22222228/git-manual.git
-```
-
-
-
-----
 
 
 ## 查看分支
