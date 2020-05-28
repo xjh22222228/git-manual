@@ -5,14 +5,14 @@
 基本涵盖了在开发中用到的git命令，能满足日常需求。
 
 <center>
-<img src="https://xiejiahe.gitee.io/public/tomato-work/project-9.png" />
+<img src="media/poster.png" />
 </center>
 
 
 ---
 # 目录
 - [配置](#配置)
-- [生成SSH_Key](#生成SSH_Key)
+- [生成SSHKey](#生成SSHKey)
 - [初始化仓库](#初始化仓库)
 - [克隆](#克隆)
 - [文件状态](#文件状态)
@@ -87,6 +87,9 @@ git config --global alias.st status --replace-all
 git config --global alias.st '!echo hello';
 # 可以利用外部命令执行一段复杂的合并代码过程，例如：
 git config --global alias.mg '!git checkout develop && git pull && git merge master && git checkout -';
+
+# 删除 st 别名
+git config --global --unset alias.st
 ```
 
 
@@ -110,29 +113,37 @@ git config --global --unset https.proxy
 
 
 
-## 生成SSH_Key
+## 生成SSHKey
+1、替换为您的GitHub电子邮件地址
 ```bash
-# 1、粘贴以下命令，替换为您的GitHub电子邮件地址
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
 
-# 2、当提示“输入要在其中保存密钥的文件”时，按Enter。接受默认文件位置。
+2、当提示“输入要在其中保存密钥的文件”时，按Enter。接受默认文件位置。 (建议修改名字，防止以后被覆盖)
+```
 > Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
+```
 
-# 3、在提示符下，键入一个安全密码。
+3、在提示符下，键入一个安全密码, 默认回车即可
+```bash
 > Enter passphrase (empty for no passphrase): [Type a passphrase]
 > Enter same passphrase again: [Type passphrase again]
 ```
 
-最后需要将生成的 SSH Key 添加到 `ssh config` 中
+4、生成的SSH Key 添加到 `ssh config` 中
 ```bash
-# 1、编辑
 vim ~/.ssh/config
 
-# 2、粘贴下面到 config 文件中
+# 粘贴
 Host *
   AddKeysToAgent yes
   UseKeychain yes
   IdentityFile ~/.ssh/id_rsa
+```
+
+最后将公钥添加到 [https://github.com/settings/keys](https://github.com/settings/keys) 中
+```
+cat ~/.ssh/id_rsa.pub
 ```
 
 
@@ -167,7 +178,7 @@ git clone -b master https://github.com/xjh22222228/git-manual.git
 # 递归克隆，如果项目包含子模块就非常有用
 git clone --recursive git@github.com:xjh22222228/git-manual.git
 
-# 克隆深度为1, 不会把历史的记录也克隆，这样可以节省克隆时间
+# 克隆深度为1, 只克隆指定分支, 历史记录只克隆最后一条, 减少克隆时间
 git clone --depth=1 https://github.com/xjh22222228/git-manual.git
 ```
 
@@ -738,13 +749,24 @@ git rm -r --cached .
 
 
 ## 奇技淫巧
-美化`git log`, 直逼GUI
+**美化 `git log`, 直逼GUI**
 ```bash
 # 1、全局配置
-git config --global alias.lg log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 # 2、输入下面命令, 日志变得非常直观化
 git lg
+
+# 这里另外提供几种模式, 可以选择喜欢的一种进行别名配置
+git config --global alias.lg "log --graph --pretty=format:'%Cred%h - %Cgreen[%an]%Creset -%C(yellow)%d%Creset %s %C(yellow)<%cr>%Creset' --abbrev-commit --date=relative"
+
+git config --global alias.his "log --graph --decorate --oneline --pretty=format:'%Creset %s %C(magenta)in %Cred%h %C(magenta)commited by %Cgreen%cn %C(magenta)on %C(yellow) %cd %C(magenta)from %Creset %C(yellow)%d' --abbrev-commit --date=format:'%Y-%m-%d %H:%M:%S'"
+
+git config --global alias.hist "log --graph --decorate --oneline --pretty=format:'%Cred%h - %C(bold white) %s %Creset %C(yellow)%d  %C(cyan) <%cd> %Creset %Cgreen(%cn)' --abbrev-commit --date=format:'%Y-%m-%d %H:%M:%S'"
 ```
+效果图
+
+<img src="media/git-log.png" width="400" />
+
 
 
 ---
