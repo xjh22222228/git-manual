@@ -15,6 +15,7 @@
 - [生成SSHKey](#生成SSHKey)
 - [初始化仓库](#初始化仓库)
 - [克隆](#克隆)
+- [cherry-pick](#cherry-pick)
 - [文件状态](#文件状态)
 - [日志](#日志)
 - [Blame](#Blame)
@@ -180,6 +181,19 @@ git clone --recursive git@github.com:xjh22222228/git-manual.git
 
 # 克隆深度为1, 只克隆指定分支, 历史记录只克隆最后一条, 减少克隆时间
 git clone --depth=1 https://github.com/xjh22222228/git-manual.git
+```
+
+
+## cherry-pick
+检出某次commit提交, 如果当前分支上的某次提交的修改正是当前需要的，那么可以使用此命令进行操作。
+
+需要注意的是提交时必须使用 `git push -f` 强制提交方式。
+```bash
+# 通常情况执行此命令会产生冲突，需要手动去解决
+git cherry-pick <commit_id>
+
+# 保留原有作者信息进行提交
+git cherry-pick -x 8f6c26fc122502886bdfd9aa55ecda26a3ccc31d
 ```
 
 
