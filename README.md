@@ -25,6 +25,7 @@
 - [删除分支](#删除分支)
 - [重命名分支](#重命名分支)
 - [合并](#合并)
+- [解决冲突](#解决冲突)
 - [暂存](#暂存)
 - [删除](#删除)
 - [提交](#提交)
@@ -295,7 +296,7 @@ git reflog show --date=iso master
 ```bash
 # 2种方法，切换到master分支
 git checkout master
-git switch master
+git switch master  # git >= 2.23
 
 # 切换上一个分支
 git checkout -
@@ -359,12 +360,9 @@ git branch -m old_branch new_branch
 
 ## 合并
 ```bash
-# 两步法, 将 feature/v1.0.0 分支代码合并到 develop
+# 将 feature/v1.0.0 分支代码合并到 develop
 git checkout develop
 git merge feature/v1.0.0
-
-# 或者一步法, 将 feature/v1.0.0 分支的内容合并到 develop
-git merge feature/v1.0.0 develop
 
 # 以安静模式合并, 把develop分支合并到当前分支并不输出任何信息
 git merge develop -q
@@ -374,7 +372,58 @@ git merge develop --no-edit
 
 # 合并分支后不进行提交
 git merge develop --no-commit
+
+# 退出合并，恢复到合并之前的状态
+git merge --abort
 ```
+
+
+## 解决冲突
+**代码合并/更新代码** 经常会遇到冲突的情况。
+
+1、按照惯例直接把代码提交到远程, 有几种情况:
+- 代码顺利的推送的远程分支 (无需理会)
+- 出现冲突, git自动做了合并 (无需理会)
+- git发现本地文件在远端做了修改，需要进行 git pull
+```bash
+git push
+```
+
+出现冲突，如图：
+[](media/git-conflict-1.png)
+
+2、按照提示执行 `git pull` 拉取代码
+```bash
+git pull
+```
+
+提示有文件存在冲突，如图：
+[](media/git-conflict-2.png)
+
+
+3、编辑冲突文件, 解决冲突需要自己去判断到底要保留远端代码还是本地代码或者两端都保留。
+
+[](media/git-conflict-3.png)
+
+
+4、这是解决后的代码，保留了本地代码
+
+[](media/git-conflict-2.png)
+
+最后按照惯例，把代码推送到远端即可。
+
+
+
+除了使用git命令解决以外, 可以使用一些开发工具自带git进行处理。
+
+
+另外推荐2个工具专门处理git冲突：
+
+- [meld](http://meld.sourceforge.net/install.html)
+- [kdiff3](http://kdiff3.sourceforge.net/)
+
+[这篇文章专门介绍这2个工具如何使用](https://gitguys.com/topics/merging-with-a-gui/)
+
 
 
 
