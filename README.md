@@ -390,7 +390,7 @@ git push
 ```
 
 出现冲突，如图：
-[](media/git-conflict-1.png)
+![](media/git-conflict-1.png)
 
 2、按照提示执行 `git pull` 拉取代码
 ```bash
@@ -398,17 +398,17 @@ git pull
 ```
 
 提示有文件存在冲突，如图：
-[](media/git-conflict-2.png)
+![](media/git-conflict-2.png)
 
 
 3、编辑冲突文件, 解决冲突需要自己去判断到底要保留远端代码还是本地代码或者两端都保留。
 
-[](media/git-conflict-3.png)
+![](media/git-conflict-3.png)
 
 
 4、这是解决后的代码，保留了本地代码
 
-[](media/git-conflict-2.png)
+![](media/git-conflict-2.png)
 
 最后按照惯例，把代码推送到远端即可。
 
