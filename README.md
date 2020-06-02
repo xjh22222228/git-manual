@@ -5,7 +5,7 @@
 基本涵盖了在开发中用到的git命令，能满足日常需求。
 
 <center>
-<img src="media/poster.png" />
+  <img src="media/poster.png" />
 </center>
 
 
@@ -30,13 +30,13 @@
 - [删除](#删除)
 - [提交](#提交)
 - [推送](#推送)
-- [拉取最新内容](#拉取最新内容)
+- [更新](#更新)
 - [查看文件的改动](#查看文件的改动)
 - [回滚版本](#回滚版本)
 - [撤销](#撤销)
 - [标签](#标签)
 - [Rebase](#Rebase)
-- [Git Flow](#GitFlow)
+- [git-flow](#git-flow)
 - [子模块](#子模块)
 - [Bisect](#Bisect)
 - [帮助](#帮助)
@@ -333,6 +333,7 @@ git push --set-upstream origin develop
 ```bash
 # 删除本地分支
 git branch -d <branchName>
+git branch -D <branchName> # 删除远程分支后，想删除本地分支需要执行 -D 参数
 
 # 删除远程分支
 git push origin :<branchName>
@@ -490,10 +491,9 @@ git push
 git push -f
 ```
 
-----
 
 
-## 拉取最新内容
+## 更新
 ```bash
 # 推荐，因为不会做自动合并
 git fetch origin master
@@ -643,8 +643,8 @@ git rebase --continue
 
 
 
-## GitFlow
-Git Flow 不是内置命令，需要单独安装
+## git-flow
+`git flow` 不是内置命令，需要单独安装
 
 **初始化** 每个仓库都必须初始化一次
 ```bash
@@ -691,6 +691,11 @@ git flow release publish v1.1.0
 git flow release finish v1.1.0
 ```
 
+参考：
+- [https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+- [https://www.git-tower.com/learn/git/ebook/cn/command-line/advanced-topics/git-flow](https://www.git-tower.com/learn/git/ebook/cn/command-line/advanced-topics/git-flow)
+
+
 #### Git flow schema
 
 ![](media/git-flow.png)
@@ -710,6 +715,7 @@ git flow release finish v1.1.0
 ```bash
 # 添加子模块
 git submodule add https://github.com/xjh22222228/git-manual.git
+git submodule add https://github.com/xjh22222228/git-manual.git submodules/git-manual  # 添加到指定目录
 
 # 更新，有2种方法
 # 一步到位
