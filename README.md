@@ -48,9 +48,9 @@
 ## 配置
 ```bash
 # 查看全局配置列表
-git config -l
+git config --global -l
 # 查看局部配置列表
-git config --local --list
+git config --local -l
 
 # 查看已设置的全局用户名/邮箱
 git config --global --get user.name
@@ -76,6 +76,9 @@ git config --global merge.tool vimdiff
 
 # 编辑当前仓库配置文件
 git config -e  # 等价 vi .git/config
+
+# 文件权限的变动也会视为改动, 可通过以下配置忽略文件权限变动
+git config core.fileMode false
 ```
 
 **命令别名配置**
@@ -98,7 +101,7 @@ git config --global --unset alias.st
 
 
 
-**给git设置代理**
+**配置代理**
 ```bash
 # 设置
 git config --global https.proxy  http://127.0.0.1:1087
