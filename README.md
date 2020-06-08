@@ -2,7 +2,7 @@
 # Git常用命令参考手册 ![](https://img.shields.io/github/license/xjh22222228/git-manual)  [git-repo](https://github.com/xjh22222228/git-manual)
 
 
-基本涵盖了在开发中用到的git命令，能满足日常需求。
+基本涵盖了在开发中用到的git命令，能满足日常需求，巩固你的git知识。
 
 <center>
   <img src="media/poster.png" />
@@ -15,6 +15,7 @@
 - [生成SSHKey](#生成SSHKey)
 - [初始化仓库](#初始化仓库)
 - [克隆](#克隆)
+- [remote](#remote)
 - [cherry-pick](#cherry-pick)
 - [Stash](#Stash)
 - [文件状态](#文件状态)
@@ -187,6 +188,36 @@ git clone --recursive git@github.com:xjh22222228/git-manual.git
 # 克隆深度为1, 只克隆指定分支, 历史记录只克隆最后一条, 减少克隆时间
 git clone --depth=1 https://github.com/xjh22222228/git-manual.git
 ```
+
+
+
+## remote
+`git remote` 命令通常用来管理远程仓库。
+
+```bash
+# 查看远程仓库服务器, 一般打印 origin , 这是 Git 给你克隆的仓库服务器的默认名字
+# 一般只会显示 origin , 除非你有多个远程仓库地址
+git remote
+
+# 指定-v, 查看当前仓库地址
+git remote -v
+
+# 添加远程仓库地址 example 是自定义名字
+# 添加完后可以通过 git remote 就能看到 example
+git remote add example https://github.com/xjh22222228/git-manual.git
+
+# 查看指定远程仓库信息
+git remote show example
+
+# 重命名远程仓库
+git remote rename oldName newName # git remote rename example simple
+
+# 移除远程仓库
+git remote remove example
+```
+
+
+
 
 
 ## cherry-pick
@@ -748,7 +779,8 @@ git flow release finish v1.1.0
 
 
 ## 子模块
-具体使用还可以看这里 [git submodule子模块使用教程](https://www.xiejiahe.com/blog/detail/5dbceefc0bb52b1c88c30853)
+`git submodule` 的作用类似于包管理，类似 `npm` / `maven` , 但比包管理使用起来更方便。
+
 ```bash
 # 添加子模块
 git submodule add https://github.com/xjh22222228/git-manual.git
@@ -763,13 +795,13 @@ git pull
 # 修复子模块分支指向 detached head
 git submodule foreach -q --recursive 'git checkout $(git config -f $toplevel/.gitmodules submodule.$name.branch || echo master)'
 
-# 删除子模块 common 为子模块名称，一般删除需要三部
+# 删除子模块， common 为子模块名称，一般删除需要三步
 git submodule deinit <common>
-# 清除子模块缓存
-git rm --cached common
-# 提交代码并推送
-git commit -am "Remove a submodule" && git push
+git rm --cached common # 清除子模块缓存
+git commit -am "Remove a submodule" && git push # 提交代码并推送
 ```
+
+具体使用还可以看这里 [git submodule子模块使用教程](https://www.xiejiahe.com/blog/detail/5dbceefc0bb52b1c88c30853)
 
 
 
@@ -836,9 +868,6 @@ git push -f origin develop
 ```bash
 # 查看git版本
 git --version
-
-# 查看远程仓库地址
-git remote -v
 
 # 记住提交账号密码
 git config --global credential.helper store
