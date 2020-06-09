@@ -542,6 +542,9 @@ git commit --allow-empty-message
 
 # 重写上一次提交信息，确保当前工作区没有改动
 git commit --amend -m "新的提交信息"
+
+# 跳过验证, 如果使用了类似 husky 工具。
+git commit --no-verify -m "Example" 
 ```
 
 ## 推送
