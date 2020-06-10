@@ -33,7 +33,7 @@
 - [提交](#提交)
 - [推送](#推送)
 - [更新](#更新)
-- [查看文件的改动](#查看文件的改动)
+- [查看文件改动](#查看文件改动)
 - [回滚版本](#回滚版本)
 - [撤销](#撤销)
 - [标签](#标签)
@@ -293,8 +293,8 @@ git log -2
 # 查看前N次提交记录，包括diff
 git log -p -2
 
-# 搜索关键词
-git log -S Java
+# 从 commit 进行搜索, 可以指定 -i 忽略大小写
+git log -i --grep="fix: #28"
 
 # 只显示合并日志
 git log --merges
@@ -378,6 +378,9 @@ git checkout -t origin/dev
 # 创建develop本地分支
 git branch develop
 
+# 强制创建分支, 不输出任何警告或信息
+git branch -f develop
+
 # 创建本地develop分支并切换
 git checkout -b develop
 
@@ -385,15 +388,11 @@ git checkout -b develop
 git checkout -b develop
 git push origin develop
 
-
 # 创建一个空的分支, 不继承父分支，历史记录是空的，一般至少需要执行4步
 git checkout --orphan develop
-# 这一步可选，如果你真的想创建一个没有任何文件的分支
-git rm -rf .
-# 添加并提交，否则分支是隐藏的 （执行这一步之前需要注意当前工作区必须保留一个文件，否则无法提交）
-git add -A && git commit -m "提交"
-# 推送到远程
-git push --set-upstream origin develop
+git rm -rf .  # 这一步可选，如果你真的想创建一个没有任何文件的分支
+git add -A && git commit -m "提交" # 添加并提交，否则分支是隐藏的 （执行这一步之前需要注意当前工作区必须保留一个文件，否则无法提交）
+git push --set-upstream origin develop # 推送到远程
 ```
 
 
@@ -584,7 +583,7 @@ git pull origin master
 
 ----
 
-## 查看文件的改动
+## 查看文件改动
 ```bash
 # 查看所有文件改动
 git diff
@@ -592,7 +591,7 @@ git diff
 # 查看具体文件的改动
 git diff README.md
 
-# 查看某个版本的改动, 后面那一窜是commitId， git log后就能看到
+# 查看指定 commit 改动内容
 git diff d68a1ef2407283516e8e4cb675b434505e39dc54
 
 # 查看某个文件的历史修改记录
@@ -809,7 +808,10 @@ git commit -am "Remove a submodule" && git push # 提交代码并推送
 
 
 ## Bisect
-`Bisect` 二分查找, 用于定位引入Bug的commit，主要4个命令
+`Bisect` 二分查找, 用于定位引入Bug的commit，主要4个命令。
+
+此命令非常实用, 如果你的Bug不知道是哪个 commit 引起的，可以尝试此方法。
+
 ```bash
 # 开始
 git bisect start [终点] [起点] # 通过 git log 确定起点和终点
@@ -826,6 +828,28 @@ git bisect reset
 ```
 
 参考 [https://github.com/bradleyboy/bisectercise](https://github.com/bradleyboy/bisectercise)
+
+
+
+## Switch
+`git switch` 命令在git版本 `2.23` 引入, 用于切换分支。
+
+`git checkout` 同样可以切换分支, `git switch` 意义在哪里？ 因为 `git checkout` 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
+
+注：由于生态原因, 大部分还是会使用 `git checkout`。
+```bash
+# 切换到 develop 分支
+git switch develop
+
+# 切换到上一个分支
+git switch -
+
+# 创建分支并切换
+git switch -c newBranch
+
+# 从前3次提交进行创建新的分支
+git switch -c newBranch HEAD〜3 
+```
 
 
 
@@ -913,7 +937,7 @@ git config --global alias.hist "log --graph --decorate --oneline --pretty=format
 ---
 
 
-**附上一张鹅厂的 git 思维导图**
+**附上一张鹅厂的思维导图**
 
 ![](media/map.jpg)
 
