@@ -41,10 +41,12 @@
 - [git-flow](#git-flow)
 - [子模块](#子模块)
 - [Bisect](#Bisect)
+- [Switch](#Switch)
 - [帮助](#帮助)
 - [清空commit历史](#清空commit历史)
 - [其他](#其他)
 - [奇技淫巧](#奇技淫巧)
+- [GUI客户端](#GUI客户端)
 
 ## 配置
 ```bash
@@ -933,11 +935,24 @@ git config --global alias.hist "log --graph --decorate --oneline --pretty=format
 
 
 
----
----
+## GUI客户端
+推荐几款比较好用的 git 图形界面工具, 不分先后。
+
+- [Github Desktop](https://desktop.github.com/)
+- [Sourcetree](https://www.sourcetreeapp.com/)
+- [tortoiseGit](https://tortoisegit.org/)
+- [tower](https://www.git-tower.com/)
+- [gitkraken](https://www.gitkraken.com/)
+- [smartgit](https://www.syntevo.com/smartgit/)
+- [gitup](https://gitup.co/)
 
 
-**附上一张鹅厂的思维导图**
+
+
+
+
+
+## 思维导图
 
 ![](media/map.jpg)
 
