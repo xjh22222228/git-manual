@@ -12,7 +12,6 @@
 ---
 # 目录
 - [配置](#配置)
-- [生成SSHKey](#生成SSHKey)
 - [初始化仓库](#初始化仓库)
 - [克隆](#克隆)
 - [remote](#remote)
@@ -37,16 +36,18 @@
 - [回滚版本](#回滚版本)
 - [撤销](#撤销)
 - [标签](#标签)
-- [Rebase](#Rebase)
+- [git-rebase](#git-rebase)
 - [git-flow](#git-flow)
-- [子模块](#子模块)
-- [Bisect](#Bisect)
-- [Switch](#Switch)
+- [git-submodule](#git-submodule)
+- [git-bisect](#git-bisect)
+- [git-switch](#git-switch)
 - [帮助](#帮助)
 - [清空commit历史](#清空commit历史)
 - [其他](#其他)
 - [奇技淫巧](#奇技淫巧)
 - [GUI客户端](#GUI客户端)
+- [生成SSHKey](#生成SSHKey)
+
 
 ## 配置
 ```bash
@@ -122,38 +123,6 @@ git config --global --unset https.proxy
 
 
 
-## 生成SSHKey
-1、替换为您的GitHub电子邮件地址
-```bash
-ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-```
-
-2、当提示“输入要在其中保存密钥的文件”时，按Enter。接受默认文件位置。 (建议修改名字，防止以后被覆盖)
-```
-> Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
-```
-
-3、在提示符下，键入一个安全密码, 默认回车即可
-```bash
-> Enter passphrase (empty for no passphrase): [Type a passphrase]
-> Enter same passphrase again: [Type passphrase again]
-```
-
-4、生成的SSH Key 添加到 `ssh config` 中
-```bash
-vim ~/.ssh/config
-
-# 粘贴
-Host *
-  AddKeysToAgent yes
-  UseKeychain yes
-  IdentityFile ~/.ssh/id_rsa
-```
-
-最后将公钥添加到 [https://github.com/settings/keys](https://github.com/settings/keys) 中
-```
-cat ~/.ssh/id_rsa.pub
-```
 
 
 
@@ -626,16 +595,16 @@ git reflog
 # 撤销当前目录下所有文件的改动
 git checkout -- .
 
-# 撤销指定文件修改
+# 撤销指定文件改动
 git checkout -- README.md
 
 # 暂存区回到工作区, 指定 ./README.md 文件从暂存区回到工作区
 git reset HEAD ./README.md
 
-# 撤销commit, 回到工作区, 一般commit id 是前一个
+# 指定commit回到工作区（前提是未推送到远程仓库）, 需要还原的上一个commit_id
 git reset <commit_id>
 
-# 撤销commit, 并且把修改同时撤销
+# 把某个commit_id还原初始状态 （前提是未推送到远程仓库）, 需要还原的上一个commit_id
 git reset --hard <commit_id>
 ```
 
@@ -688,7 +657,7 @@ git show v1.1.0
 
 
 
-## Rebase
+## git-rebase
 `git rebase` 主要作用可以将多个commit记录合并为一条
 ```bash
 # 操作最近4次提交
@@ -782,7 +751,7 @@ git flow release finish v1.1.0
 
 
 
-## 子模块
+## git-submodule
 `git submodule` 的作用类似于包管理，类似 `npm` / `maven` , 但比包管理使用起来更方便。
 
 ```bash
@@ -809,8 +778,8 @@ git commit -am "Remove a submodule" && git push # 提交代码并推送
 
 
 
-## Bisect
-`Bisect` 二分查找, 用于定位引入Bug的commit，主要4个命令。
+## git-bisect
+`git bisect` 二分查找, 用于定位引入Bug的commit，主要4个命令。
 
 此命令非常实用, 如果你的Bug不知道是哪个 commit 引起的，可以尝试此方法。
 
@@ -833,7 +802,7 @@ git bisect reset
 
 
 
-## Switch
+## git-switch
 `git switch` 命令在git版本 `2.23` 引入, 用于切换分支。
 
 `git checkout` 同样可以切换分支, `git switch` 意义在哪里？ 因为 `git checkout` 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
@@ -871,7 +840,9 @@ git help -c
 
 
 ## 清空commit历史
-假设当前分支是 `develop`
+清空 `commit` 有2种方法。
+
+1、第一种方法原理是通过新建新的分支，假设当前分支是 `develop`
 ```bash
 # 1、新建一个新分支
 git checkout --orphan new_branch
@@ -886,9 +857,20 @@ git push -f origin develop
 ```
 
 
+2、第二种方法通过更新 `引用`, 假设要重设 `master` 分支
+```bash
+# 通过 git log 找到第一个 commit_id
+git update-ref refs/heads/master 9c3a31e68aa63641c7377f549edc01095a44c079
 
+# 接着可以提交
+git add .
+git commit -m "第一个提交"
+git push -f # 注意一定要强制推送
+```
 
+这2种方法都是用于清空 commit 历史， 不会造成当前文件的丢失，所以放心。
 
+笔者推荐使用第二种方法，更安全可靠。
 
 
 
@@ -902,15 +884,15 @@ git --version
 git config --global credential.helper store
 
 # 清除git已保存的用户名和密码
-# windows
-git credential-manager uninstall
-# mac linux
-git config --global credential.helper ""
-# 或者
-git config --global --unset credential.helper
+git credential-manager uninstall # windows
+git config --global credential.helper "" # mac linux
+git config --global --unset credential.helper # 或者 mac linux
 
 # 清除本地git缓存
 git rm -r --cached .
+
+# 列出没有被 .gitignore 忽略的文件列表
+git ls-files
 ```
 
 
@@ -949,6 +931,38 @@ git config --global alias.hist "log --graph --decorate --oneline --pretty=format
 
 
 
+## 生成SSHKey
+1、替换为您的GitHub电子邮件地址
+```bash
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+
+2、当提示“输入要在其中保存密钥的文件”时，按Enter。接受默认文件位置。 (建议修改名字，防止以后被覆盖)
+```
+> Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
+```
+
+3、在提示符下，键入一个安全密码, 默认回车即可
+```bash
+> Enter passphrase (empty for no passphrase): [Type a passphrase]
+> Enter same passphrase again: [Type passphrase again]
+```
+
+4、生成的SSH Key 添加到 `ssh config` 中
+```bash
+vim ~/.ssh/config
+
+# 粘贴
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa
+```
+
+最后将公钥添加到 [https://github.com/settings/keys](https://github.com/settings/keys) 中
+```
+cat ~/.ssh/id_rsa.pub
+```
 
 
 
