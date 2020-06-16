@@ -16,7 +16,7 @@
 - [克隆](#克隆)
 - [remote](#remote)
 - [cherry-pick](#cherry-pick)
-- [Stash](#Stash)
+- [git-stash](#git-stash)
 - [文件状态](#文件状态)
 - [日志](#日志)
 - [Blame](#Blame)
@@ -29,6 +29,7 @@
 - [解决冲突](#解决冲突)
 - [暂存](#暂存)
 - [删除](#删除)
+- [还原](#还原)
 - [提交](#提交)
 - [推送](#推送)
 - [更新](#更新)
@@ -205,7 +206,7 @@ git cherry-pick -x 8f6c26fc122502886bdfd9aa55ecda26a3ccc31d
 ```
 
 
-## Stash
+## git-stash
 应用场景：假设当前分支某些功能做到一半了, 突然需要切换到其他分支修改Bug, 但是又不想提交（因为切换分支必须把当前工作内容提交，否则无法切换），这个时候 `git stash` 应用场景就来了。
 
 ```bash
@@ -496,6 +497,28 @@ git rm -rf .
 # 清除当前工作区缓存，但不会删除文件，通常用于修改文件名不生效问题
 git rm -r --cached .
 ```
+
+
+## 还原
+还原操作通过 `git restore` 命令。
+
+`git restore` 是在 `2.23` 引入的, 是为了分离 `git checkout` / `git reset` 职责。
+
+```bash
+# 从暂存区还原到工作区
+git restore README.md # 多个文件 git restore README.md README2.md
+git restore . # 还原当前全部到工作区
+
+# 从stage中还原到暂存区 (如果还原到工作区还要执行一次 git restore README.md)
+git restore --staged README.md
+
+# 撤销当前工作区所有文件修改, 不包括新建文件
+git restore --worktree .  # 等价于 git checkout -- .
+```
+
+
+
+
 
 ## 提交
 ```bash
