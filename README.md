@@ -1,5 +1,5 @@
 
-# Git常用命令参考手册 ![](https://img.shields.io/github/license/xjh22222228/git-manual)  [git-repo](https://github.com/xjh22222228/git-manual)
+# Git常用命令参考手册 ![](https://img.shields.io/github/license/xjh22222228/git-manual)  [git-repo](https://github.com/xjh22222228/git-manual) [![HitCount](http://hits.dwyl.com/xjh22222228/git-manual.svg)](http://hits.dwyl.com/xjh22222228/git-manual)
 
 
 基本涵盖了在开发中用到的git命令，能满足日常需求，巩固你的git知识。
