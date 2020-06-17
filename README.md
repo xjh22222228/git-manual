@@ -4,9 +4,9 @@
 
 基本涵盖了在开发中用到的git命令，能满足日常需求，巩固你的git知识。
 
-<center>
-  <img src="media/poster.png" />
-</center>
+<p align="center">
+  <img src="media/poster.jpg" width="500" />
+</p>
 
 
 ---
