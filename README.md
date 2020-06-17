@@ -269,6 +269,9 @@ git log -p -2
 # 从 commit 进行搜索, 可以指定 -i 忽略大小写
 git log -i --grep="fix: #28"
 
+# 查看指定作者历史记录
+git log --author=xjh22222228
+
 # 只显示合并日志
 git log --merges
 
