@@ -155,6 +155,9 @@ git clone git@github.com:xjh22222228/git-manual.git
 # 克隆某个分支， -b 指定分支名字
 git clone -b master https://github.com/xjh22222228/git-manual.git
 
+# 指定克隆后的文件夹名称
+git clone https://github.com/xjh22222228/git-manual.git git-study # 如果后面是 . 在当前目录创建
+
 # 递归克隆，如果项目包含子模块就非常有用
 git clone --recursive git@github.com:xjh22222228/git-manual.git
 
@@ -256,6 +259,8 @@ git status --ignored
 ```
 
 ## 日志
+查看历史日志可以通过 `git log` / `git shortlog` , 这2个命令非常强大。
+
 ```bash
 # 查看完整历史提交记录
 git log
@@ -269,6 +274,9 @@ git log -p -2
 # 从 commit 进行搜索, 可以指定 -i 忽略大小写
 git log -i --grep="fix: #28"
 
+# 从工作目录搜索包含 alert(1) 这段代码何时引入
+git log -S "alert(1)"
+
 # 查看指定作者历史记录
 git log --author=xjh22222228
 
@@ -278,7 +286,7 @@ git log --merges
 # 以图形查看日志记录, --oneline 可选
 git log --graph --oneline
 
-# 列出提交者贡献数量, 只会打印作者和贡献数量
+# 列出提交者代码贡献数量, 打印作者和贡献数量
 git shortlog -sn
 
 # 以提交贡献数量排序并打印出message
@@ -620,6 +628,9 @@ git show d68a1ef2407283516e8e4cb675b434505e39dc54 README.md
 ----
 
 ## 回滚版本
+
+注：回滚版本是不保存在 `git log` 历史，如果想查看使用 `git reflog`
+
 ```bash
 # 回滚上一个版本
 git reset --hard HEAD^
@@ -627,11 +638,8 @@ git reset --hard HEAD^
 # 回滚上两个版本
 git reset --hard HEAD^^
 
-# 回退到指定版本，git log 就能看到commit id了
+# 回滚到指定 commit_id ， 通过 git log 查看
 git reset --hard 'commit id'
-
-# 回滚版本是不保存在 git log，如果想查看使用
-git reflog
 ```
 
 ----
