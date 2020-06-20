@@ -280,6 +280,9 @@ git log -S "alert(1)"
 # 查看指定作者历史记录
 git log --author=xjh22222228
 
+# 查看某个文件的历史提交记录
+git log README.md
+
 # 只显示合并日志
 git log --merges
 
@@ -609,15 +612,23 @@ git mv temp temp2
 
 
 ## 查看文件改动
+`git diff` 命令用于查看文件内容之间差异。
+
 ```bash
-# 查看所有文件改动
+# 查看所有文件工作区与暂存区的差异
 git diff
 
-# 查看具体文件的改动
+# 查看指定文件工作区与暂存区差异
 git diff README.md
 
 # 查看指定 commit 改动内容
-git diff d68a1ef2407283516e8e4cb675b434505e39dc54
+git diff dce06bd
+
+# 对比2个commit之间的差异
+git diff e3848eb dce06bd
+
+# 还可以比较2个分支最新提交内容差异, develop分支与master分支
+git diff develop master
 
 # 查看某个文件的历史修改记录
 git log README.md
@@ -1034,5 +1045,5 @@ MIT
 
 
 
-[⬆回顶部](#)
+[⬆ 回顶部](#)
 
