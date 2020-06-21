@@ -986,12 +986,14 @@ git config --global alias.hist "log --graph --decorate --oneline --pretty=format
 推荐几款比较好用的 git 图形界面工具, 不分先后。
 
 - [Github Desktop](https://desktop.github.com/)
+- [git-fork](https://git-fork.com/)
+- [tower](https://www.git-tower.com/)
 - [Sourcetree](https://www.sourcetreeapp.com/)
 - [tortoiseGit](https://tortoisegit.org/)
-- [tower](https://www.git-tower.com/)
 - [gitkraken](https://www.gitkraken.com/)
 - [smartgit](https://www.syntevo.com/smartgit/)
 - [gitup](https://gitup.co/)
+- [lazygit](https://github.com/jesseduffield/lazygit)
 
 
 
