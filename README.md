@@ -356,8 +356,11 @@ git switch master  # git >= 2.23
 # 切换上一个分支
 git checkout -
 
-# 切换远端分支
+# 切换远端分支 (通常是本地没有远端的分支记录才会使用此命令，反之不建议)
 git checkout -t origin/dev
+
+# 强制切换, 但是要小心，如果文件未保存修改会直接覆盖掉
+git checkout -f master
 ```
 
 ## 创建分支
@@ -824,10 +827,10 @@ git flow release finish v1.1.0
 git submodule add https://github.com/xjh22222228/git-manual.git
 git submodule add https://github.com/xjh22222228/git-manual.git submodules/git-manual  # 添加到指定目录
 
-# 更新，有2种方法
-# 一步到位
+# 更新子模块，有2种方法
+# 1、Git 会尝试更新所有子模块, 如果有多个子模块可以在 --remote 后指定要更新的子模块名称
 git submodule update --remote
-# 或者进入到子模块项目再拉取
+# 2、或者进入到子模块项目再拉取
 git pull
 
 # 修复子模块分支指向 detached head
