@@ -152,8 +152,11 @@ git clone https://github.com/xjh22222228/git-manual.git
 # SSH协议
 git clone git@github.com:xjh22222228/git-manual.git
 
-# 克隆某个分支， -b 指定分支名字
-git clone -b master https://github.com/xjh22222228/git-manual.git
+# 克隆指定分支， -b 指定分支名字，实际上是克隆所有分支并切换到 develop 分支上
+git clone -b develop https://github.com/xjh22222228/git-manual.git
+
+# --single-branch 完全只克隆指定分支
+git clone -b develop --single-branch https://github.com/xjh22222228/git-manual.git
 
 # 指定克隆后的文件夹名称
 git clone https://github.com/xjh22222228/git-manual.git git-study # 如果后面是 . 在当前目录创建
@@ -826,6 +829,9 @@ git flow release finish v1.1.0
 # 添加子模块
 git submodule add https://github.com/xjh22222228/git-manual.git
 git submodule add https://github.com/xjh22222228/git-manual.git submodules/git-manual  # 添加到指定目录
+
+# -b 添加指定分支
+git submodule add -b develop https://github.com/xjh22222228/git-manual.git
 
 # 更新子模块，有2种方法
 # 1、Git 会尝试更新所有子模块, 如果有多个子模块可以在 --remote 后指定要更新的子模块名称
