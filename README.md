@@ -563,16 +563,16 @@ git commit --no-verify -m "Example"
 
 ## 推送
 ```bash
+# 默认推送当前分支
+git push
+
 # 推送内容到主分支
 git push -u origin master
 
-# 本地分支推送到远程， 本地分支:远程分支
+# 本地分支推送到远程分支， 本地分支:远程分支
 git push origin <branchName>:<branchName>
 
-# 简写，默认推送当前分支
-git push
-
-# 强制推送, -f 是 --force 缩写
+# 强制推送, --force 缩写
 git push -f
 ```
 
@@ -580,13 +580,10 @@ git push -f
 
 ## 更新
 ```bash
-# 推荐，因为不会做自动合并
-git fetch origin master
-
 # 相当于git fetch 然后 git merge
 git pull
 
-# 后面的意思是： 远程分支名:本地分支名
+# 远程分支名:本地分支名
 git pull origin master:master
 
 # 如果是要与本地当前分支合并，则冒号后面的<本地分支名>可以不写
