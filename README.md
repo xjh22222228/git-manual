@@ -85,6 +85,9 @@ git config -e  # 等价 vi .git/config
 
 # 文件权限的变动也会视为改动, 可通过以下配置忽略文件权限变动
 git config core.fileMode false
+
+# 文件大小写设为敏感, git默认是忽略大小写
+git config --global core.ignorecase false
 ```
 
 **命令别名配置**
@@ -580,7 +583,7 @@ git push -f
 
 ## 更新
 ```bash
-# 相当于git fetch 然后 git merge
+# 拉取远程分支最新内容到本地并合并
 git pull
 
 # 远程分支名:本地分支名
