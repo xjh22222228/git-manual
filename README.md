@@ -627,14 +627,17 @@ git diff
 # 查看指定文件工作区与暂存区差异
 git diff README.md
 
-# 查看指定 commit 改动内容
+# 查看指定 commit 内容差异
 git diff dce06bd
 
 # 对比2个commit之间的差异
 git diff e3848eb dce06bd
 
-# 还可以比较2个分支最新提交内容差异, develop分支与master分支
+# 比较2个分支最新提交内容差异, develop分支与master分支, 如果没有差异返回空
 git diff develop master
+
+# 比较2个分支指定文件内容差异, develop 和 master READNE.md 文件差异
+git diff develop master README.md README.md
 
 # 查看某个文件的历史修改记录
 git log README.md
