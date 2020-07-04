@@ -926,6 +926,7 @@ git switch -c newBranch HEAD〜3
 - %D 引用名称，不带 `()` 和 换行符： HEAD -> master, origin/master, origin/HEAD
 - %e 编码方式
 - %B 原始提交内容
+- %C 自定义颜色
 
 
 Example：
@@ -935,6 +936,9 @@ git log -n 1 --pretty=format:"%an" # xjh22222228
 git log -n 1 --pretty=format:"%ae" # xjh22222228@gmail.com
 
 git log -n 1 --pretty=format:"%d" #  (HEAD -> master, origin/master, origin/HEAD)
+
+# 自定义输出颜色, %C后面跟着颜色名
+git log --pretty=format:"%Cgreen 作者：%an"
 ```
 
 
