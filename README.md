@@ -923,7 +923,7 @@ git switch -c newBranch HEAD〜3
 - %ci 提交者日期，ISO 8601-like风格： `2020-07-02 20:42:20 +0800`
 - %cI 提交者日期，ISO 8601风格： `2020-07-02T20:42:20+08:00`
 - %d 引用名称： (HEAD -> master, origin/master, origin/HEAD)
-- %d 引用名称，不带 `()` 和 换行符： HEAD -> master, origin/master, origin/HEAD
+- %D 引用名称，不带 `()` 和 换行符： HEAD -> master, origin/master, origin/HEAD
 - %e 编码方式
 - %B 原始提交内容
 
