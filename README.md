@@ -43,6 +43,7 @@
 - [git-submodule](#git-submodule)
 - [git-bisect](#git-bisect)
 - [git-switch](#git-switch)
+- [格式化日志](#格式化日志)
 - [帮助](#帮助)
 - [清空commit历史](#清空commit历史)
 - [其他](#其他)
@@ -898,6 +899,48 @@ git switch -c newBranch
 # 从前3次提交进行创建新的分支
 git switch -c newBranch HEAD〜3 
 ```
+
+
+
+## 格式化日志
+在使用 `git log` 命令时可以携带 `--pretty=format` 用来格式化日志。
+
+常用格式如下：
+- %H 完整 commit hash
+- %h 简写commit hash 一般是前7位
+- %T 完整 hash 树
+- %t 简写 hash 树
+- %an 作者名称
+- %ae 作者邮箱
+- %ad 作者日期, RFC2822风格：`Thu Jul 2 20:42:20 2020 +0800`
+- %ar 作者日期, 相对时间：`2 days ago`
+- %ai 作者日期, ISO 8601-like风格： `2020-07-02 20:42:20 +0800`
+- %aI 作者日期, ISO 8601风格： `2020-07-02T20:42:20+08:00`
+- %cn 提交者名称
+- %ce 提交者邮箱
+- %cd 提交者日期，RFC2822风格：`Thu Jul 2 20:42:20 2020 +0800`
+- %cr 提交者日期，相对时间：`2 days ago`
+- %ci 提交者日期，ISO 8601-like风格： `2020-07-02 20:42:20 +0800`
+- %cI 提交者日期，ISO 8601风格： `2020-07-02T20:42:20+08:00`
+- %d 引用名称： (HEAD -> master, origin/master, origin/HEAD)
+- %d 引用名称，不带 `()` 和 换行符： HEAD -> master, origin/master, origin/HEAD
+- %e 编码方式
+- %B 原始提交内容
+
+
+Example：
+```bash
+git log -n 1 --pretty=format:"%an" # xjh22222228
+
+git log -n 1 --pretty=format:"%ae" # xjh22222228@gmail.com
+
+git log -n 1 --pretty=format:"%d" #  (HEAD -> master, origin/master, origin/HEAD)
+```
+
+
+
+
+
 
 
 
