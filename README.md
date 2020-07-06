@@ -97,7 +97,7 @@ git config --global core.ignorecase false
 git config --global alias.st status
 
 # 如果之前添加过，需要添加 --replace-all 进行覆盖
-git config --global alias.st status --replace-all
+git config --global --replace-all alias.st status
 
 # 执行外部命令, 只要在前面加 ! 即可
 git config --global alias.st '!echo hello';
