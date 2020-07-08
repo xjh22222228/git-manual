@@ -640,6 +640,9 @@ git diff develop master
 # 比较2个分支指定文件内容差异, develop 和 master READNE.md 文件差异
 git diff develop master README.md README.md
 
+# 查看工作区冲突文件差异
+git diff --name-only --diff-filter=U
+
 # 查看某个文件的历史修改记录
 git log README.md
 git show d68a1ef2407283516e8e4cb675b434505e39dc54 README.md
