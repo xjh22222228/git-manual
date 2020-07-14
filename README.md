@@ -266,8 +266,9 @@ git status --ignored
 ```
 
 ## 日志
-查看历史日志可以通过 `git log` / `git shortlog` , 这2个命令非常强大。
+查看历史日志可以通过 `git log` / `git shortlog` / `git reflog`。
 
+`git log` 命令是3个最强大的命令
 ```bash
 # 查看完整历史提交记录
 git log
@@ -295,6 +296,13 @@ git log --merges
 
 # 以图形查看日志记录, --oneline 可选
 git log --graph --oneline
+```
+
+
+`git shortlog` 以简短的形式输出日志, 通常用于统计贡献者代码量。
+```bash
+# 默认以贡献者分组进行输出
+git shortlog
 
 # 列出提交者代码贡献数量, 打印作者和贡献数量
 git shortlog -sn
@@ -305,6 +313,15 @@ git shortlog -n
 # 采用邮箱格式化的方式进行查看贡献度
 git shortlog -e
 ```
+
+`git reflog` 通常被引用为 `安全网`，当 `git log` 没有想要的信息时可以尝试用 `git reflog`。
+
+当回滚某个版本时记录是不保存在 `git log` 中, 想要找到这条回滚版本信息时 `git reflog` 就用上了。
+
+```bash
+git reflog # 等价于 git log -g --abbrev-commit --pretty=oneline
+```
+
 
 
 
