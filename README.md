@@ -1,10 +1,10 @@
 
 <p align="center">
-  <img src="media/poster.jpg" width="500" />
+  <img src="media/poster.png" width="300" />
   <br />
   <b>Git常用命令参考手册</b>
-  <p align="center"></p>
   <p align="center">基本涵盖了在开发中用到的git命令，能满足日常需求，巩固你的git知识。</p>
+  <p align="center">
     <img src="https://img.shields.io/github/license/xjh22222228/git-manual" />
     <a href="https://hits.dwyl.com/xjh22222228/git-manual">
       <img src="https://hits.dwyl.com/xjh22222228/git-manual.svg" />
