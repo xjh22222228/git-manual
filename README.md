@@ -5,6 +5,7 @@
   <b>Git常用命令参考手册</b>
   <p align="center">基本涵盖了在开发中用到的git命令，能满足日常需求，巩固你的git知识。</p>
   <p align="center">
+    <a href="https://github.com/xjh22222228/git-manual/stargazers"><img src="https://img.shields.io/github/stars/xjh22222228/git-manual" alt="Stars Badge"/></a>
     <img src="https://img.shields.io/github/license/xjh22222228/git-manual" />
     <a href="https://hits.dwyl.com/xjh22222228/git-manual">
       <img src="https://hits.dwyl.com/xjh22222228/git-manual.svg" />
@@ -94,6 +95,9 @@ git config core.fileMode false
 
 # 文件大小写设为敏感, git默认是忽略大小写
 git config --global core.ignorecase false
+
+# 配置 git pull 时默认拉取所有子模块内容
+git config submodule.recurse true
 ```
 
 **命令别名配置**
@@ -852,21 +856,23 @@ git flow release finish v1.1.0
 
 
 ## git-submodule
-`git submodule` 的作用类似于包管理，类似 `npm` / `maven` , 但比包管理使用起来更方便。
+`git submodule` 子模块的作用类似于包管理，类似 `npm` / `maven` , 但比包管理使用起来更方便。
+
+子模块可以不建立版本分支管理代码, 因为它是依赖主应用，所以建立版本分支可以从主应用去操作，那么一旦建立新的版本分支当前的所有内容都会被锁定在这个分支上，不管子模块仓库怎么修改。
 
 ```bash
 # 添加子模块
-git submodule add https://github.com/xjh22222228/git-manual.git
+git submodule add https://github.com/xjh22222228/git-manual.git # 默认添加到当前目录下
 git submodule add https://github.com/xjh22222228/git-manual.git submodules/git-manual  # 添加到指定目录
 
-# -b 添加指定分支
+# -b 指定需要添加仓库的某个分支
 git submodule add -b develop https://github.com/xjh22222228/git-manual.git
 
-# 更新子模块，有2种方法
-# 1、Git 会尝试更新所有子模块, 如果有多个子模块可以在 --remote 后指定要更新的子模块名称
-git submodule update --remote
-# 2、或者进入到子模块项目再拉取
-git pull
+# 克隆一个包含子模块的项目 --recursive 用于递归克隆，否则子模块目录是空的
+git clone --recursive https://github.com/xjh22222228/git-manual.git
+
+# 如果已经克隆了一个包含子模块的项目，但忘记了 --recursive， 可以使用此命令 初始化、抓取并检出任何嵌套的子模块
+git submodule update --init --recursive
 
 # 修复子模块分支指向 detached head
 git submodule foreach -q --recursive 'git checkout $(git config -f $toplevel/.gitmodules submodule.$name.branch || echo master)'
@@ -876,6 +882,38 @@ git submodule deinit <common>
 git rm --cached common # 清除子模块缓存
 git commit -am "Remove a submodule" && git push # 提交代码并推送
 ```
+
+**更新子模块代码是比较头疼的事，所以分开来讲**
+
+1、通常我们需要更新代码只需要执行 `git pull`, 这是比较笨的办法。
+```bash
+# 递归抓取子模块的所有更改，但不会更新子模块内容
+git pull
+
+# 这个时候需要进入子模块目录进行更新, 这样就完成了一个子模块更新，但是如果有很多子模块就比较麻烦了
+cd git-manual && git pull
+```
+
+2、使用 `git submodule update` 更新子模块
+```bash
+# git 会尝试更新所有子模块, 如果有多个子模块可以在 --remote 后指定要更新的子模块名称
+git submodule update --remote
+
+# --recursive 会递归所有子模块, 包括子模块里的子模块
+git submodule update --init --recursive
+```
+
+
+3、使用 `git pull` 更新, 这是一种新的更新模式，需要 >= 2.14
+```bash
+git pull --recurse-submodules
+```
+如果嫌麻烦每次 git pull 都需要手动添加 `--recurse-submodules`，可以配置 git pull 的默认行为， 如何配置请参考 [配置](#配置)
+
+
+
+
+
 
 具体使用还可以看这里 [git submodule子模块使用教程](https://www.xiejiahe.com/blog/detail/5dbceefc0bb52b1c88c30853)
 
