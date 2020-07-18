@@ -896,7 +896,7 @@ cd git-manual && git pull
 
 2、使用 `git submodule update` 更新子模块
 ```bash
-# git 会尝试更新所有子模块, 如果有多个子模块可以在 --remote 后指定要更新的子模块名称
+# git 会尝试更新所有子模块, 如果只需要更新某个子模块只要在 --remote 后指定子模块名称
 git submodule update --remote
 
 # --recursive 会递归所有子模块, 包括子模块里的子模块
