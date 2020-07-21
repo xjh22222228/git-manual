@@ -110,7 +110,7 @@ git config --global --replace-all alias.st status
 
 # 执行外部命令, 只要在前面加 ! 即可
 git config --global alias.st '!echo hello';
-# 可以利用外部命令执行一段复杂的合并代码过程，例如：
+# 加 "!" 可以执行外部命令执行一段复杂的合并代码过程，例如：
 git config --global alias.mg '!git checkout develop && git pull && git merge master && git checkout -';
 
 # 删除 st 别名
