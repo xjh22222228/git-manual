@@ -56,6 +56,7 @@
 - [奇技淫巧](#奇技淫巧)
 - [GUI客户端](#GUI客户端)
 - [生成SSHKey](#生成SSHKey)
+- [提交规范](#提交规范)
 
 
 ## 配置
@@ -1152,6 +1153,55 @@ Host *
 ```
 cat ~/.ssh/id_rsa.pub
 ```
+
+
+
+## 提交规范
+
+- feat - 该提交含有新的特性
+- style - 通常是代码格式的修改
+- chore - 与src无关，通常是CI、依赖项等
+- fix - 修复Bug
+- docs - 文档修改
+- test - 单元测试改动
+- refactor - 代码重构
+
+
+
+**Example**
+
+```
+# 含有新特性
+git commit -m "feat: 新增忘记密码"
+
+# 代码格式化
+git commit -m "style: 规范Eslint"
+
+# 修改Jenkins构建流程
+git commit -m "chore: Update Jenkins"
+
+# 修复Bug, 建议描述清晰, 日后方便查找, #688 是修复某个id的编号
+git commit -m "fix(登录闪烁): #688"
+
+# 修改了 README.md 文档
+git commit -m "docs: 新增License"
+
+# 单元测试改动
+git commit -m "test: 测试登录"
+
+# 项目代码重构
+git commit -m "refactor: 流程模块重构"
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
