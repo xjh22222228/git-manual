@@ -306,6 +306,9 @@ git log --merges
 
 # 以图形查看日志记录, --oneline 可选
 git log --graph --oneline
+
+# 以倒序查看历史记录
+git log --reverse
 ```
 
 
