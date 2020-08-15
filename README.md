@@ -673,6 +673,10 @@ git diff develop master README.md README.md
 # 查看工作区冲突文件差异
 git diff --name-only --diff-filter=U
 
+# 查看上一次修改了哪些文件
+git diff --name-only HEAD~
+git diff --name-only HEAD~~ # 前2次...
+
 # 查看某个文件的历史修改记录
 git log README.md
 git show d68a1ef2407283516e8e4cb675b434505e39dc54 README.md
@@ -1168,6 +1172,9 @@ cat ~/.ssh/id_rsa.pub
 - docs - 文档修改
 - test - 单元测试改动
 - refactor - 代码重构
+- perf - 性能优化、体验
+- revert - 回滚版本
+- merge -  代码合并
 
 
 
