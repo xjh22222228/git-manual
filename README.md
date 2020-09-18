@@ -192,7 +192,7 @@ git clone --depth=1 https://github.com/xjh22222228/git-manual.git
 # 一般只会显示 origin , 除非你有多个远程仓库地址
 git remote
 
-# 指定-v, 查看当前仓库地址
+# 指定-v, 查看当前远程仓库地址
 git remote -v
 
 # 添加远程仓库地址 example 是自定义名字
@@ -207,6 +207,9 @@ git remote rename oldName newName # git remote rename example simple
 
 # 移除远程仓库
 git remote remove example
+
+# 修改远程URL，从HTTPS更改为SSH
+git remote set-url origin git@github.com:xjh22222228/git-manual.git
 ```
 
 
@@ -755,7 +758,7 @@ git tag -d v1.1.0
 # 删除远程标签
 git push origin --delete v1.1.0
 
-# 检查标签
+# 检出标签
 git checkout v1.1.0
 
 # 查看本地某个标签详细信息
