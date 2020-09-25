@@ -16,6 +16,8 @@
 
 
 ---
+
+
 # 目录
 - [配置](#配置)
 - [初始化仓库](#初始化仓库)
@@ -50,13 +52,15 @@
 - [git-bisect](#git-bisect)
 - [git-switch](#git-switch)
 - [格式化日志](#格式化日志)
-- [帮助](#帮助)
 - [清空commit历史](#清空commit历史)
-- [其他](#其他)
+- [仓库迁移](#仓库迁移)
 - [奇技淫巧](#奇技淫巧)
 - [GUI客户端](#GUI客户端)
 - [生成SSHKey](#生成SSHKey)
 - [提交规范](#提交规范)
+- [其他](#其他)
+- [帮助](#帮助)
+- [思维导图](#思维导图)
 
 
 ## 配置
@@ -160,10 +164,10 @@ git init --bare
 
 ## 克隆
 ```bash
-# https 协议
+# 克隆 https 协议
 git clone https://github.com/xjh22222228/git-manual.git
 
-# SSH协议
+# 克隆 SSH 协议
 git clone git@github.com:xjh22222228/git-manual.git
 
 # 克隆指定分支， -b 指定分支名字，实际上是克隆所有分支并切换到 develop 分支上
@@ -176,11 +180,21 @@ git clone -b develop --single-branch https://github.com/xjh22222228/git-manual.g
 git clone https://github.com/xjh22222228/git-manual.git git-study # 如果后面是 . 在当前目录创建
 
 # 递归克隆，如果项目包含子模块就非常有用
-git clone --recursive git@github.com:xjh22222228/git-manual.git
+git clone --recursive https://github.com/xjh22222228/git-manual.git
 
 # 克隆深度为1, 只克隆指定分支, 历史记录只克隆最后一条, 减少克隆时间
 git clone --depth=1 https://github.com/xjh22222228/git-manual.git
+
+# 裸克隆, 没有工作区内容，不能进行提交修改，一般用于复制仓库
+git clone --bare https://github.com/xjh22222228/git-manual.git
+
+# 镜像克隆, 也是裸克隆, 区别于包含上游版本库注册
+git clone --mirror https://github.com/xjh22222228/git-manual.git
 ```
+
+
+
+
 
 
 
@@ -210,6 +224,9 @@ git remote remove example
 
 # 修改远程URL，从HTTPS更改为SSH
 git remote set-url origin git@github.com:xjh22222228/git-manual.git
+
+# 后续的推送可以指定仓库名字
+git push example
 ```
 
 
@@ -462,10 +479,13 @@ git branch -m old_branch new_branch
 git checkout develop
 git merge feature/v1.0.0
 
+# 将上一个分支代码合并到当前分支
+git merge -
+
 # 以安静模式合并, 把develop分支合并到当前分支并不输出任何信息
 git merge develop -q
 
-# 合并不编辑消息, 跳过交互
+# 合并不编辑信息, 跳过交互
 git merge develop --no-edit
 
 # 合并分支后不进行提交
@@ -601,9 +621,9 @@ git commit --no-verify -m "Example"
 ## 推送
 ```bash
 # 默认推送当前分支
-git push
+git push # 等价于 git push origin , 实际上推送到一个叫 origin 默认仓库名字
 
-# 推送内容到主分支
+# 推送到主分支
 git push -u origin master
 
 # 本地分支推送到远程分支， 本地分支:远程分支
@@ -1021,22 +1041,6 @@ git log --pretty=format:"%Cgreen 作者：%an"
 
 
 
-
-
-## 帮助
-```bash
-# 详细打印所有git命令
-git help
-
-# 打印所有git命令, 此命令不会有详细信息，更清晰一些
-git help -a
-
-# 列出所有可配置的变量
-git help -c
-```
-
-
-
 ## 清空commit历史
 清空 `commit` 有2种方法。
 
@@ -1073,29 +1077,53 @@ git push -f # 注意一定要强制推送
 
 
 
-## 其他
+
+## 仓库迁移
+仓库迁移也可以叫复制仓库。
+
+
+有时候需要从一个旧仓库迁移到新仓库，如果手动只能把文件进行迁移，但是如果需要把分支、标签、历史记录一起迁移就需要复制仓库。
+
+
+旧仓库A: https://github.com/xjh22222228/A.git
+新仓库B: https://github.com/xjh22222228/B.git
+
+1、克隆旧裸仓库
 ```bash
-# 查看git版本
-git --version
-
-# 记住提交账号密码
-git config --global credential.helper store
-
-# 清除git已保存的用户名和密码
-git credential-manager uninstall # windows
-git config --global credential.helper "" # mac linux
-git config --global --unset credential.helper # 或者 mac linux
-
-# 清除本地git缓存
-git rm -r --cached .
-
-# 列出没有被 .gitignore 忽略的文件列表
-git ls-files
+# 克隆裸仓库，里面没有工作区内容
+git clone --bare https://github.com/xjh22222228/A.git
 ```
+
+2、镜像推送至新仓库
+```bash
+cd A
+git push --mirror https://github.com/xjh22222228/B.git
+```
+
+3、删除刚刚克隆的旧仓库
+```bash
+rm -rf A
+```
+
+4、拉取新仓库
+```bash
+git clone https://github.com/xjh22222228/B.git
+```
+
+除了通过命令迁移之外，可以通过网页导入仓库的方式也可以。
+
+
+
+
+
+
+
+
 
 
 ## 奇技淫巧
 **美化 `git log`, 直逼GUI**
+
 ```bash
 # 1、全局配置
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
@@ -1109,6 +1137,7 @@ git config --global alias.his "log --graph --decorate --oneline --pretty=format:
 
 git config --global alias.hist "log --graph --decorate --oneline --pretty=format:'%Cred%h - %C(bold white) %s %Creset %C(yellow)%d  %C(cyan) <%cd> %Creset %Cgreen(%cn)' --abbrev-commit --date=format:'%Y-%m-%d %H:%M:%S'"
 ```
+
 效果图
 
 <img src="media/git-log.png" width="400" />
@@ -1209,8 +1238,41 @@ git commit -m "refactor: 流程模块重构"
 
 
 
+## 其他
+```bash
+# 查看git版本
+git --version
+
+# 记住提交账号密码
+git config --global credential.helper store
+
+# 清除git已保存的用户名和密码
+git credential-manager uninstall # windows
+git config --global credential.helper "" # mac linux
+git config --global --unset credential.helper # 或者 mac linux
+
+# 清除本地git缓存
+git rm -r --cached .
+
+# 列出没有被 .gitignore 忽略的文件列表
+git ls-files
+```
 
 
+
+
+
+## 帮助
+```bash
+# 详细打印所有git命令
+git help
+
+# 打印所有git命令, 此命令不会有详细信息，更清晰一些
+git help -a
+
+# 列出所有可配置的变量
+git help -c
+```
 
 
 
