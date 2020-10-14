@@ -23,8 +23,8 @@
 - [初始化仓库](#初始化仓库)
 - [克隆](#克隆)
 - [remote](#remote)
-- [cherry-pick](#cherry-pick)
-- [git-stash](#git-stash)
+- [cherry pick](#cherry-pick)
+- [git stash](#git-stash)
 - [文件状态](#文件状态)
 - [日志](#日志)
 - [Blame](#Blame)
@@ -46,11 +46,11 @@
 - [回滚版本](#回滚版本)
 - [撤销](#撤销)
 - [标签](#标签)
-- [git-rebase](#git-rebase)
-- [git-flow](#git-flow)
-- [git-submodule](#git-submodule)
-- [git-bisect](#git-bisect)
-- [git-switch](#git-switch)
+- [git rebase](#git-rebase)
+- [git flow](#git-flow)
+- [git submodule](#git-submodule)
+- [git bisect](#git-bisect)
+- [git switch](#git-switch)
 - [格式化日志](#格式化日志)
 - [清空commit历史](#清空commit历史)
 - [仓库迁移](#仓库迁移)
@@ -233,7 +233,7 @@ git push example
 
 
 
-## cherry-pick
+## cherry pick
 检出某次commit提交, 如果当前分支上的某次提交的修改正是当前需要的，那么可以使用此命令进行操作。
 
 需要注意的是提交时必须使用 `git push -f` 强制提交方式。
@@ -246,7 +246,7 @@ git cherry-pick -x 8f6c26fc122502886bdfd9aa55ecda26a3ccc31d
 ```
 
 
-## git-stash
+## git stash
 应用场景：假设当前分支某些功能做到一半了, 突然需要切换到其他分支修改Bug, 但是又不想提交（因为切换分支必须清理当前工作区，否则无法切换），这个时候 `git stash` 应用场景就来了。
 
 ```bash
@@ -792,7 +792,7 @@ git show v1.1.0
 
 
 
-## git-rebase
+## git rebase
 `git rebase` 主要作用可以将多个commit记录合并为一条
 ```bash
 # 操作最近4次提交
@@ -819,7 +819,7 @@ git rebase --continue
 
 
 
-## git-flow
+## git flow
 `git flow` 不是内置命令，需要单独安装
 
 **初始化** 每个仓库都必须初始化一次
@@ -886,7 +886,7 @@ git flow release finish v1.1.0
 
 
 
-## git-submodule
+## git submodule
 `git submodule` 子模块的作用类似于包管理，类似 `npm` / `maven` , 但比包管理使用起来更方便。
 
 子模块可以不建立版本分支管理代码, 因为它是依赖主应用，所以建立版本分支可以从主应用去操作，那么一旦建立新的版本分支当前的所有内容都会被锁定在这个分支上，不管子模块仓库怎么修改。
@@ -956,7 +956,7 @@ git pull --recurse-submodules
 
 
 
-## git-bisect
+## git bisect
 `git bisect` 二分查找, 用于定位引入Bug的commit，主要4个命令。
 
 此命令非常实用, 如果你的Bug不知道是哪个 commit 引起的，可以尝试此方法。
@@ -985,7 +985,7 @@ git bisect reset
 
 
 
-## git-switch
+## git switch
 `git switch` 命令在git版本 `2.23` 引入, 用于切换分支。
 
 `git checkout` 同样可以切换分支, `git switch` 意义在哪里？ 因为 `git checkout` 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
