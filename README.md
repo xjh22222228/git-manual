@@ -3,7 +3,8 @@
   <img src="media/poster.png" width="300" />
   <br />
   <b>Git常用命令参考手册</b>
-  <p align="center">基本涵盖了在开发中用到的git命令，能满足日常需求，巩固你的git知识。</p>
+  <p align="center">基本涵盖了在开发中用到的git命令，能满足日常需求。</p>
+  <p align="center">通俗易懂的例子，希望您会喜欢</p>
   <p align="center">
     <a href="https://github.com/xjh22222228/git-manual/stargazers"><img src="https://img.shields.io/github/stars/xjh22222228/git-manual" alt="Stars Badge"/></a>
     <img src="https://img.shields.io/github/license/xjh22222228/git-manual" />
@@ -27,7 +28,7 @@
 - [git stash](#git-stash)
 - [文件状态](#文件状态)
 - [日志](#日志)
-- [Blame](#Blame)
+- [git blame](#git-blame)
 - [查看分支](#查看分支)
 - [切换分支](#切换分支)
 - [创建分支](#创建分支)
@@ -51,6 +52,7 @@
 - [git submodule](#git-submodule)
 - [git bisect](#git-bisect)
 - [git switch](#git-switch)
+- [git archive](#git-archive)
 - [格式化日志](#格式化日志)
 - [清空commit历史](#清空commit历史)
 - [仓库迁移](#仓库迁移)
@@ -358,10 +360,11 @@ git reflog # 等价于 git log -g --abbrev-commit --pretty=oneline
 
 
 
-## Blame
+## git blame
 `git blame` 意思是责怪，你懂的。
 
 `git blame` 用于查看某个文件的修改历史记录是哪个作者进行了改动。
+
 ```bash
 # 查看 README.md 文件的修改历史记录，包括时间、作者以及内容
 git blame README.md
@@ -404,6 +407,11 @@ git branch -vv
 git reflog show --date=iso master
 ```
 
+
+
+
+
+
 ## 切换分支
 ```bash
 # 2种方法，切换到master分支
@@ -419,6 +427,11 @@ git checkout -t origin/dev
 # 强制切换, 但是要小心，如果文件未保存修改会直接覆盖掉
 git checkout -f master
 ```
+
+
+
+
+
 
 ## 创建分支
 ```bash
@@ -443,11 +456,16 @@ git push --set-upstream origin develop # 推送到远程
 ```
 
 
+
+
+
+
+
+
 ## 删除分支
 ```bash
 # 删除本地分支
 git branch -d <branchName>
-git branch -D <branchName> # 删除远程分支后，想删除本地分支需要执行 -D 参数
 
 # 删除远程分支
 git push origin :<branchName>
@@ -562,8 +580,15 @@ git add .
 git add 1.txt 2.txt ...
 ```
 
+
+
+
+
+
+
 ## 删除
 git add 的反向操作
+
 ```bash
 # 删除1.txt 文件
 git rm 1.txt
@@ -574,6 +599,13 @@ git rm -rf .
 # 清除当前工作区缓存，但不会删除文件，通常用于修改文件名不生效问题
 git rm -r --cached .
 ```
+
+
+
+
+
+
+
 
 
 ## 还原
@@ -618,6 +650,11 @@ git commit --amend -m "新的提交信息"
 git commit --no-verify -m "Example" 
 ```
 
+
+
+
+
+
 ## 推送
 ```bash
 # 默认推送当前分支
@@ -632,6 +669,9 @@ git push origin <branchName>:<branchName>
 # 强制推送, --force 缩写
 git push -f
 ```
+
+
+
 
 
 
@@ -706,7 +746,10 @@ git show d68a1ef2407283516e8e4cb675b434505e39dc54 README.md
 ```
 
 
-----
+
+
+
+
 
 ## 回滚版本
 
@@ -723,7 +766,11 @@ git reset --hard HEAD^^
 git reset --hard 'commit id'
 ```
 
-----
+
+
+
+
+
 
 ## 撤销
 ```bash
@@ -742,6 +789,9 @@ git reset <commit_id>
 # 把某个commit_id还原初始状态 （前提是未推送到远程仓库）, 需要还原的上一个commit_id
 git reset --hard <commit_id>
 ```
+
+
+
 
 
 
@@ -794,6 +844,7 @@ git show v1.1.0
 
 ## git rebase
 `git rebase` 主要作用可以将多个commit记录合并为一条
+
 ```bash
 # 操作最近4次提交
 git rebase -i HEAD~4
@@ -957,7 +1008,7 @@ git pull --recurse-submodules
 
 
 ## git bisect
-`git bisect` 二分查找, 用于定位引入Bug的commit，主要4个命令。
+`git bisect` 基于二分查找算法, 用于定位引入Bug的commit，主要4个命令。
 
 此命令非常实用, 如果你的Bug不知道是哪个 commit 引起的，可以尝试此方法。
 
@@ -991,6 +1042,7 @@ git bisect reset
 `git checkout` 同样可以切换分支, `git switch` 意义在哪里？ 因为 `git checkout` 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
 
 注：由于生态原因, 大部分还是会使用 `git checkout`。
+
 ```bash
 # 切换到 develop 分支
 git switch develop
@@ -1004,6 +1056,46 @@ git switch -c newBranch
 # 从前3次提交进行创建新的分支
 git switch -c newBranch HEAD〜3 
 ```
+
+
+
+
+
+## git archive
+创建一个归档文件，可以理解为将当前项目压缩为一个文件。会忽略掉 `.git` 目录。
+
+但与 `zip` / `tar` 等压缩不同，`git archive` 支持将某个分支或commit进行归档。
+
+
+
+**参数**
+
+| 参数        | 描述              |
+| ---------- |------------------- |
+| --format      | 可选，指定格式，默认 tar, 支持 tar 和 zip，如果不填会根据 --output后缀格式进行推断 |
+| --output      | 输出到指定目录 |
+
+
+```bash
+# 归档 master 分支 并打包在当前目录下 output.tar.gz
+git archive --output "./output.tar.gz" master
+
+# 归档指定commit
+git archive --output "./output.tar.gz" d485a8ba9d2bcb5
+
+# 归档为 zip, 无需指定 --format， 因为会根据文件后缀进行推断
+git archive --output "./output.zip" master
+
+# 归档一个或多个目录, 而不是归档整个项目
+git archive --output "./output.zip" master src tests
+```
+
+
+
+
+
+
+
 
 
 
