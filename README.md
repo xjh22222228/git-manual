@@ -4,7 +4,7 @@
   <br />
   <b>Git常用命令参考手册</b>
   <p align="center">基本涵盖了在开发中用到的git命令，能满足日常需求。</p>
-  <p align="center">通俗易懂的例子，希望您会喜欢</p>
+  <p align="center">通俗易懂的例子，30分钟快速入门</p>
   <p align="center">
     <a href="https://github.com/xjh22222228/git-manual/stargazers"><img src="https://img.shields.io/github/stars/xjh22222228/git-manual" alt="Stars Badge"/></a>
     <img src="https://img.shields.io/github/license/xjh22222228/git-manual" />
@@ -43,7 +43,7 @@
 - [推送](#推送)
 - [更新](#更新)
 - [移动-重命名](#移动-重命名)
-- [查看文件改动](#查看文件改动)
+- [查看文件内容变动](#查看文件内容变动)
 - [回滚版本](#回滚版本)
 - [撤销](#撤销)
 - [标签](#标签)
@@ -711,9 +711,11 @@ git mv temp temp2
 
 
 
-## 查看文件改动
-`git diff` 命令用于查看文件内容之间差异。
+## 查看文件内容变动
+- `git diff` 命令用于查看`工作区文件`内容与暂存区或远端之间的差异。
+- `git show` 命令用于查看远端文件修改内容。
 
+#### git diff
 ```bash
 # 查看所有文件工作区与暂存区的差异
 git diff
@@ -739,10 +741,19 @@ git diff --name-only --diff-filter=U
 # 查看上一次修改了哪些文件
 git diff --name-only HEAD~
 git diff --name-only HEAD~~ # 前2次...
+```
 
-# 查看某个文件的历史修改记录
-git log README.md
-git show d68a1ef2407283516e8e4cb675b434505e39dc54 README.md
+
+#### git show
+```bash
+# 查看某个commit的所有文件变动
+git show d68a1ef
+
+# 查看某个commit的指定文件变动
+git show d68a1ef README.md
+
+# 查看某个文件最近一次变动
+git show README.md
 ```
 
 
@@ -774,14 +785,15 @@ git reset --hard 'commit id'
 
 ## 撤销
 ```bash
-# 撤销当前目录下所有文件的改动
+# 撤销当前工作区所有文件的改动
 git checkout -- .
 
-# 撤销指定文件改动
+# 撤销工作区指定文件改动
 git checkout -- README.md
 
-# 暂存区回到工作区, 指定 ./README.md 文件从暂存区回到工作区
-git reset HEAD ./README.md
+# 暂存区回到工作区
+git reset HEAD^ # 上一次
+git reset HEAD ./README.md # 指定 ./README.md 文件从暂存区回到工作区
 
 # 指定commit回到工作区（前提是未推送到远程仓库）, 需要还原的上一个commit_id
 git reset <commit_id>
@@ -843,23 +855,101 @@ git show v1.1.0
 
 
 ## git rebase
-`git rebase` 主要作用可以将多个commit记录合并为一条
+`git rebase` 命令有2个比较实用的功能：
+- 将多个commit记录合并为一条
+- 代替 `git mrege` 合并代码 
 
+
+#### 1、将多个commit记录合并为一条
+要注意保证当前工作区没内容再操作。
+
+1、指定需要操作的记录，这时候会进入交互式命令
 ```bash
-# 操作最近4次提交
-git rebase -i HEAD~4
-# 或者以 commit_id 进行操作
-git rebase -i e88835de905ad396f61a0dc8c040a8ac8a34f3f8
-
-
-# 放弃 git rebase 操作
-git rebase --abort
-
-# 此命令主要用于解决冲突后继续执行
-git rebase --continue
+git rebase -i HEAD~5 # 操作最近前5条提交记录
+git rebase -i e88835de # 或者以 commit_id 进行操作
 ```
 
-参考：[git rebase将多次commit合并为一条](https://www.xiejiahe.com/blog/detail/5d550e8553d11b2c3ca05cbe)
+| 参数        | 描述              |
+| ---------- |------------------- |
+| p, pick    | 保留当前commit，默认 |
+| r, reword  | 保留当前commit，但编辑提交消息 |
+| e, edit    | 保留当前commit，但停止修改 |
+| s, squash  | 保留当前commit，但融入上一次提交 |
+| b, break   | 在这里停止（稍后使用 `git rebase --continue` 继续重新设置基准） |
+| d, drop    | 删除当前commit |
+
+
+这里是倒序排列，最新的记录在最后
+
+<img src="media/gitrebase-3.png" width="400" />
+
+
+2、除了第一条后面全部改成 `s` 或 `squash`:
+
+<img src="media/gitrebase-4.png" width="400" />
+
+
+3、按 `:wq` 退出交互式，接着进入另一个交互式来编辑commit消息, 如果不需要修改之前的commit消息则直接退出：
+
+<img src="media/gitrebase-5.png" width="400" />
+
+
+4、强制推送到远端
+```bash
+# 推送到 main 分支
+git push -u -f origin main
+```
+
+
+
+
+
+#### 2、合并分支代码
+
+都说用 `git rebase` 代替 `git merge` 进行合并，这2个区别在于 `git rebase` 可以使历史记录更清晰, 下面2张图对比一下：
+
+左边是 `git rebase`，右边是 `git merge`。
+
+可以看出 `git rebase` 是一条直线的，`git merge` 则是各种交叉，很难理解。
+
+<img src="media/gitrebase-1.png" width="400" />
+<img src="media/gitrebase-2.png" width="400" />
+
+
+假设有2个分支，main 和 dev，下面使用 `git rebase` 将 dev 分支代码合并到 main 分支上。
+
+
+```bash
+# 1、先切换到 main 分支，如果当前已经在 main 分支则不用切换
+git switch main
+
+# 2、正常合并代码, 这个时候会在 * (no branch, rebasing main) 分支上
+git rebase dev
+
+# 3、合并代码后有可能出现冲突情况，按照正常流程解决代码冲突
+
+# 4、没有冲突或者解决冲突后，使用 -f 强制推送到远程分支 mian 上面去
+git push origin HEAD:main -f
+
+# 5、断开 rebase 回到原分支 main 上去
+git rebase --abort
+
+# 6、这时候会提示执行 git pull, 拉取一下代码
+git pull
+
+# 7、这个时候发现代码并不是刚刚处理完的结果，而是回到处理状态, 把文件全部清理丢弃掉
+git reset HEAD^ && git checkout -- .
+
+# 8、再次执行 git pull, 所有流程执行完毕
+git pull
+```
+
+
+中断 `git rebase` 操作, 如果操作一半不想继续使用 `rebase` 命令则可以中断此次操作。
+```bash
+git rebase --abort
+```
+
 
 
 
