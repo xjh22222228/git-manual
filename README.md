@@ -888,8 +888,6 @@ git show v1.1.0
 `git rebase` 命令有2个比较实用的功能：
 - 将多个commit记录合并为一条
 - 代替 `git mrege` 合并代码 
-<<<<<<< HEAD
-=======
 
 
 #### 1、将多个commit记录合并为一条
@@ -897,68 +895,6 @@ git show v1.1.0
 
 1、指定需要操作的记录，这时候会进入交互式命令
 ```bash
-git rebase -i HEAD~5 # 操作最近前5条提交记录
-git rebase -i e88835de # 或者以 commit_id 进行操作
-```
-
-| 参数        | 描述              |
-| ---------- |------------------- |
-| p, pick    | 保留当前commit，默认 |
-| r, reword  | 保留当前commit，但编辑提交消息 |
-| e, edit    | 保留当前commit，但停止修改 |
-| s, squash  | 保留当前commit，但融入上一次提交 |
-| b, break   | 在这里停止（稍后使用 `git rebase --continue` 继续重新设置基准） |
-| d, drop    | 删除当前commit |
-
-
-这里是倒序排列，最新的记录在最后
-
-<img src="media/gitrebase-3.png" width="400" />
-
-
-2、除了第一条后面全部改成 `s` 或 `squash`:
-
-<img src="media/gitrebase-4.png" width="400" />
-
-
-3、按 `:wq` 退出交互式，接着进入另一个交互式来编辑commit消息, 如果不需要修改之前的commit消息则直接退出：
-
-<img src="media/gitrebase-5.png" width="400" />
-
-
-4、强制推送到远端
-```bash
-# 推送到 main 分支
-git push -u -f origin main
-```
-
-
-
-
-
-#### 2、合并分支代码
-
-都说用 `git rebase` 代替 `git merge` 进行合并，这2个区别在于 `git rebase` 可以使历史记录更清晰, 下面2张图对比一下：
-
-左边是 `git rebase`，右边是 `git merge`。
-
-可以看出 `git rebase` 是一条直线的，`git merge` 则是各种交叉，很难理解。
-
-<img src="media/gitrebase-1.png" width="400" />
-<img src="media/gitrebase-2.png" width="400" />
-
-
-假设有2个分支，main 和 dev，下面使用 `git rebase` 将 dev 分支代码合并到 main 分支上。
-
->>>>>>> e444f29ea48ca47cd8403458d9fbab0c43f836b8
-
-
-#### 1、将多个commit记录合并为一条
-要注意保证当前工作区没内容再操作。
-
-1、指定需要操作的记录，这时候会进入交互式命令
-```bash
-<<<<<<< HEAD
 # start起点必填， end 可选，默认当前分支 HEAD 所指向的 commit
 git rebase -i <start> <end>
 
@@ -984,20 +920,10 @@ git rebase -i e88835de # 或者以 commit_id 进行操作
 2、除了第一条后面全部改成 `s` 或 `squash`:
 
 <img src="media/gitrebase-4.png" width="400" />
-=======
-# 1、先切换到 main 分支，如果当前已经在 main 分支则不用切换
-git switch main
-
-# 2、正常合并代码, 这个时候会在 * (no branch, rebasing main) 分支上
-git rebase dev
-
-# 3、合并代码后有可能出现冲突情况，按照正常流程解决代码冲突
->>>>>>> e444f29ea48ca47cd8403458d9fbab0c43f836b8
 
 # 4、没有冲突或者解决冲突后，使用 -f 强制推送到远程分支 mian 上面去
 git push origin HEAD:main -f
 
-<<<<<<< HEAD
 3、按 `:wq` 退出交互式，接着进入另一个交互式来编辑commit消息, 如果不需要修改之前的commit消息则直接退出：
 
 <img src="media/gitrebase-5.png" width="400" />
@@ -1040,8 +966,6 @@ git rebase dev
 # 4、没有冲突或者解决冲突后，使用 -f 强制推送到远程分支 mian 上面去
 git push origin HEAD:main -f
 
-=======
->>>>>>> e444f29ea48ca47cd8403458d9fbab0c43f836b8
 # 5、断开 rebase 回到原分支 main 上去
 git rebase --abort
 
