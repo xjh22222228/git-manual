@@ -890,7 +890,7 @@ git show v1.1.0
 - 代替 `git mrege` 合并代码 
 
 
-#### 1、将多个commit记录合并为一条
+### 1、将多个commit记录合并为一条
 要注意保证当前工作区没内容再操作。
 
 1、指定需要操作的记录，这时候会进入交互式命令
@@ -914,19 +914,17 @@ git rebase -i e88835de # 或者以 commit_id 进行操作
 
 这里是倒序排列，最新的记录在最后
 
-<img src="media/gitrebase-3.png" width="400" />
+<img src="media/gitrebase-3.png" width="600" />
 
 
 2、除了第一条后面全部改成 `s` 或 `squash`:
 
-<img src="media/gitrebase-4.png" width="400" />
+<img src="media/gitrebase-4.png" width="600" />
 
-# 4、没有冲突或者解决冲突后，使用 -f 强制推送到远程分支 mian 上面去
-git push origin HEAD:main -f
 
 3、按 `:wq` 退出交互式，接着进入另一个交互式来编辑commit消息, 如果不需要修改之前的commit消息则直接退出：
 
-<img src="media/gitrebase-5.png" width="400" />
+<img src="media/gitrebase-5.png" width="600" />
 
 
 4、强制推送到远端
@@ -939,7 +937,7 @@ git push -u -f origin main
 
 
 
-#### 2、合并分支代码
+### 2、合并分支代码
 
 都说用 `git rebase` 代替 `git merge` 进行合并，这2个区别在于 `git rebase` 可以使历史记录更清晰, 下面2张图对比一下：
 
