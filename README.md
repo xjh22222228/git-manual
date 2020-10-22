@@ -23,7 +23,7 @@
 - [配置](#配置)
 - [初始化仓库](#初始化仓库)
 - [克隆](#克隆)
-- [remote](#remote)
+- [git remote](#git-remote)
 - [cherry pick](#cherry-pick)
 - [git stash](#git-stash)
 - [文件状态](#文件状态)
@@ -200,7 +200,7 @@ git clone --mirror https://github.com/xjh22222228/git-manual.git
 
 
 
-## remote
+## git remote
 `git remote` 命令通常用来管理远程仓库。
 
 ```bash
@@ -914,17 +914,17 @@ git rebase -i e88835de # 或者以 commit_id 进行操作
 
 这里是倒序排列，最新的记录在最后
 
-<img src="media/gitrebase-3.png" width="600" />
+<img src="media/gitrebase-3.png" width="700" />
 
 
 2、除了第一条后面全部改成 `s` 或 `squash`:
 
-<img src="media/gitrebase-4.png" width="600" />
+<img src="media/gitrebase-4.png" width="700" />
 
 
 3、按 `:wq` 退出交互式，接着进入另一个交互式来编辑commit消息, 如果不需要修改之前的commit消息则直接退出：
 
-<img src="media/gitrebase-5.png" width="600" />
+<img src="media/gitrebase-5.png" width="700" />
 
 
 4、强制推送到远端
@@ -945,8 +945,8 @@ git push -u -f origin main
 
 可以看出 `git rebase` 是一条直线的，`git merge` 则是各种交叉，很难理解。
 
-<img src="media/gitrebase-1.png" width="400" />
-<img src="media/gitrebase-2.png" width="400" />
+<img src="media/gitrebase-1.png" width="700" />
+<img src="media/gitrebase-2.png" width="700" />
 
 
 假设有2个分支，main 和 dev，下面使用 `git rebase` 将 dev 分支代码合并到 main 分支上。
