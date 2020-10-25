@@ -72,6 +72,9 @@ git config --global -l
 # 查看局部配置列表
 git config --local -l
 
+# 查看所有的配置以及它们所在的文件
+git config --list --show-origin
+
 # 查看已设置的全局用户名/邮箱
 git config --global --get user.name
 git config --global --get user.email
@@ -88,8 +91,9 @@ git config --local user.email "example@example.com"
 git config --unset --global user.name
 git config --unset --global user.email
 
-# 将默认文本编辑器设置为 emacs
-git config --global core.editor emacs
+# 修改默认文本编辑器，比如 nano
+# 常用编辑器：emacs / nano / vim / vi
+git config --global core.editor nano
 
 # 将默认差异化分析工具设置为 vimdiff
 git config --global merge.tool vimdiff
