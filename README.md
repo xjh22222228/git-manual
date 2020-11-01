@@ -15,6 +15,9 @@
 </p>
 
 
+注意：2020年10月 GitHub 已经将默认分支 `master` 更名为 `main` 分支。
+
+
 
 ---
 
@@ -998,50 +1001,62 @@ git rebase --abort
 
 
 ## git flow
-`git flow` 不是内置命令，需要单独安装
+Git Flow 是一套基于git的工作流程，这个工作流程围绕着project的发布(release)定义了一个严格的如何建立分支的模型。
 
-**初始化** 每个仓库都必须初始化一次
+`git flow` 只是简化了操作命令，不用 `git flow` 也可以，只要遵循 `git flow` 流程操作即可，手动一条一条命令执行也一样的。
+
+`git flow` 不是内置命令，需要单独安装。
+
+#### 初始化
+每个仓库都必须初始化一次才能使用，这是针对当前用户而言的。
+
 ```bash
 # 通常直接回车以完成默认设置
 git flow init
 ```
 
-**功能**
+#### 开始开发一个功能
+假设我们要开始开发一个新的功能比如登录注册，这个时候就要打一个 `feature` 分支进行独立开发。
+
 ```bash
-# 开启新的功能
+# 步骤一：开启新的功能, 起一个分支名叫 v1.1.0, 建立后分支名为 feature/v1.1.0
 git flow feature start v1.1.0
 
-# 推送到远程, 在团队协作中这一步少不了
+# 步骤二：将分支推送到远程, 在团队协作中这一步少不了
 git flow feature publish v1.1.0
 
-# 完成功能, 会将当前分支合并到 develop 然后删除分支，回到 develop
+# 最后：完成功能, 会将当前分支合并到 develop 分支然后删除 feature/v1.1.0 分支，回到 develop
 git flow feature finish v1.1.0
 ```
 
 
-**打补丁**
+#### 打补丁
+什么情况下需要打补丁？ 假设已经上线的功能有BUG需要修复就需要打补丁了。
 
-hotfix是针对 `master` 进行打补丁的
+hotfix 是针对 `master` 分支进行打补丁的。
+
 ```bash
-# 开启新的 hotfix
-git flow hotfix start v1.1.0_hotifx
+# 步骤一：开启一个补丁分支叫 fix_doc 用于修改文档错误，建立后分支名为 hotfix/fix_doc
+git flow hotfix start fix_doc
 
-# 推送到远程
-git flow hotfix publish v1.1.0_hotifx
+# 步骤二：推送到远程，也可以不推，如果多人同时改BUG就需要推送共享分支
+git flow hotfix publish fix_doc
 
-# 完成新的hotfix, 将当前分支合并到 master 和 develop，然后删除分支，回到 develop
-git flow hotfix finish v1.1.0_hotifx
+# 最后：完成补丁, 将当前分支合并到 master 和 develop，然后删除分支，回到 develop
+git flow hotfix finish fix_doc
 ```
 
-**发布**
+#### 发布
+假设产品给了个新需求并完成，这个时候可以选择发布。不发布也行，但是发布后会有版本区分，以后想找到某个版本的代码就很方便。
+
 ```bash
-# 开启新的 release
+# 步骤一：建立一个发布版本 v1.1.0 建立后分支名为 release/v1.1.0
 git flow release start v1.1.0
 
-# 推送到远程
+# 步骤二：推送到远程, 可选
 git flow release publish v1.1.0
 
-# 完成, 将当前分支合并到 master 和 develop，删除当前分支然后回到 develop
+# 最后：将当前分支合并到 master 和 develop，打上一个标签，接着删除当前分支并回到 develop 分支上
 git flow release finish v1.1.0
 ```
 
