@@ -520,6 +520,32 @@ git merge develop --no-commit
 git merge --abort
 ```
 
+#### 合并部分文件或文件夹
+假设有 dev 和 main 2个分支，可是 dev 分支改动比较大，只想合并某个文件夹到 main 分支上，可以这么做：
+
+```bash
+# 1、先切换到 main 分支
+git checkout main
+
+# 2、将 dev 分支 src1 和 src2 文件夹合并到 main 分支上
+git checout dev src1 src2
+
+# 3、会发现 main 分支确实有 dev 分支的内容，按照正常流程推送到远程
+git add -A
+git commit -m "Merge..."
+git push
+```
+
+需要注意的是这会直接覆盖现有文件，而不是本质上的合并。
+
+
+
+
+
+
+
+
+
 
 ## 解决冲突
 **代码合并/更新代码** 经常会遇到冲突的情况。
