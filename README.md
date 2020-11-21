@@ -527,8 +527,8 @@ git merge --abort
 # 1、先切换到 main 分支
 git checkout main
 
-# 2、将 dev 分支 src1 和 src2 文件夹合并到 main 分支上
-git checout dev src1 src2
+# 2、将 dev 分支 src1 和 src2 文件夹合并到 main 分支上, 注意要有2个分割线
+git checout dev -- src1/ src2/
 
 # 3、会发现 main 分支确实有 dev 分支的内容，按照正常流程推送到远程
 git add -A
