@@ -158,7 +158,7 @@ git config --global --unset https.proxy
 ## 初始化仓库
 `git init` 创建一个空的Git仓库或重新初始化一个现有的仓库
 
-实际上 `git init` 命令用得不多，通常在网页上进行操作。
+实际上 `git init` 命令用得不多，通常在GUI上进行操作。
 ```bash
 # 会在当前目录生成.git
 git init
@@ -166,7 +166,7 @@ git init
 # 以安静模式创建，只会打印错误或警告信息
 git init -q
 
-# 创建一个裸仓库, 通常情况下用不上
+# 在当前目录下创建一个裸仓库，里面只有 .git 下的所有文件
 git init --bare
 ```
 
@@ -191,8 +191,10 @@ git clone https://github.com/xjh22222228/git-manual.git git-study # 如果后面
 # 递归克隆，如果项目包含子模块就非常有用
 git clone --recursive https://github.com/xjh22222228/git-manual.git
 
-# 克隆深度为1, 只克隆指定分支, 历史记录只克隆最后一条, 减少克隆时间
+# 浅克隆, 克隆深度为1, 只克隆指定分支且历史记录只保留最后一条, 通常用于减少克隆时间和项目大小
 git clone --depth=1 https://github.com/xjh22222228/git-manual.git
+git clone --depth=1 --no-single-branch https://github.com/xjh22222228/git-manual.git # --no-single-branch 同时克隆其他所有分支
+
 
 # 裸克隆, 没有工作区内容，不能进行提交修改，一般用于复制仓库
 git clone --bare https://github.com/xjh22222228/git-manual.git
@@ -420,6 +422,8 @@ git reflog show --date=iso master
 
 
 ## 切换分支
+另一种切换分支方法是使用 [switch命令](#git-switch)
+
 ```bash
 # 2种方法，切换到master分支
 git checkout master
@@ -428,11 +432,18 @@ git switch master  # git >= 2.23
 # 切换上一个分支
 git checkout -
 
-# 切换远端分支 (通常是本地没有远端的分支记录才会使用此命令，反之不建议)
-git checkout -t origin/dev
-
 # 强制切换, 但是要小心，如果文件未保存修改会直接覆盖掉
 git checkout -f master
+```
+
+在克隆时使用 `--depth=1` 切换其他分支，比如切换 dev 分支：
+```bash
+git clone --depth=1 https://github.com/xjh22222228/git-manual.git
+
+# 切换 dev 分支
+git remote set-branches origin 'dev'
+git fetch --depth=1 origin dev
+git checkout dev
 ```
 
 
@@ -588,10 +599,11 @@ git pull
 除了使用git命令解决以外, 可以使用一些开发工具自带git进行处理。
 
 
-另外推荐2个工具专门处理git冲突：
+另外推荐3个工具专门处理git冲突：
 
 - [meld](http://meld.sourceforge.net/install.html)
 - [kdiff3](http://kdiff3.sourceforge.net/)
+- 在冲突时执行 `git mergetool` 命令会启动一个默认GUI
 
 [这篇文章专门介绍这2个工具如何使用](https://gitguys.com/topics/merging-with-a-gui/)
 
@@ -1220,9 +1232,9 @@ git bisect reset
 ## git switch
 `git switch` 命令在git版本 `2.23` 引入, 用于切换分支。
 
-`git checkout` 同样可以切换分支, `git switch` 意义在哪里？ 因为 `git checkout` 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
+[`git checkout`](#切换分支) 同样可以切换分支, `git switch` 意义在哪里？ 因为 [`git checkout`](#切换分支) 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
 
-注：由于生态原因, 大部分还是会使用 `git checkout`。
+注：由于生态原因, 大部分还是会使用 [`git checkout`](#切换分支)。
 
 ```bash
 # 切换到 develop 分支
