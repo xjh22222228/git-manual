@@ -675,7 +675,7 @@ git restore --staged README.md
 
 ## 提交
 ```bash
-# -m 提交的信息
+# -m 提交的描述信息
 git commit -m "changes log"
 
 # 只提交某个文件
@@ -702,7 +702,8 @@ git commit --no-verify -m "Example"
 ## 推送
 ```bash
 # 默认推送当前分支
-git push # 等价于 git push origin , 实际上推送到一个叫 origin 默认仓库名字
+# 等价于 git push origin, 实际上推送到一个叫 origin 默认仓库名字
+git push
 
 # 推送到主分支
 git push -u origin master
@@ -738,7 +739,7 @@ git pull origin master
 
 #### 拉取指定工作目录
 ```bash
-# 默认情况下拉取会在当前工作目录中，但如果想拉取指定工作目录，可以加 `-C`
+# 默认情况下拉取会在当前工作目录中，但如果想拉取指定工作目录，可以指定 `-C`
 git -C /opt/work pull
 ```
 
@@ -1500,18 +1501,19 @@ cat ~/.ssh/id_rsa.pub
 
 ## 提交规范
 
-| 标志        | 描述              |
-| ---------- |------------------ |
-| feat  | 该提交含有新的特性 |
-| style  | 通常是代码格式的修改 |
-| chore  | 通常是代码格式的修改 |
-| fix  | 修复Bug |
-| docs  | 文档修改 |
-| test  | 单元测试改动 |
+| 标志       | 描述              |
+| --------- |------------------ |
+| feat      | 该提交含有新的特性 |
+| style     | 通常是代码格式的修改 |
+| chore     | 通常是代码格式的修改 |
+| fix       | 修复Bug |
+| docs      | 文档修改 |
+| test      | 单元测试改动 |
 | refactor  | 代码重构 |
-| perf  | 性能优化、体验 |
-| revert  | 回滚版本 |
-| merge  | 代码合并 |
+| perf      | 性能优化、体验 |
+| revert    | 回滚版本 |
+| merge     | 代码合并 |
+| typo      | 错字, 比如单词拼错 |
 
 
 
@@ -1520,7 +1522,7 @@ cat ~/.ssh/id_rsa.pub
 
 ```bash
 # 含有新特性
-git commit -m "feat: 新增忘记密码"
+git commit -m "feat: 新增xx功能"
 
 # 代码格式化
 git commit -m "style: 规范Eslint"
@@ -1532,7 +1534,7 @@ git commit -m "chore: Update Jenkins"
 git commit -m "fix(登录闪烁): #688"
 
 # 修改了 README.md 文档
-git commit -m "docs: 新增License"
+git commit -m "docs: git pull"
 
 # 单元测试改动
 git commit -m "test: 测试登录"
