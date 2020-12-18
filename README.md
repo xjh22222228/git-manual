@@ -65,6 +65,7 @@
 - [提交规范](#提交规范)
 - [其他](#其他)
 - [帮助](#帮助)
+- [加速](#加速)
 - [思维导图](#思维导图)
 
 
@@ -1578,6 +1579,31 @@ git help -a
 # 列出所有可配置的变量
 git help -c
 ```
+
+
+
+
+## 加速
+在国内克隆或下载版本会很慢，可以借助下面2个镜像站点进行加速。
+
+- https://github.com.cnpmjs.org
+- https://hub.fastgit.org
+
+```bash
+git clone https://github.com/xjh22222228/git-manual.git
+# ↓ 只需要将域名替换即可, 例如:
+git clone https://github.com.cnpmjs.org/xjh22222228/git-manual.git
+```
+
+资源加速：
+
+```bash
+https://raw.githubusercontent.com/xjh22222228/git-manual/master/media/poster.png
+# ↓ 替换为
+https://raw.sevencdn.com/xjh22222228/git-manual/master/media/poster.png
+```
+
+
 
 
 
