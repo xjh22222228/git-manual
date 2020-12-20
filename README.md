@@ -65,6 +65,7 @@
 - [提交规范](#提交规范)
 - [其他](#其他)
 - [帮助](#帮助)
+- [清除账号](#清除账号)
 - [加速](#加速)
 - [思维导图](#思维导图)
 
@@ -113,6 +114,9 @@ git config --global core.ignorecase false
 
 # 配置 git pull 时默认拉取所有子模块内容
 git config submodule.recurse true
+
+# 记住提交账号密码, 下次操作可免账号密码
+git config --global credential.helper store
 ```
 
 **命令别名配置**
@@ -205,6 +209,40 @@ git clone --mirror https://github.com/xjh22222228/git-manual.git
 ```
 
 
+#### 只克隆指定文件夹
+有些仓库会包含 客户端、服务端、等多个端的代码, 但又不想完整克隆整个项目, 只想克隆某个文件夹，这个时候就需要用到 `稀疏检出`。
+
+
+开启稀疏检出必须满足2个条件：
+- `core.sparsecheckout` 设置为 true
+- `.git/info/sparse-checkout` 文件列出要检出的目录列表
+
+本仓库有个 `media` 文件夹，用它来演示吧。
+
+```bash
+# 1、创建一个目录并进入
+mkdir hello-git && cd hello-git
+
+# 2、初始化仓库
+git init
+
+# 3、设置仓库地址
+git remote add origin https://github.com/xjh22222228/git-manual.git
+
+# 4、开启稀疏检出功能
+git config core.sparsecheckout true
+
+# 5、编辑 .git/info/sparse-checkout 文件, 默认是没有需要手动新建
+# 也可以通过命令将需要检出的目录路径写入追加进去
+echo "media" >> .git/info/sparse-checkout
+
+# 6、拉取内容, 这里指定的是 mater 分支
+git pull origin master
+```
+
+
+
+
 
 
 
@@ -234,7 +272,7 @@ git remote rename oldName newName # git remote rename example simple
 # 移除远程仓库
 git remote remove example
 
-# 修改远程URL，从HTTPS更改为SSH
+# 修改远程仓库地址，从HTTPS更改为SSH
 git remote set-url origin git@github.com:xjh22222228/git-manual.git
 
 # 后续的推送可以指定仓库名字
@@ -1533,7 +1571,7 @@ git commit -m "chore: Update Jenkins"
 # 修复Bug, 建议描述清晰, 日后方便查找, #688 是修复某个id的编号
 git commit -m "fix(登录闪烁): #688"
 
-# 修改了 README.md 文档
+# 修改文档
 git commit -m "docs: git pull"
 
 # 单元测试改动
@@ -1550,14 +1588,6 @@ git commit -m "refactor: 流程模块重构"
 ```bash
 # 查看git版本
 git --version
-
-# 记住提交账号密码
-git config --global credential.helper store
-
-# 清除git已保存的用户名和密码
-git credential-manager uninstall # windows
-git config --global credential.helper "" # mac linux
-git config --global --unset credential.helper # 或者 mac linux
 
 # 清除本地git缓存
 git rm -r --cached .
@@ -1581,6 +1611,25 @@ git help -a
 # 列出所有可配置的变量
 git help -c
 ```
+
+
+
+
+## 清除账号
+清除git已保存的用户名和密码
+
+```bash
+# windows
+git credential-manager uninstall # windows
+
+# mac / linux(以下任意一条命令都可)
+git config --global credential.helper ""
+git config --global --unset credential.helper
+```
+
+
+
+
 
 
 
