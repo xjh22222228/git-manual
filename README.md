@@ -15,7 +15,7 @@
 </p>
 
 
-注意：2020年10月 GitHub 已经将默认分支 `master` 更名为 `main` 分支。
+注：2020年10月 GitHub 已将默认分支 `master` 更名为 `main` 分支。
 
 
 
@@ -23,48 +23,48 @@
 
 
 # 目录
-- [配置](#配置)
-- [初始化仓库](#初始化仓库)
-- [克隆](#克隆)
-- [git remote](#git-remote)
-- [cherry pick](#cherry-pick)
-- [git stash](#git-stash)
-- [文件状态](#文件状态)
-- [日志](#日志)
-- [git blame](#git-blame)
-- [查看分支](#查看分支)
-- [切换分支](#切换分支)
-- [创建分支](#创建分支)
-- [删除分支](#删除分支)
-- [重命名分支](#重命名分支)
-- [合并](#合并)
+- [配置](#配置) git config
+- [初始化仓库](#初始化仓库) git init
+- [克隆](#克隆) git clone
+- [管理仓库](#管理仓库) git remote
+- [检出commit](#检出commit) git cherry-pick
+- [临时保存](#临时保存) git stash
+- [文件状态](#文件状态) git status
+- [日志](#日志) git log
+- [责怪](#git-blame) git blame
+- [查看分支](#查看分支) git branch
+- [切换分支一](#切换分支一) git checkout
+- [切换分支二](#切换分支二) git switch
+- [创建分支](#创建分支) git checkout
+- [删除分支](#删除分支) git branch
+- [重命名分支](#重命名分支) git branch
+- [合并](#合并) git merge
+- [暂存](#暂存) git add
+- [删除](#删除) git rm
+- [还原](#还原) git restore
+- [提交](#提交) git commit
+- [推送](#推送) git push
+- [拉取](#拉取) git pull
+- [移动-重命名](#移动-重命名) git mv
+- [查看文件内容变动](#查看文件内容变动) git diff
+- [回滚版本](#回滚版本) git reset|revert
+- [撤销](#撤销) git checkout|reset
+- [标签](#标签) git tag
+- [变基](#变基) git rebase
+- [工作流](#工作流) git flow
+- [子模块](#子模块) git submodule
+- [二分查找](#二分查找) git bisect
+- [归档](#归档) git archive
+- [格式化日志](#格式化日志) git log --pretty
+- [清空commit历史](#清空commit历史) git update-ref
+- [帮助](#帮助) git help
+- [提交规范](#提交规范) git commit
 - [解决冲突](#解决冲突)
-- [暂存](#暂存)
-- [删除](#删除)
-- [还原](#还原)
-- [提交](#提交)
-- [推送](#推送)
-- [拉取](#拉取)
-- [移动-重命名](#移动-重命名)
-- [查看文件内容变动](#查看文件内容变动)
-- [回滚版本](#回滚版本)
-- [撤销](#撤销)
-- [标签](#标签)
-- [git rebase](#git-rebase)
-- [git flow](#git-flow)
-- [git submodule](#git-submodule)
-- [git bisect](#git-bisect)
-- [git switch](#git-switch)
-- [git archive](#git-archive)
-- [格式化日志](#格式化日志)
-- [清空commit历史](#清空commit历史)
 - [仓库迁移](#仓库迁移)
 - [奇技淫巧](#奇技淫巧)
 - [GUI客户端](#GUI客户端)
 - [生成SSHKey](#生成SSHKey)
-- [提交规范](#提交规范)
 - [其他](#其他)
-- [帮助](#帮助)
 - [清除账号](#清除账号)
 - [加速](#加速)
 - [思维导图](#思维导图)
@@ -248,7 +248,7 @@ git pull origin master
 
 
 
-## git remote
+## 管理仓库
 `git remote` 命令通常用来管理远程仓库。
 
 ```bash
@@ -283,8 +283,8 @@ git push example
 
 
 
-## cherry pick
-检出某次commit提交, 如果当前分支上的某次提交的修改正是当前需要的，那么可以使用此命令进行操作。
+## 检出commit
+`git cherry-pick` 可以用来检出某次commit提交, 如果当前分支上的某次提交的修改正是当前需要的，那么可以使用此命令进行操作。
 
 需要注意的是提交时必须使用 `git push -f` 强制提交方式。
 ```bash
@@ -296,7 +296,7 @@ git cherry-pick -x 8f6c26fc122502886bdfd9aa55ecda26a3ccc31d
 ```
 
 
-## git stash
+## 临时保存
 应用场景：假设当前分支某些功能做到一半了, 突然需要切换到其他分支修改Bug, 但是又不想提交（因为切换分支必须清理当前工作区，否则无法切换），这个时候 `git stash` 应用场景就来了。
 
 ```bash
@@ -408,7 +408,7 @@ git reflog # 等价于 git log -g --abbrev-commit --pretty=oneline
 
 
 
-## git blame
+## 责怪
 `git blame` 意思是责怪，你懂的。
 
 `git blame` 用于查看某个文件的修改历史记录是哪个作者进行了改动。
@@ -460,7 +460,7 @@ git reflog show --date=iso master
 
 
 
-## 切换分支
+## 切换分支一
 另一种切换分支方法是使用 [switch命令](#git-switch)
 
 ```bash
@@ -484,6 +484,36 @@ git remote set-branches origin 'dev'
 git fetch --depth=1 origin dev
 git checkout dev
 ```
+
+
+
+
+
+## 切换分支二
+`git switch` 命令在git版本 `2.23` 引入, 用于切换分支。
+
+[`git checkout`](#切换分支) 同样可以切换分支, `git switch` 意义在哪里？ 因为 [`git checkout`](#切换分支) 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
+
+```bash
+# 切换到 develop 分支
+git switch develop
+
+# 切换到上一个分支
+git switch -
+
+# 强制切换到 develop 分支，并抛弃本地所有修改
+git switch -f develop
+
+# 创建分支并切换
+git switch -c newBranch
+
+# 强制创建分支
+git switch -C newBranch
+
+# 从前3次提交进行创建新的分支
+git switch -c newBranch HEAD〜3 
+```
+
 
 
 
@@ -596,55 +626,6 @@ git push
 
 
 
-
-## 解决冲突
-**代码合并/更新代码** 经常会遇到冲突的情况。
-
-1、按照惯例直接把代码提交到远程, 有几种情况:
-- 代码顺利的推送的远程分支 (无需理会)
-- 出现冲突, git自动做了合并 (无需理会)
-- git发现本地文件在远端做了修改，需要进行 git pull
-```bash
-git push
-```
-
-出现冲突，如图：
-
-<img src="media/git-conflict-1.png" width="400">
-
-2、按照提示执行 `git pull` 拉取代码
-```bash
-git pull
-```
-
-提示有文件存在冲突，如图：
-
-<img src="media/git-conflict-2.png" width="400">
-
-
-3、编辑冲突文件, 解决冲突需要自己去判断到底要保留远端代码还是本地代码或者两端都保留。
-
-<img src="media/git-conflict-3.png" width="400">
-
-
-4、这是解决后的代码，保留了本地代码
-
-<img src="media/git-conflict-4.png" width="400">
-
-最后按照惯例，把代码推送到远端即可。
-
-
-
-除了使用git命令解决以外, 可以使用一些开发工具自带git进行处理。
-
-
-另外推荐3个工具专门处理git冲突：
-
-- [meld](http://meld.sourceforge.net/install.html)
-- [kdiff3](http://kdiff3.sourceforge.net/)
-- 在冲突时执行 `git mergetool` 命令会启动一个默认GUI
-
-[这篇文章专门介绍这2个工具如何使用](https://gitguys.com/topics/merging-with-a-gui/)
 
 
 
@@ -982,7 +963,7 @@ git show v1.1.0
 
 
 
-## git rebase
+## 变基
 `git rebase` 命令有2个比较实用的功能：
 - 将多个commit记录合并为一条
 - 代替 `git mrege` 合并代码 
@@ -1091,7 +1072,7 @@ git rebase --abort
 
 
 
-## git flow
+## 工作流
 Git Flow 是一套基于git的工作流程，这个工作流程围绕着project的发布(release)定义了一个严格的如何建立分支的模型。
 
 `git flow` 只是简化了操作命令，不用 `git flow` 也可以，只要遵循 `git flow` 流程操作即可，手动一条一条命令执行也一样的。
@@ -1170,7 +1151,7 @@ git flow release finish v1.1.0
 
 
 
-## git submodule
+## 子模块
 `git submodule` 子模块的作用类似于包管理，类似 `npm` / `maven` , 但比包管理使用起来更方便。
 
 子模块可以不建立版本分支管理代码, 因为它是依赖主应用，所以建立版本分支可以从主应用去操作，那么一旦建立新的版本分支当前的所有内容都会被锁定在这个分支上，不管子模块仓库怎么修改。
@@ -1240,7 +1221,7 @@ git pull --recurse-submodules
 
 
 
-## git bisect
+## 二分查找
 `git bisect` 基于二分查找算法, 用于定位引入Bug的commit，主要4个命令。
 
 此命令非常实用, 如果你的Bug不知道是哪个 commit 引起的，可以尝试此方法。
@@ -1269,32 +1250,12 @@ git bisect reset
 
 
 
-## git switch
-`git switch` 命令在git版本 `2.23` 引入, 用于切换分支。
-
-[`git checkout`](#切换分支) 同样可以切换分支, `git switch` 意义在哪里？ 因为 [`git checkout`](#切换分支) 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
-
-注：由于生态原因, 大部分还是会使用 [`git checkout`](#切换分支)。
-
-```bash
-# 切换到 develop 分支
-git switch develop
-
-# 切换到上一个分支
-git switch -
-
-# 创建分支并切换
-git switch -c newBranch
-
-# 从前3次提交进行创建新的分支
-git switch -c newBranch HEAD〜3 
-```
 
 
 
 
 
-## git archive
+## 归档
 创建一个归档文件，可以理解为将当前项目压缩为一个文件。会忽略掉 `.git` 目录。
 
 但与 `zip` / `tar` 等压缩不同，`git archive` 支持将某个分支或commit进行归档。
@@ -1420,6 +1381,123 @@ git push -f # 注意一定要强制推送
 
 
 
+## 帮助
+```bash
+# 详细打印所有git命令
+git help
+
+# 打印所有git命令, 此命令不会有详细信息，更清晰一些
+git help -a
+
+# 列出所有可配置的变量
+git help -c
+```
+
+
+
+
+## 提交规范
+
+| 标志       | 描述              |
+| --------- |------------------ |
+| feat      | 该提交含有新的特性 |
+| style     | 通常是代码格式的修改 |
+| chore     | 通常是代码格式的修改 |
+| fix       | 修复Bug |
+| docs      | 文档修改 |
+| test      | 单元测试改动 |
+| refactor  | 代码重构 |
+| perf      | 性能优化、体验 |
+| revert    | 回滚版本 |
+| merge     | 代码合并 |
+| typo      | 错字, 比如单词拼错 |
+
+
+
+
+**例子：**
+
+```bash
+# 含有新特性
+git commit -m "feat: 新增xx功能"
+
+# 代码格式化
+git commit -m "style: 规范Eslint"
+
+# 修改Jenkins构建流程
+git commit -m "chore: Update Jenkins"
+
+# 修复Bug, 建议描述清晰, 日后方便查找, #688 是修复某个id的编号
+git commit -m "fix(登录闪烁): #688"
+
+# 修改文档
+git commit -m "docs: git pull"
+
+# 单元测试改动
+git commit -m "test: 测试登录"
+
+# 项目代码重构
+git commit -m "refactor: 流程模块重构"
+```
+
+
+
+
+## 解决冲突
+**代码合并/更新代码** 经常会遇到冲突的情况。
+
+1、按照惯例直接把代码提交到远程, 有几种情况:
+- 代码顺利的推送的远程分支 (无需理会)
+- 出现冲突, git自动做了合并 (无需理会)
+- git发现本地文件在远端做了修改，需要进行 git pull
+```bash
+git push
+```
+
+出现冲突，如图：
+
+<img src="media/git-conflict-1.png" width="400">
+
+2、按照提示执行 `git pull` 拉取代码
+```bash
+git pull
+```
+
+提示有文件存在冲突，如图：
+
+<img src="media/git-conflict-2.png" width="400">
+
+
+3、编辑冲突文件, 解决冲突需要自己去判断到底要保留远端代码还是本地代码或者两端都保留。
+
+<img src="media/git-conflict-3.png" width="400">
+
+
+4、这是解决后的代码，保留了本地代码
+
+<img src="media/git-conflict-4.png" width="400">
+
+最后按照惯例，把代码推送到远端即可。
+
+
+
+除了使用git命令解决以外, 可以使用一些开发工具自带git进行处理。
+
+
+另外推荐3个工具专门处理git冲突：
+
+- [meld](http://meld.sourceforge.net/install.html)
+- [kdiff3](http://kdiff3.sourceforge.net/)
+- 在冲突时执行 `git mergetool` 命令会启动一个默认GUI
+
+[这篇文章专门介绍这2个工具如何使用](https://gitguys.com/topics/merging-with-a-gui/)
+
+
+
+
+
+
+
 ## 仓库迁移
 仓库迁移也可以叫复制仓库。
 
@@ -1537,49 +1615,6 @@ cat ~/.ssh/id_rsa.pub
 
 
 
-## 提交规范
-
-| 标志       | 描述              |
-| --------- |------------------ |
-| feat      | 该提交含有新的特性 |
-| style     | 通常是代码格式的修改 |
-| chore     | 通常是代码格式的修改 |
-| fix       | 修复Bug |
-| docs      | 文档修改 |
-| test      | 单元测试改动 |
-| refactor  | 代码重构 |
-| perf      | 性能优化、体验 |
-| revert    | 回滚版本 |
-| merge     | 代码合并 |
-| typo      | 错字, 比如单词拼错 |
-
-
-
-
-**例子：**
-
-```bash
-# 含有新特性
-git commit -m "feat: 新增xx功能"
-
-# 代码格式化
-git commit -m "style: 规范Eslint"
-
-# 修改Jenkins构建流程
-git commit -m "chore: Update Jenkins"
-
-# 修复Bug, 建议描述清晰, 日后方便查找, #688 是修复某个id的编号
-git commit -m "fix(登录闪烁): #688"
-
-# 修改文档
-git commit -m "docs: git pull"
-
-# 单元测试改动
-git commit -m "test: 测试登录"
-
-# 项目代码重构
-git commit -m "refactor: 流程模块重构"
-```
 
 
 
@@ -1598,19 +1633,6 @@ git ls-files
 
 
 
-
-
-## 帮助
-```bash
-# 详细打印所有git命令
-git help
-
-# 打印所有git命令, 此命令不会有详细信息，更清晰一些
-git help -a
-
-# 列出所有可配置的变量
-git help -c
-```
 
 
 
