@@ -25,7 +25,7 @@
 # 目录
 - [配置](#配置) git config
 - [初始化仓库](#初始化仓库) git init
-- [克隆](#克隆) git clone
+- [克隆仓库](#克隆仓库) git clone
 - [管理仓库](#管理仓库) git remote
 - [转移提交](#转移提交) git cherry-pick
 - [临时保存](#临时保存) git stash
@@ -63,7 +63,7 @@
 - [仓库迁移](#仓库迁移)
 - [奇技淫巧](#奇技淫巧)
 - [GUI客户端](#GUI客户端)
-- [生成SSHKey](#生成SSHKey)
+- [生成SSH Key](#生成SSH-Key)
 - [其他](#其他)
 - [清除账号](#清除账号)
 - [加速](#加速)
@@ -176,7 +176,7 @@ git init --bare
 ```
 
 
-## 克隆
+## 克隆仓库
 ```bash
 # https 协议克隆
 git clone https://github.com/xjh22222228/git-manual.git
@@ -209,7 +209,7 @@ git clone --mirror https://github.com/xjh22222228/git-manual.git
 ```
 
 
-#### 只克隆指定文件夹
+#### 克隆指定文件夹
 有些仓库会包含 客户端、服务端、等多个端的代码, 但又不想完整克隆整个项目, 只想克隆某个文件夹，这个时候就需要用到 `稀疏检出`。
 
 
@@ -239,6 +239,12 @@ echo "media" >> .git/info/sparse-checkout
 # 6、拉取内容, 这里指定的是 mater 分支
 git pull origin master
 ```
+
+<details>
+  <summary>演示克隆指定文件夹.gif</summary>
+  
+  <img src="media/gitclone-sparsecheckout.gif">
+</details>
 
 
 
@@ -312,7 +318,7 @@ git cherry-pick --continue
 ```
 
 <details>
-  <summary>实战.gif: 把 `dev` 分支的第三次提交转移到当前 `master` 分支。</summary>
+  <summary>演示转移提交.gif: 把 `dev` 分支的第三次提交转移到当前 `master` 分支。</summary>
   
   <img src="media/cherry.gif">
 </details>
@@ -1590,9 +1596,13 @@ git config --global alias.his "log --graph --decorate --oneline --pretty=format:
 git config --global alias.hist "log --graph --decorate --oneline --pretty=format:'%Cred%h - %C(bold white) %s %Creset %C(yellow)%d  %C(cyan) <%cd> %Creset %Cgreen(%cn)' --abbrev-commit --date=format:'%Y-%m-%d %H:%M:%S'"
 ```
 
-效果图
 
-<img src="media/git-log.png" width="400" />
+<details>
+  <summary>效果图.png</summary>
+  
+  <img src="media/git-log.png">
+</details>
+
 
 
 
@@ -1612,24 +1622,31 @@ git config --global alias.hist "log --graph --decorate --oneline --pretty=format
 
 
 
-## 生成SSHKey
-1、替换为您的GitHub电子邮件地址
+## 生成SSH Key
+以下适用于 `Mac` / `Linux`。
+
+1、进入到 ssh
+```bash
+cd ~/.ssh
+```
+
+2、替换为您的GitHub电子邮件地址
 ```bash
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
-2、当提示“输入要在其中保存密钥的文件”时，按Enter。接受默认文件位置。 (建议修改名字，防止以后被覆盖)
+3、当提示“输入要在其中保存密钥的文件”时，按Enter。接受默认文件位置。 (建议修改名字，防止以后被覆盖)
 ```
 > Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
 ```
 
-3、在提示符下，键入一个安全密码, 默认回车即可
+4、在提示符下，键入一个安全密码, 默认回车即可
 ```bash
 > Enter passphrase (empty for no passphrase): [Type a passphrase]
 > Enter same passphrase again: [Type passphrase again]
 ```
 
-4、生成的SSH Key 添加到 `ssh config` 中
+5、生成的SSH Key 添加到 `ssh config` 中
 ```bash
 vim ~/.ssh/config
 
@@ -1644,6 +1661,12 @@ Host *
 ```
 cat ~/.ssh/id_rsa.pub
 ```
+
+<details>
+  <summary>演示生成SSH Key.gif</summary>
+  
+  <img src="media/ssh-key.gif">
+</details>
 
 
 
