@@ -3,7 +3,7 @@
   <img src="media/poster.png" width="300" />
   <br />
   <b>Git常用命令参考手册</b>
-  <p align="center">基本涵盖了在开发中用到的git命令，能满足日常需求。</p>
+  <p align="center">基本涵盖了在开发中用到的git命令，能满足日常需求</p>
   <p align="center">通俗易懂的例子，30分钟快速入门</p>
   <p align="center">
     <a href="https://github.com/xjh22222228/git-manual/stargazers"><img src="https://img.shields.io/github/stars/xjh22222228/git-manual" alt="Stars Badge"/></a>
@@ -27,7 +27,7 @@
 - [初始化仓库](#初始化仓库) git init
 - [克隆](#克隆) git clone
 - [管理仓库](#管理仓库) git remote
-- [检出commit](#检出commit) git cherry-pick
+- [转移提交](#转移提交) git cherry-pick
 - [临时保存](#临时保存) git stash
 - [文件状态](#文件状态) git status
 - [日志](#日志) git log
@@ -46,7 +46,7 @@
 - [推送](#推送) git push
 - [拉取](#拉取) git pull
 - [移动-重命名](#移动-重命名) git mv
-- [查看文件内容变动](#查看文件内容变动) git diff
+- [比较文件内容差异](#比较文件内容差异) git diff
 - [回滚版本](#回滚版本) git reset|revert
 - [撤销](#撤销) git checkout|reset
 - [标签](#标签) git tag
@@ -178,10 +178,10 @@ git init --bare
 
 ## 克隆
 ```bash
-# 克隆 https 协议
+# https 协议克隆
 git clone https://github.com/xjh22222228/git-manual.git
 
-# 克隆 SSH 协议
+# SSH 协议克隆
 git clone git@github.com:xjh22222228/git-manual.git
 
 # 克隆指定分支， -b 指定分支名字，实际上是克隆所有分支并切换到 develop 分支上
@@ -283,17 +283,49 @@ git push example
 
 
 
-## 检出commit
-`git cherry-pick` 可以用来检出某次commit提交, 如果当前分支上的某次提交的修改正是当前需要的，那么可以使用此命令进行操作。
+## 转移提交
+`git cherry-pick` 可以用来将一个分支的某次提交转移到当前分支中。
 
-需要注意的是提交时必须使用 `git push -f` 强制提交方式。
+假设有 `dev` 和 `main` 2个分支, `dev` 分支中有10次提交记录, `main` 分支想把 `dev` 的第5次提交记录合并到当前分支中, 这正是此命令的使用场景。
+
+还可以理解为将以前的某次提交再重新提交一次。
+
 ```bash
-# 通常情况执行此命令会产生冲突，需要手动去解决
-git cherry-pick <commit_id>
+# 可以是一个 commit_id 或者是分支名
+# 如果是分支名则是最后一次提交
+git cherry-pick <commit_id>|branch_name
+
+# 支持转移多个提交, 会产生多个提交记录
+git cherry-pick <commit_id1> <commit_id2>
 
 # 保留原有作者信息进行提交
-git cherry-pick -x 8f6c26fc122502886bdfd9aa55ecda26a3ccc31d
+git cherry-pick -x <commit_id>
+
+# 重新编辑提交信息, 否则会应用之前的commit消息
+git cherry-pick -e <commit_id>
+
+# 断开当前操作回到初始状态
+git cherry-pick --abort
+
+# 当发生冲突时解决冲突后使用 git add 加入到暂存区然后执行下面命令继续执行
+git cherry-pick --continue
 ```
+
+<details>
+  <summary>实战.gif: 把 `dev` 分支的第三次提交转移到当前 `master` 分支。</summary>
+  
+  <img src="media/cherry.gif">
+</details>
+
+
+
+
+
+
+
+
+
+
 
 
 ## 临时保存
@@ -788,7 +820,7 @@ git mv temp temp2
 
 
 
-## 查看文件内容变动
+## 比较文件内容差异
 - `git diff` 命令用于查看`工作区文件`内容与暂存区或远端之间的差异。
 - `git show` 命令用于查看远端文件修改内容。
 
@@ -1298,29 +1330,29 @@ git archive --output "./output.zip" master src tests
 
 **常用格式如下：**
 
-| 参数        | 描述              |
-| ---------- |------------------ |
+| 参数     | 描述              |
+| ------- |------------------ |
 | %H      | 完整 commit hash     |
 | %h      | 简写commit hash 一般是前7位     |
 | %T      | 完整 hash 树     |
 | %t      | 简写 hash 树     |
 | %an     | 作者名称     |
 | %ae     | 作者邮箱     |
-| %ad      | 作者日期, RFC2822风格：`Thu Jul 2 20:42:20 2020 +0800`     |
-| %ar      | 作者日期, 相对时间：`2 days ago`     |
-| %ai      | 作者日期, ISO 8601-like风格： `2020-07-02 20:42:20 +0800`     |
-| %aI      |  作者日期, ISO 8601风格： `2020-07-02T20:42:20+08:00`    |
-| %cn      | 提交者名称     |
-| %ce      | 提交者邮箱     |
-| %cd      | 提交者日期，RFC2822风格：`Thu Jul 2 20:42:20 2020 +0800`     |
-| %cr      | 提交者日期，相对时间：`2 days ago`     |
-| %ci      | 提交者日期，ISO 8601-like风格： `2020-07-02 20:42:20 +0800`     |
-| %cI      | 提交者日期，ISO 8601风格： `2020-07-02T20:42:20+08:00`     |
-| %d      |  引用名称： (HEAD -> master, origin/master, origin/HEAD)    |
-| %D      |  引用名称，不带 `()` 和 换行符： HEAD -> master, origin/master, origin/HEAD    |
+| %ad     | 作者日期, RFC2822风格：`Thu Jul 2 20:42:20 2020 +0800`     |
+| %ar     | 作者日期, 相对时间：`2 days ago`     |
+| %ai     | 作者日期, ISO 8601-like风格： `2020-07-02 20:42:20 +0800`     |
+| %aI     | 作者日期, ISO 8601风格： `2020-07-02T20:42:20+08:00`    |
+| %cn     | 提交者名称     |
+| %ce     | 提交者邮箱     |
+| %cd     | 提交者日期，RFC2822风格：`Thu Jul 2 20:42:20 2020 +0800`     |
+| %cr     | 提交者日期，相对时间：`2 days ago`     |
+| %ci     | 提交者日期，ISO 8601-like风格： `2020-07-02 20:42:20 +0800`     |
+| %cI     | 提交者日期，ISO 8601风格： `2020-07-02T20:42:20+08:00`     |
+| %d      | 引用名称： (HEAD -> master, origin/master, origin/HEAD)    |
+| %D      | 引用名称，不带 `()` 和 换行符： HEAD -> master, origin/master, origin/HEAD    |
 | %e      | 编码方式     |
-| %B      |  原始提交内容    |
-| %C      |  自定义颜色    |
+| %B      | 原始提交内容    |
+| %C      | 自定义颜色    |
 
 
 
@@ -1642,9 +1674,9 @@ git ls-files
 
 ```bash
 # windows
-git credential-manager uninstall # windows
+git credential-manager uninstall
 
-# mac / linux(以下任意一条命令都可)
+# mac / linux (以下任意一条命令都可)
 git config --global credential.helper ""
 git config --global --unset credential.helper
 ```
