@@ -53,6 +53,7 @@
 - [变基](#变基) git rebase
 - [工作流](#工作流) git flow
 - [子模块](#子模块) git submodule
+- [子树](#子树) git subtree
 - [二分查找](#二分查找) git bisect
 - [归档](#归档) git archive
 - [格式化日志](#格式化日志) git log --pretty
@@ -119,7 +120,9 @@ git config submodule.recurse true
 git config --global credential.helper store
 ```
 
-**命令别名配置**
+#### 命令别名配置
+git 可以使用别名来简化一些复杂命令，类似 [alias](https://github.com/xjh22222228/linux-manual#alias) 命令。
+
 ```bash
 # git st 等价于 git status
 git config --global alias.st status
@@ -139,7 +142,7 @@ git config --global --unset alias.st
 
 
 
-**配置代理**
+#### 配置代理
 ```bash
 # 设置
 git config --global https.proxy  http://127.0.0.1:1087
@@ -1190,36 +1193,57 @@ git flow release finish v1.1.0
 
 
 ## 子模块
-`git submodule` 子模块的作用类似于包管理，类似 `npm` / `maven` , 但比包管理使用起来更方便。
+`git submodule` 子模块的作用类似于包管理，类似 `npm`, 主要是复用仓库, 但比包管理使用起来更方便。
 
 子模块可以不建立版本分支管理代码, 因为它是依赖主应用，所以建立版本分支可以从主应用去操作，那么一旦建立新的版本分支当前的所有内容都会被锁定在这个分支上，不管子模块仓库怎么修改。
 
+
+#### 添加子模块
+添加完子模块后会发现根目录下多了个 `.gitmodules` 元数据文件，主要是用于管理子模块。
+
 ```bash
-# 添加子模块
 git submodule add https://github.com/xjh22222228/git-manual.git # 默认添加到当前目录下
 git submodule add https://github.com/xjh22222228/git-manual.git submodules/git-manual  # 添加到指定目录
 
 # -b 指定需要添加仓库的某个分支
 git submodule add -b develop https://github.com/xjh22222228/git-manual.git
+```
 
-# 克隆一个包含子模块的项目 --recursive 用于递归克隆，否则子模块目录是空的
+
+#### 删除子模块
+```bash
+# 1、直接删除子模块目录
+rm -rf submodule
+
+# 2、编辑目录下的 .gitmodules 文件把需要删除的子模块删除掉
+
+# 最后直接推送
+git add -A
+git commit -m "删除子模块"
+git push
+```
+
+
+#### 克隆一个包含子模块的仓库
+```bash
+# --recursive 用于递归克隆，否则子模块目录是空的
 git clone --recursive https://github.com/xjh22222228/git-manual.git
 
 # 如果已经克隆了一个包含子模块的项目，但忘记了 --recursive， 可以使用此命令 初始化、抓取并检出任何嵌套的子模块
 git submodule update --init --recursive
-
-# 修复子模块分支指向 detached head
-git submodule foreach -q --recursive 'git checkout $(git config -f $toplevel/.gitmodules submodule.$name.branch || echo master)'
-
-# 删除子模块， common 为子模块名称，一般删除需要三步
-git submodule deinit <common>
-git rm --cached common # 清除子模块缓存
-git commit -am "Remove a submodule" && git push # 提交代码并推送
 ```
 
-**更新子模块代码是比较头疼的事，所以分开来讲**
 
-1、通常我们需要更新代码只需要执行 `git pull`, 这是比较笨的办法。
+#### 修复子模块分支
+当把一个包含子模块的仓库克隆下来后会发现子模块分支不对，可以使用下面命令纠正：
+```bash
+git submodule foreach -q --recursive 'git checkout $(git config -f $toplevel/.gitmodules submodule.$name.branch || echo master)'
+```
+
+
+
+#### 更新子模块代码
+方法一：通常我们需要更新代码只需要执行 `git pull`, 这是比较笨的办法。
 ```bash
 # 递归抓取子模块的所有更改，但不会更新子模块内容
 git pull
@@ -1228,7 +1252,7 @@ git pull
 cd git-manual && git pull
 ```
 
-2、使用 `git submodule update` 更新子模块
+方法二：使用 `git submodule update` 更新子模块
 ```bash
 # git 会尝试更新所有子模块, 如果只需要更新某个子模块只要在 --remote 后指定子模块名称
 git submodule update --remote
@@ -1238,7 +1262,7 @@ git submodule update --init --recursive
 ```
 
 
-3、使用 `git pull` 更新, 这是一种新的更新模式，需要 >= 2.14
+方法三：使用 `git pull` 更新, 这是一种新的更新模式，需要 >= 2.14
 ```bash
 git pull --recurse-submodules
 ```
@@ -1246,11 +1270,134 @@ git pull --recurse-submodules
 如果嫌麻烦每次 git pull 都需要手动添加 `--recurse-submodules`，可以配置 git pull 的默认行为， 如何配置请参考 [配置](#配置)
 
 
-
-
-
-
 具体使用还可以看这里 [git submodule子模块使用教程](https://www.xiejiahe.com/blog/detail/5dbceefc0bb52b1c88c30853)
+
+
+
+
+
+
+## 子树
+如果你知道 `git submodule` 那就大概知道 `git subtree` 干嘛用了， 基本上是做同一件事，复用仓库或复用代码。
+
+官方建议使用 `git subtree` 代替 `git submodule`。
+
+`git subtree` 优势：
+- 不会像子模块需要 `.gitmodules` 元数据文件管理
+- 子仓库会当做普通目录, 其实是没有仓库概念的
+- 支持较旧的Git版本（甚至比v1.5.2还要旧）。
+- 简单工作流程的管理很容易。
+
+
+`git subtree` 劣势：
+- 命令过于复杂, 推送拉取都很麻烦
+- 虽然用于替代子模块, 但使用率并没有子模块广泛
+- 子仓库和主仓库混合在一起, 历史记录相当于有2个仓库的记录
+
+
+`git subtree` 命令用法:
+```bash
+git subtree add   --prefix=<prefix> <commit>
+git subtree add   --prefix=<prefix> <repository> <ref>
+git subtree pull  --prefix=<prefix> <repository> <ref>
+git subtree push  --prefix=<prefix> <repository> <ref>
+git subtree merge --prefix=<prefix> <commit>
+git subtree split --prefix=<prefix> [OPTIONS] [<commit>]
+```
+
+
+## 添加子仓库
+- `--prefix` 指定将子仓库存储位置
+- `main` 是分支名称
+- `--squash` 通常做法是不将子仓库整个历史记录存储在主仓库中，如果需要的话可以忽略整个参数
+
+添加子仓库后, 会跟普通文件一样看待，可以进入 sub/common 目录执行 `git remote -v` 会发现没有仓库。
+
+```bash
+git subtree add --prefix=sub/common https://github.com/xjh22222228/git-manual.git main --squash
+```
+
+
+
+## 更新子仓库
+当远程子仓库有内容变更时，可以通过下面命令进行更新：
+
+```bash
+git subtree pull --prefix=sub/common https://github.com/xjh22222228/git-manual.git main --squash
+```
+
+
+
+## 推送到子仓库
+假如修改了子仓库里的内容，可以将修改这部分的内容推送到子仓库中
+
+```bash
+# 需要先在主仓库把子仓库的代码暂存
+git add sub/common
+git commit -m "子仓库修改"
+# 然后推送
+git subtree push --prefix=sub/common https://github.com/xjh22222228/git-manual.git main --squash
+```
+
+
+
+
+## 切割
+随着项目的迭代, 主仓库会提交过多, 会发现每次 `push` 时会非常慢，尤其在 `windows` 平台较为明显。
+
+每次 `push` 到子仓库里头时会花费大量的时间来重新计算子仓库的提交。并且因为每次 `push` 都是重新计算的，所以本地仓库和远端仓库的提交总是不一样的，这会导致 git 无法解决可能的冲突。
+
+当使用 `git split` 命令后，使用 `git subtree push`，git 只会计算 split 后的新提交。
+
+```bash
+git subtree split --prefix=sub/common --branch=main
+```
+
+
+
+
+
+
+
+## 简化命令
+通过以上实操，不难发现，`git subtree` 太长了，每次操作都要敲这么长的命令，谁能忍得住。
+
+
+将子仓库添加为远程仓库：
+```bash
+# common 是仓库名字，可以随意定义
+git remote add -f common https://github.com/xjh22222228/git-manual.git
+```
+
+要做其他 `git subtree` 命令时就不需要敲仓库地址了：
+```bash
+git subtree push --prefix=sub/common common main --squash
+```
+
+虽然省去了仓库地址，命令还是太长。
+
+还有另一种解决方案，就是使用别名，例如在 `mac` 或 `linux` 中使用 [`alias`](https://github.com/xjh22222228/linux-manual#alias) 命令:
+```bash
+alias push="git subtree push --prefix=sub/common https://github.com/xjh22222228/git-manual.git main --squash"
+```
+
+也可以使用 git 自带的别名命令 => [命令别名配置](#命令别名配置)
+
+如果你写前端，可以在 `package.json` 文件中加入：
+```json
+{
+  "scripts": {
+    "push": "git subtree push --prefix=sub/common https://github.com/xjh22222228/git-manual.git main --squash"
+  }
+}
+```
+
+下次需要推送时执行:
+```bash
+npm run push 或者 yarn push
+```
+
+
 
 
 
