@@ -47,6 +47,7 @@
 - [拉取](#拉取) git pull
 - [移动-重命名](#移动-重命名) git mv
 - [比较文件内容差异](#比较文件内容差异) git diff
+- [查看历史提交信息](#查看历史提交信息) git show
 - [回滚版本](#回滚版本) git reset|revert
 - [撤销](#撤销) git checkout|reset
 - [标签](#标签) git tag
@@ -830,8 +831,7 @@ git mv temp temp2
 
 
 ## 比较文件内容差异
-- `git diff` 命令用于查看`工作区文件`内容与暂存区或远端之间的差异。
-- `git show` 命令用于查看远端文件修改内容。
+`git diff` 命令用于查看`工作区文件`内容与暂存区或远端之间的差异。
 
 #### git diff
 ```bash
@@ -862,18 +862,23 @@ git diff --name-only HEAD~~ # 前2次...
 ```
 
 
-#### git show
+
+## 查看历史提交信息
+可以通过 `git show` 命令查看历史提交信息。
+
 ```bash
-# 查看某个commit的所有文件变动
+# 通过 commit_id 查看
 git show d68a1ef
 
-# 查看某个commit的指定文件变动
+# 也可以通过 commit_id 查看指定文件提交信息
 git show d68a1ef README.md
 
-# 查看某个文件最近一次变动
+# 只通过文件名查看最后一次提交包含此文件的提交信息
 git show README.md
-```
 
+# 指定分支名查看最后一次提交信息
+git show feature/dev
+```
 
 
 
