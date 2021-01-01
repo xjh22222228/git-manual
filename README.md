@@ -31,7 +31,7 @@
 - [临时保存](#临时保存) git stash
 - [文件状态](#文件状态) git status
 - [日志](#日志) git log
-- [责怪](#git-blame) git blame
+- [责怪](#责怪) git blame
 - [查看分支](#查看分支) git branch
 - [切换分支一](#切换分支一) git checkout
 - [切换分支二](#切换分支二) git switch
@@ -39,8 +39,8 @@
 - [删除分支](#删除分支) git branch
 - [重命名分支](#重命名分支) git branch
 - [合并](#合并) git merge
-- [暂存](#暂存) git add
-- [删除](#删除) git rm
+- [暂存](#暂存文件) git add
+- [删除](#删除文件) git rm
 - [还原](#还原) git restore
 - [提交](#提交) git commit
 - [推送](#推送) git push
@@ -601,6 +601,11 @@ git push origin :<branchName>
 git push origin --delete <branch-name>  # >= 1.7.0
 ```
 
+
+
+
+
+
 ## 重命名分支
 ```bash
 # 重命名当前分支, 通常情况下需要执行3步
@@ -642,6 +647,10 @@ git merge develop --no-commit
 git merge --abort
 ```
 
+
+
+
+
 #### 合并部分文件或文件夹
 假设有 dev 和 main 2个分支，可是 dev 分支改动比较大，只想合并某个文件夹到 main 分支上，可以这么做：
 
@@ -672,7 +681,7 @@ git push
 
 
 
-## 暂存
+## 暂存文件
 ```bash
 # 暂存所有
 git add -A
@@ -693,11 +702,10 @@ git add 1.txt 2.txt ...
 
 
 
-## 删除
-git add 的反向操作
+## 删除文件
 
 ```bash
-# 删除1.txt 文件
+# 删除 1.txt 文件
 git rm 1.txt
 
 # 删除当前所有文件, 与rm -rf 命令不同的是不会删除 .git 目录
@@ -782,8 +790,11 @@ git push -f
 
 
 ## 拉取
+`git pull` 拉取最新内容并合并。
+
 
 #### 拉取远程分支最新内容
+默认情况下拉取当前分支
 ```bash
 # 如果出现冲突会自动合并
 git pull
@@ -1537,7 +1548,7 @@ git log --pretty=format:"%Cgreen 作者：%an"
 ## 清空commit历史
 清空 `commit` 有2种方法。
 
-1、第一种方法原理是通过新建新的分支，假设当前分支是 `develop`
+1、第一种方法原理是通过新建新的分支，假设要清空commit分支是 `develop`
 ```bash
 # 1、新建一个新分支
 git checkout --orphan new_branch
@@ -1636,45 +1647,22 @@ git commit -m "refactor: 流程模块重构"
 ## 解决冲突
 **代码合并/更新代码** 经常会遇到冲突的情况。
 
-1、按照惯例直接把代码提交到远程, 有几种情况:
-- 代码顺利的推送的远程分支 (无需理会)
-- 出现冲突, git自动做了合并 (无需理会)
-- git发现本地文件在远端做了修改，需要进行 git pull
-```bash
-git push
-```
 
-出现冲突，如图：
-
-<img src="media/git-conflict-1.png" width="400">
-
-2、按照提示执行 `git pull` 拉取代码
-```bash
-git pull
-```
-
-提示有文件存在冲突，如图：
-
-<img src="media/git-conflict-2.png" width="400">
+#### 解决冲突的流程如下：
+1. 执行 `git pull` 把代码拉下来，git 会自动尝试合并
+2. 编辑冲突文件, 根据实际情况保留本地代码还是远端代码
+3. 暂存文件并推送到远端
 
 
-3、编辑冲突文件, 解决冲突需要自己去判断到底要保留远端代码还是本地代码或者两端都保留。
-
-<img src="media/git-conflict-3.png" width="400">
-
-
-4、这是解决后的代码，保留了本地代码
-
-<img src="media/git-conflict-4.png" width="400">
-
-最后按照惯例，把代码推送到远端即可。
+<details>
+  <summary>点击查看解决冲突.gif</summary>
+  
+  <img src="media/git-merge-conflict.gif">
+</details>
 
 
 
-除了使用git命令解决以外, 可以使用一些开发工具自带git进行处理。
-
-
-另外推荐3个工具专门处理git冲突：
+面向GUI的用户，推荐3个工具专门处理git冲突：
 
 - [meld](http://meld.sourceforge.net/install.html)
 - [kdiff3](http://kdiff3.sourceforge.net/)
