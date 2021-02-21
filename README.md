@@ -1603,7 +1603,7 @@ git help -c
 | --------- |------------------ |
 | feat      | 该提交含有新的特性 |
 | style     | 通常是代码格式的修改 |
-| chore     | 通常是代码格式的修改 |
+| chore     | 构建过程或辅助工具的变动 |
 | fix       | 修复Bug |
 | docs      | 文档修改 |
 | test      | 单元测试改动 |
@@ -1866,9 +1866,9 @@ git clone https://github.com.cnpmjs.org/xjh22222228/git-manual.git
 资源加速：
 
 ```bash
-https://raw.githubusercontent.com/xjh22222228/git-manual/master/media/poster.png
+https://raw.githubusercontent.com/xjh22222228/git-manual/main/media/poster.png
 # ↓ 替换为
-https://raw.sevencdn.com/xjh22222228/git-manual/master/media/poster.png
+https://raw.sevencdn.com/xjh22222228/git-manual/main/media/poster.png
 ```
 
 
@@ -1884,12 +1884,6 @@ https://raw.sevencdn.com/xjh22222228/git-manual/master/media/poster.png
 ![](media/map.jpg)
 
 
-
-
-
-
-## License
-[MIT](https://github.com/xjh22222228/git-manual/blob/master/LICENSE)
 
 
 
