@@ -1089,34 +1089,25 @@ git push -u -f origin main
 
 
 ```bash
-# 1、先切换到 main 分支，如果当前已经在 main 分支则不用切换
+# 1、先切换到 main 分支
 git switch main
 
-# 2、正常合并代码, 这个时候会在 * (no branch, rebasing main) 分支上
+# 2、dev 分支合并到当前 main 分支
 git rebase dev
 
-# 3、合并代码后有可能出现冲突情况，按照正常流程解决代码冲突
+# 没有冲突情况, 直接推送
+git push
 
-# 4、没有冲突或者解决冲突后，使用 -f 强制推送到远程分支 mian 上面去
-git push origin HEAD:main -f
-
-# 5、断开 rebase 回到原分支 main 上去
-git rebase --abort
-
-# 6、这时候会提示执行 git pull, 拉取一下代码
-git pull
-
-# 7、这个时候发现代码并不是刚刚处理完的结果，而是回到处理状态, 把文件全部清理丢弃掉
-git reset HEAD^ && git checkout -- .
-
-# 8、再次执行 git pull, 所有流程执行完毕
-git pull
+# 发生冲突情况，先解决完冲突 => 暂存 => 继续 => 强推
+git add -A
+git rebase --continue # 继续
+git push -f # 强制推送
 ```
 
 
 中断 `git rebase` 操作, 如果操作一半不想继续使用 `rebase` 命令则可以中断此次操作。
 ```bash
-git rebase --abort
+$ git rebase --abort
 ```
 
 
