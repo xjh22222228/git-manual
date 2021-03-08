@@ -1312,6 +1312,8 @@ git subtree merge --prefix=<prefix> <commit>
 git subtree split --prefix=<prefix> [OPTIONS] [<commit>]
 ```
 
+在操作 `git subtree` 时当前工作区必须清空，否则无法执行。
+
 
 ## 添加子仓库
 - `--prefix` 指定将子仓库存储位置
