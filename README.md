@@ -592,13 +592,20 @@ git push --set-upstream origin develop # 推送到远程
 
 
 ## 删除分支
+注意：删除分支不能删除当前分支，先切换到其他分支再删除。
+
+
 ```bash
 # 删除本地分支
-git branch -d <branchName>
+$ git branch -d <branchName>
+
+# 大写 D 强制删除未完全合并的分支
+# 等价 git branch --delete --force <branchName>
+$ git branch -D <branchName>
 
 # 删除远程分支
-git push origin :<branchName>
-git push origin --delete <branch-name>  # >= 1.7.0
+$ git push origin :<branchName>
+$ git push origin --delete <branch-name>  # >= 1.7.0
 ```
 
 
