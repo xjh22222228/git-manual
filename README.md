@@ -27,23 +27,23 @@
 - [初始化仓库](#初始化仓库) git init
 - [克隆仓库](#克隆仓库) git clone
 - [管理仓库](#管理仓库) git remote
-- [转移提交](#转移提交) git cherry-pick
-- [临时保存](#临时保存) git stash
-- [文件状态](#文件状态) git status
-- [日志](#日志) git log
-- [责怪](#责怪) git blame
+- [暂存](#暂存文件) git add
+- [提交](#提交) git commit
+- [推送](#推送) git push
 - [查看分支](#查看分支) git branch
 - [切换分支一](#切换分支一) git checkout
 - [切换分支二](#切换分支二) git switch
 - [创建分支](#创建分支) git checkout
 - [删除分支](#删除分支) git branch
 - [重命名分支](#重命名分支) git branch
+- [转移提交](#转移提交) git cherry-pick
+- [临时保存](#临时保存) git stash
+- [文件状态](#文件状态) git status
+- [日志](#日志) git log
+- [责怪](#责怪) git blame
 - [合并](#合并) git merge
-- [暂存](#暂存文件) git add
 - [删除](#删除文件) git rm
 - [还原](#还原) git restore
-- [提交](#提交) git commit
-- [推送](#推送) git push
 - [拉取](#拉取) git pull
 - [移动-重命名](#移动-重命名) git mv
 - [比较文件内容差异](#比较文件内容差异) git diff
@@ -293,6 +293,255 @@ git push example
 
 
 
+
+## 暂存文件
+```bash
+# 暂存所有
+git add -A
+
+# 暂存某个文件
+git add ./README.md
+
+# 暂存当前目录所有改动文件
+git add .
+
+# 暂存一系列文件
+git add 1.txt 2.txt ...
+```
+
+
+
+
+
+## 提交
+```bash
+# -m 提交的描述信息
+git commit -m "changes log"
+
+# 只提交某个文件
+git commit README.md -m "message"
+
+# 提交并显示diff变化
+git commit -v
+
+# 允许提交空消息，通常必须指定 -m 参数
+git commit --allow-empty-message
+
+# 重写上一次提交信息，确保当前工作区没有改动
+git commit --amend -m "新的提交信息"
+
+# 跳过验证, 如果使用了类似 husky 工具。
+git commit --no-verify -m "Example" 
+```
+
+
+#### 修改提交日期
+执行 `git commit` 时 `git` 会采用当前默认时间，但有时候想修改提交日期可以使用 `--date` 参数。
+
+
+格式：`git commit --date="月 日 时间 年 +0800" -m "init"`
+
+例子：`git commit --date="Mar 7 21:05:20 2021 +0800" -m "init"`
+
+
+**月份简写如下：**
+
+| 月份简写   | 描述    |
+| -------- |-------- |
+| Jan      | 一月     |
+| Feb      | 二月     |
+| Mar      | 三月     |
+| Apr      | 四月     |
+| May      | 五月     |
+| Jun      | 六月     |
+| Jul      | 七月     |
+| Aug      | 八月     |
+| Sep      | 九月     |
+| Oct      | 十月     |
+| Nov      | 十一月   |
+| Dec      | 十二月   |
+
+
+
+
+
+
+
+## 推送
+```bash
+# 默认推送当前分支
+# 等价于 git push origin, 实际上推送到一个叫 origin 默认仓库名字
+git push
+
+# 推送到主分支
+git push -u origin master
+
+# 本地分支推送到远程分支， 本地分支:远程分支
+git push origin <branchName>:<branchName>
+
+# 强制推送, --force 缩写
+git push -f
+```
+
+
+
+
+
+
+## 查看分支
+```bash
+# 查看所有分支
+git branch -a
+
+# 查看本地分支
+git branch
+
+# 查看远端分支
+git branch -r
+
+# 查看本地分支所关联的远程分支
+git branch -vv
+
+# 查看本地 master 分支创建时间
+git reflog show --date=iso master
+```
+
+
+
+
+
+
+## 切换分支一
+另一种切换分支方法是使用 [switch命令](#git-switch)
+
+```bash
+# 2种方法，切换到master分支
+git checkout master
+git switch master  # git >= 2.23
+
+# 切换上一个分支
+git checkout -
+
+# 强制切换, 但是要小心，如果文件未保存修改会直接覆盖掉
+git checkout -f master
+```
+
+在克隆时使用 `--depth=1` 切换其他分支，比如切换 dev 分支：
+```bash
+git clone --depth=1 https://github.com/xjh22222228/git-manual.git
+
+# 切换 dev 分支
+git remote set-branches origin 'dev'
+git fetch --depth=1 origin dev
+git checkout dev
+```
+
+
+
+
+
+## 切换分支二
+`git switch` 命令在git版本 `2.23` 引入, 用于切换分支。
+
+[`git checkout`](#切换分支) 同样可以切换分支, `git switch` 意义在哪里？ 因为 [`git checkout`](#切换分支) 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
+
+```bash
+# 切换到 develop 分支
+git switch develop
+
+# 切换到上一个分支
+git switch -
+
+# 强制切换到 develop 分支，并抛弃本地所有修改
+git switch -f develop
+
+# 创建分支并切换
+git switch -c newBranch
+
+# 强制创建分支
+git switch -C newBranch
+
+# 从前3次提交进行创建新的分支
+git switch -c newBranch HEAD〜3 
+```
+
+
+
+
+
+
+
+## 创建分支
+```bash
+# 创建develop本地分支
+git branch develop
+
+# 强制创建分支, 不输出任何警告或信息
+git branch -f develop
+
+# 创建本地develop分支并切换
+git checkout -b develop
+
+# 创建远程分支, 实际上创建本地分支然后推送
+git checkout -b develop
+git push origin develop
+
+# 创建一个空的分支, 不继承父分支，历史记录是空的，一般至少需要执行4步
+git checkout --orphan develop
+git rm -rf .  # 这一步可选，如果你真的想创建一个没有任何文件的分支
+git add -A && git commit -m "提交" # 添加并提交，否则分支是隐藏的 （执行这一步之前需要注意当前工作区必须保留一个文件，否则无法提交）
+git push --set-upstream origin develop # 推送到远程
+```
+
+
+
+
+
+
+
+
+## 删除分支
+注意：删除分支不能删除当前分支，先切换到其他分支再删除。
+
+
+```bash
+# 删除本地分支
+$ git branch -d <branchName>
+
+# 大写 D 强制删除未完全合并的分支
+# 等价 git branch --delete --force <branchName>
+$ git branch -D <branchName>
+
+# 删除远程分支
+$ git push origin :<branchName>
+$ git push origin --delete <branch-name>  # >= 1.7.0
+```
+
+
+
+
+
+
+## 重命名分支
+```bash
+# 重命名当前分支, 通常情况下需要执行3步
+# 1、修改分支名称
+# 2、删除远程旧分支
+# 3、将重命名分支推送到远程
+git branch -m <branchName>
+git push origin :old_branch
+git push -u origin new_branch
+
+
+# 重命名指定分支
+git branch -m old_branch new_branch
+```
+
+
+
+
+
+
 ## 转移提交
 `git cherry-pick` 可以用来将一个分支的某次提交转移到当前分支中。
 
@@ -479,154 +728,7 @@ git blame -enl -L 11 README.md
 
 
 
-## 查看分支
-```bash
-# 查看所有分支
-git branch -a
 
-# 查看本地分支
-git branch
-
-# 查看远端分支
-git branch -r
-
-# 查看本地分支所关联的远程分支
-git branch -vv
-
-# 查看本地 master 分支创建时间
-git reflog show --date=iso master
-```
-
-
-
-
-
-
-## 切换分支一
-另一种切换分支方法是使用 [switch命令](#git-switch)
-
-```bash
-# 2种方法，切换到master分支
-git checkout master
-git switch master  # git >= 2.23
-
-# 切换上一个分支
-git checkout -
-
-# 强制切换, 但是要小心，如果文件未保存修改会直接覆盖掉
-git checkout -f master
-```
-
-在克隆时使用 `--depth=1` 切换其他分支，比如切换 dev 分支：
-```bash
-git clone --depth=1 https://github.com/xjh22222228/git-manual.git
-
-# 切换 dev 分支
-git remote set-branches origin 'dev'
-git fetch --depth=1 origin dev
-git checkout dev
-```
-
-
-
-
-
-## 切换分支二
-`git switch` 命令在git版本 `2.23` 引入, 用于切换分支。
-
-[`git checkout`](#切换分支) 同样可以切换分支, `git switch` 意义在哪里？ 因为 [`git checkout`](#切换分支) 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
-
-```bash
-# 切换到 develop 分支
-git switch develop
-
-# 切换到上一个分支
-git switch -
-
-# 强制切换到 develop 分支，并抛弃本地所有修改
-git switch -f develop
-
-# 创建分支并切换
-git switch -c newBranch
-
-# 强制创建分支
-git switch -C newBranch
-
-# 从前3次提交进行创建新的分支
-git switch -c newBranch HEAD〜3 
-```
-
-
-
-
-
-
-
-## 创建分支
-```bash
-# 创建develop本地分支
-git branch develop
-
-# 强制创建分支, 不输出任何警告或信息
-git branch -f develop
-
-# 创建本地develop分支并切换
-git checkout -b develop
-
-# 创建远程分支, 实际上创建本地分支然后推送
-git checkout -b develop
-git push origin develop
-
-# 创建一个空的分支, 不继承父分支，历史记录是空的，一般至少需要执行4步
-git checkout --orphan develop
-git rm -rf .  # 这一步可选，如果你真的想创建一个没有任何文件的分支
-git add -A && git commit -m "提交" # 添加并提交，否则分支是隐藏的 （执行这一步之前需要注意当前工作区必须保留一个文件，否则无法提交）
-git push --set-upstream origin develop # 推送到远程
-```
-
-
-
-
-
-
-
-
-## 删除分支
-注意：删除分支不能删除当前分支，先切换到其他分支再删除。
-
-
-```bash
-# 删除本地分支
-$ git branch -d <branchName>
-
-# 大写 D 强制删除未完全合并的分支
-# 等价 git branch --delete --force <branchName>
-$ git branch -D <branchName>
-
-# 删除远程分支
-$ git push origin :<branchName>
-$ git push origin --delete <branch-name>  # >= 1.7.0
-```
-
-
-
-
-
-
-## 重命名分支
-```bash
-# 重命名当前分支, 通常情况下需要执行3步
-# 1、修改分支名称
-# 2、删除远程旧分支
-# 3、将重命名分支推送到远程
-git branch -m <branchName>
-git push origin :old_branch
-git push -u origin new_branch
-
-
-# 重命名指定分支
-git branch -m old_branch new_branch
-```
 
 
 ----
@@ -688,27 +790,6 @@ git push
 
 
 
-## 暂存文件
-```bash
-# 暂存所有
-git add -A
-
-# 暂存某个文件
-git add ./README.md
-
-# 暂存当前目录所有改动文件
-git add .
-
-# 暂存一系列文件
-git add 1.txt 2.txt ...
-```
-
-
-
-
-
-
-
 ## 删除文件
 
 ```bash
@@ -749,53 +830,6 @@ git restore --staged README.md
 
 
 
-## 提交
-```bash
-# -m 提交的描述信息
-git commit -m "changes log"
-
-# 只提交某个文件
-git commit README.md -m "message"
-
-# 提交并显示diff变化
-git commit -v
-
-# 允许提交空消息，通常必须指定 -m 参数
-git commit --allow-empty-message
-
-# 重写上一次提交信息，确保当前工作区没有改动
-git commit --amend -m "新的提交信息"
-
-# 跳过验证, 如果使用了类似 husky 工具。
-git commit --no-verify -m "Example" 
-```
-
-
-#### 修改提交日期
-执行 `git commit` 时 `git` 会采用当前默认时间，但有时候想修改提交日期可以使用 `--date` 参数。
-
-
-格式：`git commit --date="月 日 时间 年 +0800" -m "init"`
-
-例子：`git commit --date="Mar 7 21:05:20 2021 +0800" -m "init"`
-
-
-**月份简写如下：**
-
-| 月份简写   | 描述    |
-| -------- |-------- |
-| Jan      | 一月     |
-| Feb      | 二月     |
-| Mar      | 三月     |
-| Apr      | 四月     |
-| May      | 五月     |
-| Jun      | 六月     |
-| Jul      | 七月     |
-| Aug      | 八月     |
-| Sep      | 九月     |
-| Oct      | 十月     |
-| Nov      | 十一月   |
-| Dec      | 十二月   |
 
 
 
@@ -804,22 +838,6 @@ git commit --no-verify -m "Example"
 
 
 
-
-## 推送
-```bash
-# 默认推送当前分支
-# 等价于 git push origin, 实际上推送到一个叫 origin 默认仓库名字
-git push
-
-# 推送到主分支
-git push -u origin master
-
-# 本地分支推送到远程分支， 本地分支:远程分支
-git push origin <branchName>:<branchName>
-
-# 强制推送, --force 缩写
-git push -f
-```
 
 
 
