@@ -1905,6 +1905,7 @@ git config --global --unset credential.helper
 - https://github.com.cnpmjs.org
 - https://hub.fastgit.org
 
+克隆/下载加速
 ```bash
 git clone https://github.com/xjh22222228/git-manual.git
 # ↓ 只需要将域名替换即可, 例如:
@@ -1912,11 +1913,10 @@ git clone https://github.com.cnpmjs.org/xjh22222228/git-manual.git
 ```
 
 资源加速：
-
 ```bash
 https://raw.githubusercontent.com/xjh22222228/git-manual/main/media/poster.png
 # ↓ 替换为
-https://raw.sevencdn.com/xjh22222228/git-manual/main/media/poster.png
+https://cdn.jsdelivr.net/gh/xjh22222228/git-manual@main/media/poster.png
 ```
 
 
