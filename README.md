@@ -27,9 +27,9 @@
 - [初始化仓库](#初始化仓库) git init
 - [克隆仓库](#克隆仓库) git clone
 - [管理仓库](#管理仓库) git remote
-- [暂存](#暂存文件) git add
-- [提交](#提交) git commit
-- [推送](#推送) git push
+- [暂存文件](#暂存文件) git add
+- [提交文件](#提交文件) git commit
+- [推送远端](#推送远端) git push
 - [查看分支](#查看分支) git branch
 - [切换分支一](#切换分支一) git checkout
 - [切换分支二](#切换分支二) git switch
@@ -42,7 +42,7 @@
 - [日志](#日志) git log
 - [责怪](#责怪) git blame
 - [合并](#合并) git merge
-- [删除](#删除文件) git rm
+- [删除文件](#删除文件) git rm
 - [还原](#还原) git restore
 - [拉取](#拉取) git pull
 - [移动-重命名](#移动-重命名) git mv
@@ -313,7 +313,7 @@ git add 1.txt 2.txt ...
 
 
 
-## 提交
+## 提交文件
 ```bash
 # -m 提交的描述信息
 git commit -m "changes log"
@@ -367,7 +367,7 @@ git commit --no-verify -m "Example"
 
 
 
-## 推送
+## 推送远端
 ```bash
 # 默认推送当前分支
 # 等价于 git push origin, 实际上推送到一个叫 origin 默认仓库名字
