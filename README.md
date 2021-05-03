@@ -259,7 +259,9 @@ git pull origin master
 
 
 ## 管理仓库
-`git remote` 命令通常用来管理远程仓库。
+`git remote` 命令用来管理远程仓库。
+
+通常一个项目对应多个仓库就需要用到 `git remote`, 比如要推送到 `github` / `gitee` / `gitlab`， 就可以用 `git remote` 来管理多个仓库地址。
 
 ```bash
 # 查看远程仓库服务器, 一般打印 origin , 这是 Git 给你克隆的仓库服务器的默认名字
@@ -424,6 +426,9 @@ git checkout -
 
 # 强制切换, 但是要小心，如果文件未保存修改会直接覆盖掉
 git checkout -f master
+
+# -t, 切换远端分支, 如果用了 git remote 添加一个新仓库就需要用 -t 进行切换
+git checkout -t upstream/main
 ```
 
 在克隆时使用 `--depth=1` 切换其他分支，比如切换 dev 分支：
@@ -463,6 +468,9 @@ git switch -C newBranch
 
 # 从前3次提交进行创建新的分支
 git switch -c newBranch HEAD〜3 
+
+# -t, 切换远端分支, 如果用了 git remote 添加一个新仓库就需要用 -t 进行切换
+git switch -t upstream/main
 ```
 
 
