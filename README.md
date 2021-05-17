@@ -118,7 +118,8 @@ git config --global core.ignorecase false
 git config submodule.recurse true
 
 # 记住提交账号密码, 下次操作可免账号密码
-git config --global credential.helper store
+git config --global credential.helper store # 永久
+git config --global credential.helper cache # 临时，默认15分钟
 ```
 
 #### 命令别名配置
