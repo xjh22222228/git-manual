@@ -1814,6 +1814,7 @@ git config --global alias.hist "log --graph --decorate --oneline --pretty=format
 - 免费 - [tortoiseGit](https://tortoisegit.org/)
 - 免费 - [gitkraken](https://www.gitkraken.com/)
 - 免费 - [gitup](https://gitup.co/)
+- 免费 - [magit](https://github.com/magit/magit)
 - 收费 - [smartgit](https://www.syntevo.com/smartgit/)
 - 收费 - [git-fork](https://git-fork.com/)
 - 收费 - [tower](https://www.git-tower.com/)
