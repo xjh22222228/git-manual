@@ -407,6 +407,9 @@ git branch -vv
 
 # 查看本地 master 分支创建时间
 git reflog show --date=iso master
+
+# 搜索分支, 借助 grep 命令來搜索, 包含关键字 dev
+git branch -a | grep dev
 ```
 
 
@@ -418,9 +421,8 @@ git reflog show --date=iso master
 另一种切换分支方法是使用 [switch命令](#git-switch)
 
 ```bash
-# 2种方法，切换到master分支
+# 切换到master分支
 git checkout master
-git switch master  # git >= 2.23
 
 # 切换上一个分支
 git checkout -
@@ -491,7 +493,7 @@ git branch -f develop
 # 创建本地develop分支并切换
 git checkout -b develop
 
-# 创建远程分支, 实际上创建本地分支然后推送
+# 创建远程分支, 实际上创建本地分支然后推送到远端
 git checkout -b develop
 git push origin develop
 
