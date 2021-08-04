@@ -746,25 +746,41 @@ git blame -enl -L 11 README.md
 
 
 ## 合并
+feature/v1.0.0 分支代码合并到 develop
 ```bash
-# 将 feature/v1.0.0 分支代码合并到 develop
 git checkout develop
 git merge feature/v1.0.0
+```
 
-# 将上一个分支代码合并到当前分支
+将上一个分支代码合并到当前分支
+```bash
 git merge -
+```
 
-# 以安静模式合并, 把develop分支合并到当前分支并不输出任何信息
+以安静模式合并, 把develop分支合并到当前分支并不输出任何信息
+```bash
 git merge develop -q
+```
 
-# 合并不编辑信息, 跳过交互
+合并不编辑信息, 跳过交互
+```bash
 git merge develop --no-edit
+```
 
-# 合并分支后不进行提交
+合并分支后不进行提交
+```bash
 git merge develop --no-commit
+```
 
-# 退出合并，恢复到合并之前的状态
+退出合并，恢复到合并之前的状态
+```bash
 git merge --abort
+```
+
+合并某个分支指定文件或目录
+```bash
+# 将dev分支的 src/utils/http.js src/utils/load.js 2个文件合并到当前分支下
+git checkout dev src/utils/http.js src/utils/load.js
 ```
 
 
