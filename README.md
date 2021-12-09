@@ -412,7 +412,15 @@ git reflog show --date=iso master
 git branch -a | grep dev
 ```
 
+#### 给分支添加备注
+有时候分支过多很难通过分支名去判断这个分支做了什么。
+```bash
+# 命令
+$ git config branch.{branch_name}.description 备注内容
 
+# 给 hotfix/tip 分支添加备注信息
+$ git config branch.hotfix/tip.description 修复细节
+```
 
 
 
