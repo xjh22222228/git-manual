@@ -31,8 +31,7 @@
 - [提交文件](#提交文件) git commit
 - [推送远端](#推送远端) git push
 - [查看分支](#查看分支) git branch
-- [切换分支一](#切换分支一) git checkout
-- [切换分支二](#切换分支二) git switch
+- [切换分支](#切换分支) git checkout
 - [创建分支](#创建分支) git checkout
 - [删除分支](#删除分支) git branch
 - [重命名分支](#重命名分支) git branch
@@ -425,9 +424,7 @@ $ git config branch.hotfix/tip.description 修复细节
 
 
 
-## 切换分支一
-另一种切换分支方法是使用 [switch命令](#git-switch)
-
+## 切换分支
 ```bash
 # 切换到master分支
 git checkout master
@@ -452,14 +449,7 @@ git fetch --depth=1 origin dev
 git checkout dev
 ```
 
-
-
-
-
-## 切换分支二
-`git switch` 命令在git版本 `2.23` 引入, 用于切换分支。
-
-[`git checkout`](#切换分支) 同样可以切换分支, `git switch` 意义在哪里？ 因为 [`git checkout`](#切换分支) 不但可以切换分支还可以撤销工作，导致命令含糊不清，所以引入了 `git switch`。
+除了使用 `git checkout` 还有另一种方式切换那就是 `git switch`, 在Git版本 `2.23` 引入, 主要用于切换和创建分支。
 
 ```bash
 # 切换到 develop 分支
@@ -492,13 +482,13 @@ git switch -t upstream/main
 
 ## 创建分支
 ```bash
-# 创建develop本地分支
+# 创建一个名为 develop 本地分支
 git branch develop
 
 # 强制创建分支, 不输出任何警告或信息
 git branch -f develop
 
-# 创建本地develop分支并切换
+# 创建本地 develop 分支并切换
 git checkout -b develop
 
 # 创建远程分支, 实际上创建本地分支然后推送到远端
