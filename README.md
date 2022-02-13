@@ -1899,16 +1899,15 @@ git config --global --unset credential.helper
 
 
 ## 加速
-在国内克隆或下载版本会很慢，可以借助下面2个镜像站点进行加速。
+在国内克隆或下载版本会很慢，可以借助下面这个镜像站点进行加速。
 
-- https://github.com.cnpmjs.org
-- https://hub.fastgit.org
+- https://hub.fastgit.xyz
 
 克隆/下载加速
 ```bash
 git clone https://github.com/xjh22222228/git-manual.git
 # ↓ 只需要将域名替换即可, 例如:
-git clone https://github.com.cnpmjs.org/xjh22222228/git-manual.git
+git clone https://hub.fastgit.xyz/xjh22222228/git-manual.git
 ```
 
 资源加速：
