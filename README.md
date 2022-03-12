@@ -1839,6 +1839,7 @@ vim ~/.ssh/config
 
 # 粘贴
 Host *
+  IgnoreUnknown AddKeysToAgent,UseKeychain
   AddKeysToAgent yes
   UseKeychain yes
   IdentityFile ~/.ssh/id_rsa
