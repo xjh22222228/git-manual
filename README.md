@@ -23,43 +23,43 @@
 
 
 # 目录
-- [配置](#配置) git config
-- [初始化仓库](#初始化仓库) git init
-- [克隆仓库](#克隆仓库) git clone
-- [管理仓库](#管理仓库) git remote
-- [暂存文件](#暂存文件) git add
-- [提交文件](#提交文件) git commit
-- [推送远端](#推送远端) git push
-- [查看分支](#查看分支) git branch
-- [切换分支](#切换分支) git checkout
-- [创建分支](#创建分支) git checkout
-- [删除分支](#删除分支) git branch
-- [重命名分支](#重命名分支) git branch
-- [转移提交](#转移提交) git cherry-pick
-- [临时保存](#临时保存) git stash
-- [文件状态](#文件状态) git status
-- [日志](#日志) git log
-- [责怪](#责怪) git blame
-- [合并](#合并) git merge
-- [删除文件](#删除文件) git rm
-- [还原](#还原) git restore
-- [拉取](#拉取) git pull
-- [移动-重命名](#移动-重命名) git mv
-- [比较文件内容差异](#比较文件内容差异) git diff
-- [查看历史提交信息](#查看历史提交信息) git show
-- [回滚版本](#回滚版本) git reset|revert
-- [撤销](#撤销) git checkout|reset
-- [标签](#标签) git tag
-- [变基](#变基) git rebase
-- [工作流](#工作流) git flow
-- [子模块](#子模块) git submodule
-- [子树](#子树) git subtree
-- [二分查找](#二分查找) git bisect
-- [归档](#归档) git archive
-- [格式化日志](#格式化日志) git log --pretty
-- [清空commit历史](#清空commit历史) git update-ref
-- [帮助](#帮助) git help
-- [提交规范](#提交规范) git commit
+- [配置](#配置)
+- [初始化仓库](#初始化仓库)
+- [克隆仓库](#克隆仓库)
+- [管理仓库](#管理仓库)
+- [暂存文件](#暂存文件)
+- [提交文件](#提交文件)
+- [推送远端](#推送远端)
+- [查看分支](#查看分支)
+- [切换分支](#切换分支)
+- [创建分支](#创建分支)
+- [删除分支](#删除分支)
+- [重命名分支](#重命名分支)
+- [转移提交](#转移提交)
+- [临时保存](#临时保存)
+- [文件状态](#文件状态)
+- [日志](#日志)
+- [责怪](#责怪)
+- [合并](#合并)
+- [删除文件](#删除文件)
+- [还原](#还原)
+- [拉取](#拉取)
+- [移动-重命名](#移动-重命名)
+- [比较文件内容差异](#比较文件内容差异)
+- [查看历史提交信息](#查看历史提交信息)
+- [回滚版本](#回滚版本)
+- [撤销](#撤销)
+- [标签](#标签)
+- [变基](#变基)
+- [工作流](#工作流)
+- [子模块](#子模块)
+- [子树](#子树)
+- [二分查找](#二分查找)
+- [归档](#归档)
+- [格式化日志](#格式化日志)
+- [清空commit历史](#清空commit历史)
+- [帮助](#帮助)
+- [提交规范](#提交规范)
 - [解决冲突](#解决冲突)
 - [仓库迁移](#仓库迁移)
 - [奇技淫巧](#奇技淫巧)
@@ -826,22 +826,8 @@ git restore --staged README.md
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## 拉取
 `git pull` 拉取最新内容并合并。
-
 
 #### 拉取远程分支最新内容
 默认情况下拉取当前分支
@@ -992,7 +978,13 @@ git revert --abort
 git push -u origin main
 ```
 
+回滚到指定分支或Commit_id指定文件, 命令：
 
+`git checkout [branch|commit_id] file file...`
+```bash
+$ git checkout main 1.txt 2.txt
+$ git checkout 8efef3d37 1.txt 2.txt
+```
 
 
 
@@ -1900,16 +1892,14 @@ git config --global --unset credential.helper
 
 
 ## 加速
-在国内克隆或下载版本会很慢，可以借助下面2个镜像站点进行加速。
+在国内克隆或下载版本会很慢，可以借助下面镜像站点进行加速。
 
-- https://github.com.cnpmjs.org
-- https://hub.fastgit.org
 
-克隆/下载加速
+克隆
 ```bash
 git clone https://github.com/xjh22222228/git-manual.git
 # ↓ 只需要将域名替换即可, 例如:
-git clone https://github.com.cnpmjs.org/xjh22222228/git-manual.git
+git clone https://hub.fastgit.xyz/xjh22222228/git-manual.git
 ```
 
 资源加速：
