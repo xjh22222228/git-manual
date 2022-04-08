@@ -66,6 +66,7 @@
 - [GUI客户端](#GUI客户端)
 - [生成SSH Key](#生成SSH-Key)
 - [其他](#其他)
+- [记住密码](#记住密码)
 - [清除账号](#清除账号)
 - [加速](#加速)
 - [思维导图](#思维导图)
@@ -1867,6 +1868,19 @@ git ls-files
 ```
 
 
+
+## 记住密码
+使用 https 方式会要求每次都需要输入账号和密码，如果想下次不弹出账号密码可以按以下方式：
+```bash
+# 临时记住密码，默认15分钟
+git config --global credential.helper cache
+
+# 自定义记住密码时间，单位秒
+git config credential.helper 'cache --timeout=3600'
+
+# 长期记住密码
+git config --global credential.helper store
+```
 
 
 
