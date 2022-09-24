@@ -1909,12 +1909,16 @@ git config --global --unset credential.helper
 在国内克隆或下载版本会很慢，可以借助下面镜像站点进行加速。
 
 
-克隆
+克隆：
 ```bash
-git clone https://github.com/xjh22222228/git-manual.git
-# ↓ 只需要将域名替换即可, 例如:
-git clone https://hub.fastgit.xyz/xjh22222228/git-manual.git
+# 公有仓库
+git clone https://ghproxy.com/https://github.com/xjh22222228/git-manual.git
+
+# 私有仓库, 需要配合Token使用 => https://github.com/settings/tokens
+git clone https://user:your_token@ghproxy.com/https://github.com/your_name/your_private_repo
 ```
+
+
 
 资源加速：
 ```bash
@@ -1922,6 +1926,7 @@ https://raw.githubusercontent.com/xjh22222228/git-manual/main/media/poster.png
 # ↓ 替换为
 https://cdn.jsdelivr.net/gh/xjh22222228/git-manual@main/media/poster.png
 ```
+
 
 
 
