@@ -627,6 +627,9 @@ git stash clear
 # 清空指定 stash id, 如果 drop 后面不指定id清除最近的一次
 git stash drop stash@{0}
 git stash drop  # 清除最近一次
+
+# 查看已保存的修改文件内容
+git stash show -p stash@{0}
 ```
 
 
