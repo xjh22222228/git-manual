@@ -1910,8 +1910,6 @@ git config --global --unset credential.helper
 
 ## 加速
 在国内克隆或下载版本会很慢，可以借助下面镜像站点进行加速。
-
-
 克隆：
 ```bash
 # 公有仓库
@@ -1921,14 +1919,15 @@ git clone https://ghproxy.com/https://github.com/xjh22222228/git-manual.git
 git clone https://user:your_token@ghproxy.com/https://github.com/your_name/your_private_repo
 ```
 
-
-
 资源加速：
 ```bash
 https://raw.githubusercontent.com/xjh22222228/git-manual/main/media/poster.png
 # ↓ 替换为
 https://cdn.jsdelivr.net/gh/xjh22222228/git-manual@main/media/poster.png
 ```
+
+###### Github文件/GIST/RAW加速：
+使用方法打开 [https://gitmirror.com/](https://gitmirror.com/)
 
 
 
