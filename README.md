@@ -1731,7 +1731,6 @@ git config --global --unset credential.helper
 ## 加速
 
 在国内克隆或下载版本会很慢，可以借助下面镜像站点进行加速。
-
 克隆：
 
 ```bash
@@ -1749,6 +1748,10 @@ https://raw.githubusercontent.com/xjh22222228/git-manual/main/media/poster.png
 # ↓ 替换为
 https://cdn.jsdelivr.net/gh/xjh22222228/git-manual@main/media/poster.png
 ```
+
+###### Github 文件/GIST/RAW 加速：
+
+使用方法打开 [https://gitmirror.com/](https://gitmirror.com/)
 
 ## 思维导图
 
