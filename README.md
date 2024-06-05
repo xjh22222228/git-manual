@@ -53,14 +53,14 @@
 - [二分查找](#二分查找)
 - [归档](#归档)
 - [格式化日志](#格式化日志)
-- [清空 commit 历史](#清空commit历史)
+- [清空 commit 历史](#清空-commit-历史)
 - [帮助](#帮助)
 - [提交规范](#提交规范)
 - [解决冲突](#解决冲突)
 - [仓库迁移](#仓库迁移)
 - [奇技淫巧](#奇技淫巧)
-- [GUI 客户端](#GUI客户端)
-- [生成 SSH Key](#生成SSH-Key)
+- [GUI 客户端](#GUI-客户端)
+- [生成 SSH_Key](#生成SSH_Key)
 - [其他](#其他)
 - [记住密码](#记住密码)
 - [清除账号](#清除账号)
@@ -132,7 +132,7 @@ git config --global --replace-all alias.st status
 # 执行外部命令, 只要在前面加 ! 即可
 git config --global alias.st '!echo hello';
 # 加 "!" 可以执行外部命令执行一段复杂的合并代码过程，例如：
-git config --global alias.mg '!git checkout develop && git pull && git merge master && git checkout -';
+git config --global alias.mg '!git checkout develop && git pull && git merge main && git checkout -';
 
 # 删除 st 别名
 git config --global --unset alias.st
@@ -233,7 +233,7 @@ git config core.sparsecheckout true
 echo "media" >> .git/info/sparse-checkout
 
 # 6、拉取内容, 这里指定的是 mater 分支
-git pull origin master
+git pull origin main
 ```
 
 <details>
@@ -347,7 +347,7 @@ git commit --no-verify -m "Example"
 git push
 
 # 推送到主分支
-git push -u origin master
+git push -u origin main
 
 # 本地分支推送到远程分支， 本地分支:远程分支
 git push origin <branchName>:<branchName>
@@ -371,8 +371,8 @@ git branch -r
 # 查看本地分支所关联的远程分支
 git branch -vv
 
-# 查看本地 master 分支创建时间
-git reflog show --date=iso master
+# 查看本地 main 分支创建时间
+git reflog show --date=iso main
 
 # 搜索分支, 借助 grep 命令來搜索, 包含关键字 dev
 git branch -a | grep dev
@@ -393,14 +393,14 @@ $ git config branch.hotfix/tip.description 修复细节
 ## 切换分支
 
 ```bash
-# 切换到master分支
-git checkout master
+# 切换到main分支
+git checkout main
 
 # 切换上一个分支
 git checkout -
 
 # 强制切换, 但是要小心，如果文件未保存修改会直接覆盖掉
-git checkout -f master
+git checkout -f main
 
 # -t, 切换远端分支, 如果用了 git remote 添加一个新仓库就需要用 -t 进行切换
 git checkout -t upstream/main
@@ -528,7 +528,7 @@ git cherry-pick --continue
 ```
 
 <details>
-  <summary>演示转移提交.gif: 把 `dev` 分支的第三次提交转移到当前 `master` 分支。</summary>
+  <summary>演示转移提交.gif: 把 `dev` 分支的第三次提交转移到当前 `main` 分支。</summary>
   
   <img src="media/cherry.gif">
 </details>
@@ -768,9 +768,9 @@ git pull
 
 ```bash
 # 远程分支名:本地分支名
-git pull origin master:master
+git pull origin main:main
 # 如果某个远程分支拉取并合并到当前分支后面可以省略
-git pull origin master
+git pull origin main
 ```
 
 #### 拉取指定工作目录
@@ -841,11 +841,11 @@ git diff dce06bd
 # 对比2个commit之间的差异
 git diff e3848eb dce06bd
 
-# 比较2个分支最新提交内容差异, develop分支与master分支, 如果没有差异返回空
-git diff develop master
+# 比较2个分支最新提交内容差异, develop分支与main分支, 如果没有差异返回空
+git diff develop main
 
-# 比较2个分支指定文件内容差异, develop 和 master READNE.md 文件差异
-git diff develop master README.md README.md
+# 比较2个分支指定文件内容差异, develop 和 main READNE.md 文件差异
+git diff develop main README.md README.md
 
 # 查看工作区冲突文件差异
 git diff --name-only --diff-filter=U
@@ -1111,7 +1111,7 @@ git flow feature finish v1.1.0
 
 什么情况下需要打补丁？ 假设已经上线的功能有 BUG 需要修复就需要打补丁了。
 
-hotfix 是针对 `master` 分支进行打补丁的。
+hotfix 是针对 `main` 分支进行打补丁的。
 
 ```bash
 # 步骤一：开启一个补丁分支叫 fix_doc 用于修改文档错误，建立后分支名为 hotfix/fix_doc
@@ -1120,7 +1120,7 @@ git flow hotfix start fix_doc
 # 步骤二：推送到远程，也可以不推，如果多人同时改BUG就需要推送共享分支
 git flow hotfix publish fix_doc
 
-# 最后：完成补丁, 将当前分支合并到 master 和 develop，然后删除分支，回到 develop
+# 最后：完成补丁, 将当前分支合并到 main 和 develop，然后删除分支，回到 develop
 git flow hotfix finish fix_doc
 ```
 
@@ -1135,7 +1135,7 @@ git flow release start v1.1.0
 # 步骤二：推送到远程, 可选
 git flow release publish v1.1.0
 
-# 最后：将当前分支合并到 master 和 develop，打上一个标签，接着删除当前分支并回到 develop 分支上
+# 最后：将当前分支合并到 main 和 develop，打上一个标签，接着删除当前分支并回到 develop 分支上
 git flow release finish v1.1.0
 ```
 
@@ -1197,7 +1197,7 @@ git submodule update --init --recursive
 当把一个包含子模块的仓库克隆下来后会发现子模块分支不对，可以使用下面命令纠正：
 
 ```bash
-git submodule foreach -q --recursive 'git checkout $(git config -f $toplevel/.gitmodules submodule.$name.branch || echo master)'
+git submodule foreach -q --recursive 'git checkout $(git config -f $toplevel/.gitmodules submodule.$name.branch || echo main)'
 ```
 
 #### 更新子模块代码
@@ -1388,17 +1388,17 @@ git bisect reset
 | --output | 输出到指定目录                                                                      |
 
 ```bash
-# 归档 master 分支 并打包在当前目录下 output.tar.gz
-git archive --output "./output.tar.gz" master
+# 归档 main 分支 并打包在当前目录下 output.tar.gz
+git archive --output "./output.tar.gz" main
 
 # 归档指定commit
 git archive --output "./output.tar.gz" d485a8ba9d2bcb5
 
 # 归档为 zip, 无需指定 --format， 因为会根据文件后缀进行推断
-git archive --output "./output.zip" master
+git archive --output "./output.zip" main
 
 # 归档一个或多个目录, 而不是归档整个项目
-git archive --output "./output.zip" master src tests
+git archive --output "./output.zip" main src tests
 ```
 
 ## 格式化日志
@@ -1407,29 +1407,29 @@ git archive --output "./output.zip" master src tests
 
 **常用格式如下：**
 
-| 参数 | 描述                                                                       |
-| ---- | -------------------------------------------------------------------------- |
-| %H   | 完整 commit hash                                                           |
-| %h   | 简写 commit hash 一般是前 7 位                                             |
-| %T   | 完整 hash 树                                                               |
-| %t   | 简写 hash 树                                                               |
-| %an  | 作者名称                                                                   |
-| %ae  | 作者邮箱                                                                   |
-| %ad  | 作者日期, RFC2822 风格：`Thu Jul 2 20:42:20 2020 +0800`                    |
-| %ar  | 作者日期, 相对时间：`2 days ago`                                           |
-| %ai  | 作者日期, ISO 8601-like 风格： `2020-07-02 20:42:20 +0800`                 |
-| %aI  | 作者日期, ISO 8601 风格： `2020-07-02T20:42:20+08:00`                      |
-| %cn  | 提交者名称                                                                 |
-| %ce  | 提交者邮箱                                                                 |
-| %cd  | 提交者日期，RFC2822 风格：`Thu Jul 2 20:42:20 2020 +0800`                  |
-| %cr  | 提交者日期，相对时间：`2 days ago`                                         |
-| %ci  | 提交者日期，ISO 8601-like 风格： `2020-07-02 20:42:20 +0800`               |
-| %cI  | 提交者日期，ISO 8601 风格： `2020-07-02T20:42:20+08:00`                    |
-| %d   | 引用名称： (HEAD -> master, origin/master, origin/HEAD)                    |
-| %D   | 引用名称，不带 `()` 和 换行符： HEAD -> master, origin/master, origin/HEAD |
-| %e   | 编码方式                                                                   |
-| %B   | 原始提交内容                                                               |
-| %C   | 自定义颜色                                                                 |
+| 参数 | 描述                                                                   |
+| ---- | ---------------------------------------------------------------------- |
+| %H   | 完整 commit hash                                                       |
+| %h   | 简写 commit hash 一般是前 7 位                                         |
+| %T   | 完整 hash 树                                                           |
+| %t   | 简写 hash 树                                                           |
+| %an  | 作者名称                                                               |
+| %ae  | 作者邮箱                                                               |
+| %ad  | 作者日期, RFC2822 风格：`Thu Jul 2 20:42:20 2020 +0800`                |
+| %ar  | 作者日期, 相对时间：`2 days ago`                                       |
+| %ai  | 作者日期, ISO 8601-like 风格： `2020-07-02 20:42:20 +0800`             |
+| %aI  | 作者日期, ISO 8601 风格： `2020-07-02T20:42:20+08:00`                  |
+| %cn  | 提交者名称                                                             |
+| %ce  | 提交者邮箱                                                             |
+| %cd  | 提交者日期，RFC2822 风格：`Thu Jul 2 20:42:20 2020 +0800`              |
+| %cr  | 提交者日期，相对时间：`2 days ago`                                     |
+| %ci  | 提交者日期，ISO 8601-like 风格： `2020-07-02 20:42:20 +0800`           |
+| %cI  | 提交者日期，ISO 8601 风格： `2020-07-02T20:42:20+08:00`                |
+| %d   | 引用名称： (HEAD -> main, origin/main, origin/HEAD)                    |
+| %D   | 引用名称，不带 `()` 和 换行符： HEAD -> main, origin/main, origin/HEAD |
+| %e   | 编码方式                                                               |
+| %B   | 原始提交内容                                                           |
+| %C   | 自定义颜色                                                             |
 
 例子：
 
@@ -1438,7 +1438,7 @@ git log -n 1 --pretty=format:"%an" # xjh22222228
 
 git log -n 1 --pretty=format:"%ae" # xjh22222228@gmail.com
 
-git log -n 1 --pretty=format:"%d" #  (HEAD -> master, origin/master, origin/HEAD)
+git log -n 1 --pretty=format:"%d" #  (HEAD -> main, origin/main, origin/HEAD)
 
 # 自定义输出颜色, %C后面跟着颜色名
 git log --pretty=format:"%Cgreen 作者：%an"
@@ -1463,11 +1463,11 @@ git branch -m develop
 git push -f origin develop
 ```
 
-2、第二种方法通过更新 `引用`, 假设要重设 `master` 分支
+2、第二种方法通过更新 `引用`, 假设要重设 `main` 分支
 
 ```bash
 # 通过 git log 找到第一个 commit_id
-git update-ref refs/heads/master 9c3a31e68aa63641c7377f549edc01095a44c079
+git update-ref refs/heads/main 9c3a31e68aa63641c7377f549edc01095a44c079
 
 # 接着可以提交
 git add .
@@ -1633,7 +1633,7 @@ git config --global alias.hist "log --graph --decorate --oneline --pretty=format
 - 收费 - [tower](https://www.git-tower.com/)
 - 收费 - [lazygit](https://github.com/jesseduffield/lazygit)
 
-## 生成 SSH Key
+## 生成 SSH_Key
 
 以下适用于 `Mac` / `Linux`。
 
