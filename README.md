@@ -724,6 +724,8 @@ git checkout dev src/utils/http.js src/utils/load.js
 
 ## 删除文件
 
+此命令使用相对较少，通常用于清除文件缓存，比如加入 `.gitignore` 文件不生效问题
+
 ```bash
 # 删除 1.txt 文件
 git rm 1.txt
