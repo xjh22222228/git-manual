@@ -722,6 +722,12 @@ git merge --abort
 git checkout dev src/utils/http.js src/utils/load.js
 ```
 
+允许合并不相关的历史记录，如果在克隆使用了 `--depth` 参数会导致合并的时候会发生较大冲突，`allow-unrelated-histories` 参数可以有效的解决这个问题
+
+```bash
+git merge develop --allow-unrelated-histories
+```
+
 ## 删除文件
 
 此命令使用相对较少，通常用于清除文件缓存，比如加入 `.gitignore` 文件不生效问题
