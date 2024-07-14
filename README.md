@@ -116,6 +116,14 @@ git config submodule.recurse true
 # 记住提交账号密码, 下次操作可免账号密码
 git config --global credential.helper store # 永久
 git config --global credential.helper cache # 临时，默认15分钟
+
+# 设置代理，http或者https
+git config --global http.proxy "http://127.0.0.1:8080"
+git config --global https.proxy "http://127.0.0.1:8080"
+
+# 取消设置代理，http或者https
+git config --global --unset http.proxy
+git config --global --unset https.proxy
 ```
 
 #### 命令别名配置
