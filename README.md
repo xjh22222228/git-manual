@@ -1763,11 +1763,16 @@ git clone https://user:your_token@ghproxy.com/https://github.com/your_name/your_
 https://raw.githubusercontent.com/xjh22222228/git-manual/main/media/poster.png
 # ↓ 替换为
 https://cdn.jsdelivr.net/gh/xjh22222228/git-manual@main/media/poster.png
+
+# 备用域名，只需要替换域名
+# testingcf.jsdelivr.net
+# img.jsdmirror.com
+# gcore.jsdelivr.net
 ```
 
 ###### Github 文件/GIST/RAW 加速：
 
-使用方法打开 [https://gitmirror.com/](https://gitmirror.com/)
+使用方法打开 [https://www.7ed.net/](https://www.7ed.net/)
 
 ## 思维导图
 
