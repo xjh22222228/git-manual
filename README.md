@@ -908,14 +908,14 @@ git reset --hard HEAD^
 # 回滚上两个版本
 git reset --hard HEAD^^
 
+# 或者回滚到前X次
+git reset HEAD~1
+
 # 回滚到指定 commit_id ， 通过 git log 查看
 git reset --hard 'commit id'
 
-# 回滚后但未推送到远程想断开当前操作执行拉取即可：
-git pull
-
-# 推送
-git push -f
+# 回滚并保留之前的修改
+git reset --soft HEAD^
 ```
 
 `git revert` 命令用法：
