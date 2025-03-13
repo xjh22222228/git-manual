@@ -44,7 +44,6 @@
 - [比较文件内容差异](#比较文件内容差异)
 - [查看历史提交信息](#查看历史提交信息)
 - [回滚版本](#回滚版本)
-- [撤销](#撤销)
 - [标签](#标签)
 - [变基](#变基)
 - [工作流](#工作流)
@@ -896,25 +895,28 @@ git show feature/dev
 
 回滚版本有 2 种方法：
 
-- `git reset` - 回滚版本后之前的历史记录将不保存, 不保留痕迹, 基本上不存在冲突情况。
-- `git revert` - 回滚版本后之前的历史记录还存在并多增加了一条 `Revert` 记录，很容易出现冲突。
+- `git reset` - 会改变提交历史。当使用 git reset 移动 HEAD 指针后，被跳过的提交在没有其他引用的情况下，最终可能会被 Git 的垃圾回收机制清理掉，从而从提交历史中消失。
+- `git revert` - 不会删除任何原有的提交，而是在提交历史中新增一个反向操作的提交。提交历史的连续性得以保留，所有原有的提交仍然存在于历史记录中。
 
 `git reset` 命令用法：
 
 ```bash
+# --hard 丢弃工作区和暂存区，回到当前提交
+git reset --hard
+
 # 回滚上一个版本
 git reset --hard HEAD^
 
 # 回滚上两个版本
 git reset --hard HEAD^^
 
-# 或者回滚到前X次
-git reset HEAD~1
-
 # 回滚到指定 commit_id ， 通过 git log 查看
 git reset --hard 'commit id'
 
-# 回滚并保留之前的修改
+# 回滚到前一次修改，默认--mixed，重置暂存区，工作区不变
+git reset HEAD~1
+
+# --soft 保留之前的暂存区和工作区
 git reset --soft HEAD^
 ```
 
@@ -933,37 +935,6 @@ git revert HEAD^ --no-edit
 # 断开当前操作，还原初始状态
 git revert --abort
 
-# 推送到远程，假设当前是 main 分支
-git push -u origin main
-```
-
-回滚到指定分支或 Commit_id 指定文件, 命令：
-
-`git checkout [branch|commit_id] file file...`
-
-```bash
-$ git checkout main 1.txt 2.txt
-$ git checkout 8efef3d37 1.txt 2.txt
-```
-
-## 撤销
-
-```bash
-# 撤销当前工作区所有文件的改动
-git checkout -- .
-
-# 撤销工作区指定文件改动
-git checkout -- README.md
-
-# 暂存区回到工作区
-git reset HEAD^ # 上一次
-git reset HEAD ./README.md # 指定 ./README.md 文件从暂存区回到工作区
-
-# 指定commit回到工作区（前提是未推送到远程仓库）, 需要还原的上一个commit_id
-git reset <commit_id>
-
-# 把某个commit_id还原初始状态 （前提是未推送到远程仓库）, 需要还原的上一个commit_id
-git reset --hard <commit_id>
 ```
 
 ## 标签
