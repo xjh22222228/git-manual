@@ -19,39 +19,39 @@
 
 # 目录
 
-- [配置](#配置)
-- [初始化仓库](#初始化仓库)
-- [克隆仓库](#克隆仓库)
-- [管理仓库](#管理仓库)
-- [暂存文件](#暂存文件)
-- [提交文件](#提交文件)
-- [推送远端](#推送远端)
-- [查看分支](#查看分支)
-- [切换分支](#切换分支)
-- [创建分支](#创建分支)
-- [删除分支](#删除分支)
-- [重命名分支](#重命名分支)
-- [转移提交](#转移提交)
-- [临时保存](#临时保存)
-- [文件状态](#文件状态)
-- [日志](#日志)
-- [责怪](#责怪)
-- [合并](#合并)
-- [删除文件](#删除文件)
-- [还原](#还原)
-- [拉取](#拉取)
-- [移动-重命名](#移动-重命名)
-- [比较文件内容差异](#比较文件内容差异)
-- [查看历史提交信息](#查看历史提交信息)
-- [回滚版本](#回滚版本)
-- [标签](#标签)
-- [变基](#变基)
-- [工作流](#工作流)
-- [子模块](#子模块)
-- [子树](#子树)
-- [二分查找](#二分查找)
-- [归档](#归档)
-- [格式化日志](#格式化日志)
+- [git config 配置](#git-config-配置)
+- [git init 初始化仓库](#git-init-初始化仓库)
+- [git clone 克隆仓库](#git-clone-克隆仓库)
+- [git remote 管理仓库](#git-remote-管理仓库)
+- [git add 暂存文件](#git-add-暂存文件)
+- [git commit 提交文件](#git-commit-提交文件)
+- [git push 推送远端](#git-push-推送远端)
+- [git branch 查看分支](#git-branch-查看分支)
+- [git checkout 切换分支](#git-checkout-切换分支)
+- [git checkout 创建分支](#git-checkout-创建分支)
+- [git branch 删除分支](#git-branch-删除分支)
+- [git branch 重命名分支](#git-branch-重命名分支)
+- [git cherry-pick 转移提交](#git-cherry-pick-转移提交)
+- [git stash 临时保存](#git-stash-临时保存)
+- [git status 文件状态](#git-status-文件状态)
+- [git log 日志](#git-log-日志)
+- [git blame 责怪](#git-blame-责怪)
+- [git merge 合并](#git-merge-合并)
+- [git rm 删除文件](#git-rm-删除文件)
+- [git restore 还原](#git-restore-还原)
+- [git pull 拉取](#git-pull-拉取)
+- [git mv 移动/重命名文件](#git-mv-移动/重命名文件)
+- [git diff 比较文件内容差异](#git-diff-比较文件内容差异)
+- [git show 查看历史提交信息](#git-show-查看历史提交信息)
+- [git reset 回滚版本](#git-reset-回滚版本)
+- [git tag 标签](#git-tag-标签)
+- [git rebase 变基](#git-rebase-变基)
+- [git flow 工作流](#git-flow-工作流)
+- [git submodule 子模块](#git-submodule-子模块)
+- [git subtree 子树](#git-subtree-子树)
+- [git bisect 二分查找](#git-bisect-二分查找)
+- [git archive 归档](#git-archive-归档)
+- [git log 格式化日志](#git-log-格式化日志)
 - [清空 commit 历史](#清空-commit-历史)
 - [帮助](#帮助)
 - [提交规范](#提交规范)
@@ -66,12 +66,28 @@
 - [加速](#加速)
 - [思维导图](#思维导图)
 
-## 配置
+## git config 配置
+
+git config 是 Git 中用于配置各种参数的命令，它允许你对 Git 的行为和环境进行个性化设置。这些设置可以分为三个不同的级别：系统级、全局级和仓库级，不同级别设置的优先级不同，仓库级设置会覆盖全局级设置，而全局级设置又会覆盖系统级设置。
+
+#### 基本语法
+
+```bash
+git config [--system | --global | --local] <name> <value>
+```
+
+- **--system**：指定系统级配置，对所有用户的所有仓库生效。配置文件通常位于 /etc/gitconfig（Linux 或 macOS）。
+- **--global**：指定全局级配置，对当前用户的所有仓库生效。配置文件通常位于 ~/.gitconfig 或 ~/.config/git/config（Linux 或 macOS）。
+- **--local**：指定仓库级配置，仅对当前仓库生效。配置文件位于当前仓库的 .git/config 目录下。
+- 如果不指定以上任何选项，默认使用 **--local**。
+- **<name>**：要配置的参数名称。
+- **<value>**：要为参数设置的值。
 
 ```bash
 # 查看全局配置列表
 git config --global -l
-# 查看局部配置列表
+
+# 查看当前仓库配置列表
 git config --local -l
 
 # 查看所有的配置以及它们所在的文件
@@ -115,14 +131,6 @@ git config submodule.recurse true
 # 记住提交账号密码, 下次操作可免账号密码
 git config --global credential.helper store # 永久
 git config --global credential.helper cache # 临时，默认15分钟
-
-# 设置代理，http或者https
-git config --global http.proxy "http://127.0.0.1:8080"
-git config --global https.proxy "http://127.0.0.1:8080"
-
-# 取消设置代理，http或者https
-git config --global --unset http.proxy
-git config --global --unset https.proxy
 ```
 
 #### 命令别名配置
@@ -161,11 +169,18 @@ git config --global --unset http.proxy
 git config --global --unset https.proxy
 ```
 
-## 初始化仓库
+## git init 初始化仓库
 
-`git init` 创建一个空的 Git 仓库或重新初始化一个现有的仓库
+`git init [--bare] [directory]` 用于在指定目录下创建一个新的 Git 仓库
 
-实际上 `git init` 命令用得不多，通常在 GUI 上进行操作。
+**--bare**：可选参数，用于创建一个裸仓库。裸仓库通常用于作为远程仓库，不包含工作目录，主要用于多人协作时共享代码。
+
+**directory**：可选参数，指定要初始化 Git 仓库的目录。若不指定，将在当前目录下初始化仓库。
+
+#### 使用场景
+
+- **新项目初始化**：当你开始一个新的项目时，可使用 git init 命令将项目目录转换为 Git 仓库，从而方便对项目进行版本控制。
+- **已有项目纳入版本控制**：如果你有一个已经存在的项目，但尚未使用版本控制，也可以使用 git init 命令将其纳入 Git 的管理之下。
 
 ```bash
 # 会在当前目录生成.git
@@ -178,7 +193,7 @@ git init -q
 git init --bare
 ```
 
-## 克隆仓库
+## git clone 克隆仓库
 
 ```bash
 # https 协议克隆
@@ -249,7 +264,7 @@ git pull origin main
   <img src="media/gitclone-sparsecheckout.gif">
 </details>
 
-## 管理仓库
+## git remote 管理仓库
 
 `git remote` 命令用来管理远程仓库。
 
@@ -283,7 +298,7 @@ git remote set-url origin git@github.com:xjh22222228/git-manual.git
 git push example
 ```
 
-## 暂存文件
+## git add 暂存文件
 
 ```bash
 # 暂存所有
@@ -299,7 +314,7 @@ git add .
 git add 1.txt 2.txt ...
 ```
 
-## 提交文件
+## git commit 提交文件
 
 ```bash
 # -m 提交的描述信息
@@ -346,7 +361,7 @@ git commit --no-verify -m "Example"
 | Nov      | 十一月 |
 | Dec      | 十二月 |
 
-## 推送远端
+## git push 推送远端
 
 ```bash
 # 默认推送当前分支
@@ -363,7 +378,7 @@ git push origin <branchName>:<branchName>
 git push -f
 ```
 
-## 查看分支
+## git branch 查看分支
 
 ```bash
 # 查看所有分支
@@ -397,7 +412,30 @@ $ git config branch.{branch_name}.description 备注内容
 $ git config branch.hotfix/tip.description 修复细节
 ```
 
-## 切换分支
+## git checkout 切换分支
+
+## git checkout 创建分支
+
+```bash
+# 创建一个名为 develop 本地分支
+git branch develop
+
+# 强制创建分支, 不输出任何警告或信息
+git branch -f develop
+
+# 创建本地 develop 分支并切换
+git checkout -b develop
+
+# 创建远程分支, 实际上创建本地分支然后推送到远端
+git checkout -b develop
+git push origin develop
+
+# 创建一个空的分支, 不继承父分支，历史记录是空的，一般至少需要执行4步
+git checkout --orphan develop
+git rm -rf .  # 这一步可选，如果你真的想创建一个没有任何文件的分支
+git add -A && git commit -m "提交" # 添加并提交，否则分支是隐藏的 （执行这一步之前需要注意当前工作区必须保留一个文件，否则无法提交）
+git push --set-upstream origin develop # 推送到远程
+```
 
 ```bash
 # 切换到main分支
@@ -449,30 +487,7 @@ git switch -c newBranch HEAD〜3
 git switch -t upstream/main
 ```
 
-## 创建分支
-
-```bash
-# 创建一个名为 develop 本地分支
-git branch develop
-
-# 强制创建分支, 不输出任何警告或信息
-git branch -f develop
-
-# 创建本地 develop 分支并切换
-git checkout -b develop
-
-# 创建远程分支, 实际上创建本地分支然后推送到远端
-git checkout -b develop
-git push origin develop
-
-# 创建一个空的分支, 不继承父分支，历史记录是空的，一般至少需要执行4步
-git checkout --orphan develop
-git rm -rf .  # 这一步可选，如果你真的想创建一个没有任何文件的分支
-git add -A && git commit -m "提交" # 添加并提交，否则分支是隐藏的 （执行这一步之前需要注意当前工作区必须保留一个文件，否则无法提交）
-git push --set-upstream origin develop # 推送到远程
-```
-
-## 删除分支
+## git branch 删除分支
 
 注意：删除分支不能删除当前分支，先切换到其他分支再删除。
 
@@ -489,7 +504,7 @@ $ git push origin :<branchName>
 $ git push origin --delete <branch-name>  # >= 1.7.0
 ```
 
-## 重命名分支
+## git branch 重命名分支
 
 ```bash
 # 重命名当前分支, 通常情况下需要执行3步
@@ -505,7 +520,7 @@ git push -u origin new_branch
 git branch -m old_branch new_branch
 ```
 
-## 转移提交
+## git cherry-pick 转移提交
 
 `git cherry-pick` 可以用来将一个分支的某次提交转移到当前分支中。
 
@@ -540,7 +555,7 @@ git cherry-pick --continue
   <img src="media/cherry.gif">
 </details>
 
-## 临时保存
+## git stash 临时保存
 
 应用场景：假设当前分支某些功能做到一半了, 突然需要切换到其他分支修改 Bug, 但是又不想提交（因为切换分支必须清理当前工作区，否则无法切换），这个时候 `git stash` 应用场景就来了。
 
@@ -576,7 +591,7 @@ git stash drop  # 清除最近一次
 git stash show -p stash@{0}
 ```
 
-## 文件状态
+## git status 文件状态
 
 ```bash
 # 完整查看文件状态
@@ -592,7 +607,7 @@ git status --ignore-submodules
 git status --ignored
 ```
 
-## 日志
+## git log 日志
 
 查看历史日志可以通过 `git log` / `git shortlog` / `git reflog`。
 
@@ -654,7 +669,7 @@ git shortlog -e
 git reflog # 等价于 git log -g --abbrev-commit --pretty=oneline
 ```
 
-## 责怪
+## git blame 责怪
 
 `git blame` 意思是责怪，你懂的。
 
@@ -681,9 +696,7 @@ git blame -e README.md
 git blame -enl -L 11 README.md
 ```
 
----
-
-## 合并
+## git merge 合并
 
 feature/v1.0.0 分支代码合并到 develop
 
@@ -735,7 +748,7 @@ git checkout dev src/utils/http.js src/utils/load.js
 git merge develop --allow-unrelated-histories
 ```
 
-## 删除文件
+## git rm 删除文件
 
 此命令使用相对较少，通常用于清除文件缓存，比如加入 `.gitignore` 文件不生效问题
 
@@ -750,7 +763,7 @@ git rm -rf .
 git rm -r --cached .
 ```
 
-## 还原
+## git restore 还原
 
 还原操作通过 `git restore` 命令。
 
@@ -766,7 +779,7 @@ git restore . # 当前全部文件
 git restore --staged README.md
 ```
 
-## 拉取
+## git pull 拉取
 
 `git pull` 拉取最新内容并合并。
 
@@ -813,7 +826,7 @@ git merge upstream/main --allow-unrelated-histories
 git push
 ```
 
-## 移动-重命名
+## git mv 移动-重命名文件
 
 `git mv` 命令用来重命名文件或移动文件, 大部分开发者会选择手动进行移动文件, 手动和用 `git mv` 是有区别的。
 
@@ -837,7 +850,7 @@ git mv -f 1.txt 2.txt
 git mv temp temp2
 ```
 
-## 比较文件内容差异
+## git diff 比较文件内容差异
 
 `git diff` 命令用于查看`工作区文件`内容与暂存区或远端之间的差异。
 
@@ -870,7 +883,7 @@ git diff --name-only HEAD~
 git diff --name-only HEAD~~ # 前2次...
 ```
 
-## 查看历史提交信息
+## git show 查看历史提交信息
 
 可以通过 `git show` 命令查看历史提交信息。
 
@@ -891,7 +904,7 @@ git show README.md
 git show feature/dev
 ```
 
-## 回滚版本
+## git reset 回滚版本
 
 回滚版本有 2 种方法：
 
@@ -937,7 +950,7 @@ git revert --abort
 
 ```
 
-## 标签
+## git tag 标签
 
 ```bash
 # 列出本地所有标签
@@ -978,7 +991,7 @@ git checkout v1.1.0
 git show v1.1.0
 ```
 
-## 变基
+## git rebase 变基
 
 `git rebase` 命令有 2 个比较实用的功能：
 
@@ -1062,7 +1075,7 @@ git push -f # 强制推送
 $ git rebase --abort
 ```
 
-## 工作流
+## git flow 工作流
 
 Git Flow 是一套基于 git 的工作流程，这个工作流程围绕着 project 的发布(release)定义了一个严格的如何建立分支的模型。
 
@@ -1137,7 +1150,7 @@ git flow release finish v1.1.0
 
 ---
 
-## 子模块
+## git submodule 子模块
 
 `git submodule` 子模块的作用类似于包管理，类似 `npm`, 主要是复用仓库, 但比包管理使用起来更方便。
 
@@ -1219,7 +1232,7 @@ git pull --recurse-submodules
 
 具体使用还可以看这里 [git submodule 子模块使用教程](https://www.xiejiahe.com/blog/detail/5dbceefc0bb52b1c88c30853)
 
-## 子树
+## git subtree 子树
 
 如果你知道 `git submodule` 那就大概知道 `git subtree` 干嘛用了， 基本上是做同一件事，复用仓库或复用代码。
 
@@ -1251,7 +1264,7 @@ git subtree split --prefix=<prefix> [OPTIONS] [<commit>]
 
 在操作 `git subtree` 时当前工作区必须清空，否则无法执行。
 
-## 添加子仓库
+#### 添加子仓库
 
 - `--prefix` 指定将子仓库存储位置
 - `main` 是分支名称
@@ -1263,7 +1276,7 @@ git subtree split --prefix=<prefix> [OPTIONS] [<commit>]
 git subtree add --prefix=sub/common https://github.com/xjh22222228/git-manual.git main --squash
 ```
 
-## 更新子仓库
+#### 更新子仓库
 
 当远程子仓库有内容变更时，可以通过下面命令进行更新：
 
@@ -1271,7 +1284,7 @@ git subtree add --prefix=sub/common https://github.com/xjh22222228/git-manual.gi
 git subtree pull --prefix=sub/common https://github.com/xjh22222228/git-manual.git main --squash
 ```
 
-## 推送到子仓库
+#### 推送到子仓库
 
 假如修改了子仓库里的内容，可以将修改这部分的内容推送到子仓库中
 
@@ -1283,7 +1296,7 @@ git commit -m "子仓库修改"
 git subtree push --prefix=sub/common https://github.com/xjh22222228/git-manual.git main --squash
 ```
 
-## 切割
+#### 切割
 
 随着项目的迭代, 主仓库会提交过多, 会发现每次 `push` 时会非常慢，尤其在 `windows` 平台较为明显。
 
@@ -1295,7 +1308,7 @@ git subtree push --prefix=sub/common https://github.com/xjh22222228/git-manual.g
 git subtree split --prefix=sub/common --branch=main
 ```
 
-## 简化命令
+#### 简化命令
 
 通过以上实操，不难发现，`git subtree` 太长了，每次操作都要敲这么长的命令，谁能忍得住。
 
@@ -1338,7 +1351,7 @@ alias push="git subtree push --prefix=sub/common https://github.com/xjh22222228/
 npm run push 或者 yarn push
 ```
 
-## 二分查找
+## git bisect 二分查找
 
 `git bisect` 基于二分查找算法, 用于定位引入 Bug 的 commit，主要 4 个命令。
 
@@ -1361,7 +1374,7 @@ git bisect reset
 
 参考 [https://github.com/bradleyboy/bisectercise](https://github.com/bradleyboy/bisectercise)
 
-## 归档
+## git archive 归档
 
 创建一个归档文件，可以理解为将当前项目压缩为一个文件。会忽略掉 `.git` 目录。
 
@@ -1388,7 +1401,7 @@ git archive --output "./output.zip" main
 git archive --output "./output.zip" main src tests
 ```
 
-## 格式化日志
+## git log 格式化日志
 
 在使用 `git log` 命令时可以携带 `--pretty=format` 用来格式化日志。
 
