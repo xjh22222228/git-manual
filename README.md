@@ -76,12 +76,12 @@ git config 是 Git 中用于配置各种参数的命令，它允许你对 Git �
 git config [--system | --global | --local] <name> <value>
 ```
 
-- **--system**：指定系统级配置，对所有用户的所有仓库生效。配置文件通常位于 /etc/gitconfig（Linux 或 macOS）。
-- **--global**：指定全局级配置，对当前用户的所有仓库生效。配置文件通常位于 ~/.gitconfig 或 ~/.config/git/config（Linux 或 macOS）。
-- **--local**：指定仓库级配置，仅对当前仓库生效。配置文件位于当前仓库的 .git/config 目录下。
-- 如果不指定以上任何选项，默认使用 **--local**。
-- **<name>**：要配置的参数名称。
-- **<value>**：要为参数设置的值。
+- `--system`：指定系统级配置，对所有用户的所有仓库生效。配置文件通常位于 /etc/gitconfig（Linux 或 macOS）。
+- `--global`：指定全局级配置，对当前用户的所有仓库生效。配置文件通常位于 ~/.gitconfig 或 ~/.config/git/config（Linux 或 macOS）。
+- `--local`：指定仓库级配置，仅对当前仓库生效。配置文件位于当前仓库的 .git/config 目录下。
+- 如果不指定以上任何选项，默认使用 `--local`。
+- `<name>`：要配置的参数名称。
+- `<value>`：要为参数设置的值。
 
 ```bash
 # 查看全局配置列表
@@ -173,14 +173,14 @@ git config --global --unset https.proxy
 
 `git init [--bare] [directory]` 用于在指定目录下创建一个新的 Git 仓库
 
-**--bare**：可选参数，用于创建一个裸仓库。裸仓库通常用于作为远程仓库，不包含工作目录，主要用于多人协作时共享代码。
+`--bare`：可选参数，用于创建一个裸仓库。裸仓库通常用于作为远程仓库，不包含工作目录，主要用于多人协作时共享代码。
 
-**directory**：可选参数，指定要初始化 Git 仓库的目录。若不指定，将在当前目录下初始化仓库。
+`directory`：可选参数，指定要初始化 Git 仓库的目录。若不指定，将在当前目录下初始化仓库。
 
 #### 使用场景
 
-- **新项目初始化**：当你开始一个新的项目时，可使用 git init 命令将项目目录转换为 Git 仓库，从而方便对项目进行版本控制。
-- **已有项目纳入版本控制**：如果你有一个已经存在的项目，但尚未使用版本控制，也可以使用 git init 命令将其纳入 Git 的管理之下。
+- `新项目初始化`：当你开始一个新的项目时，可使用 git init 命令将项目目录转换为 Git 仓库，从而方便对项目进行版本控制。
+- `已有项目纳入版本控制`：如果你有一个已经存在的项目，但尚未使用版本控制，也可以使用 git init 命令将其纳入 Git 的管理之下。
 
 ```bash
 # 会在当前目录生成.git
@@ -194,6 +194,22 @@ git init --bare
 ```
 
 ## git clone 克隆仓库
+
+#### 基本语法
+
+```bash
+git clone [options] <repository> [<directory>]
+```
+
+- `options`：可选参数，用于指定克隆操作的一些额外设置。
+- `<repository>`：必选参数，指定要克隆的远程仓库的地址。这个地址可以是基于 HTTP/HTTPS 协议的，也可以是基于 SSH 协议的。
+- `<directory>`：可选参数，指定克隆到本地的目标目录名称。如果不指定，Git 会使用远程仓库的名称作为本地目录名。
+
+#### 常用选项
+
+- `--depth <depth>`：进行浅克隆，只克隆指定深度的提交历史，而不是完整的历史记录。这可以显著减少克隆所需的时间和磁盘空间。例如，`git clone --depth 1 <repository>` 只克隆最新的一次提交。
+- `--branch <branch>` 或 `-b <branch>`：指定要克隆的分支。默认情况下，Git 会克隆远程仓库的默认分支（通常是 `main` 或 `master`）。例如，`git clone -b develop <repository>` 会克隆远程仓库的 `develop` 分支。
+- `--single-branch`：只克隆指定分支的内容，不克隆其他分支的历史记录。结合 `--branch` 选项使用，例如 `git clone --single-branch --branch feature <repository>` 只会克隆 `feature` 分支。
 
 ```bash
 # https 协议克隆
