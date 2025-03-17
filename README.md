@@ -76,9 +76,9 @@ git config 是 Git 中用于配置各种参数的命令，它允许你对 Git �
 git config [--system | --global | --local] <name> <value>
 ```
 
-- `--system`：指定系统级配置，对所有用户的所有仓库生效。配置文件通常位于 /etc/gitconfig（Linux 或 macOS）。
-- `--global`：指定全局级配置，对当前用户的所有仓库生效。配置文件通常位于 ~/.gitconfig 或 ~/.config/git/config（Linux 或 macOS）。
-- `--local`：指定仓库级配置，仅对当前仓库生效。配置文件位于当前仓库的 .git/config 目录下。
+- `--system`：指定系统级配置，对所有用户的所有仓库生效。配置文件通常位于 `/etc/gitconfig`（Linux 或 macOS）。
+- `--global`：指定全局级配置，对当前用户的所有仓库生效。配置文件通常位于 `~/.gitconfig` 或 `~/.config/git/config`（Linux 或 macOS）。
+- `--local`：指定仓库级配置，仅对当前仓库生效。配置文件位于当前仓库的 `.git/config` 目录下。
 - 如果不指定以上任何选项，默认使用 `--local`。
 - `<name>`：要配置的参数名称。
 - `<value>`：要为参数设置的值。
@@ -282,9 +282,17 @@ git pull origin main
 
 ## git remote 管理仓库
 
-`git remote` 命令用来管理远程仓库。
+`git remote` 是 Git 里用于管理远程仓库的命令，借助它可以对远程仓库进行查看、添加、删除、重命名等操作。
 
-通常一个项目对应多个仓库就需要用到 `git remote`, 比如要推送到 `github` / `gitee` / `gitlab`， 就可以用 `git remote` 来管理多个仓库地址。
+#### 基本语法
+
+```bash
+git remote [options] [command] [args]
+```
+
+- `options`：可选参数，用于指定命令的一些额外设置。
+- `command`：指定要执行的操作命令。
+- `args`：执行命令所需的参数。
 
 ```bash
 # 查看远程仓库服务器, 一般打印 origin , 这是 Git 给你克隆的仓库服务器的默认名字
@@ -312,9 +320,23 @@ git remote set-url origin git@github.com:xjh22222228/git-manual.git
 
 # 后续的推送可以指定仓库名字
 git push example
+
+# 更新远程仓库的信息
+git remote update
 ```
 
 ## git add 暂存文件
+
+`git add` 是 Git 中一个基础且关键的命令，主要用于将工作目录中修改或新增的文件添加到暂存区。
+
+#### 基本语法
+
+```bash
+git add [options] <file>...
+```
+
+- `options`：可选参数，用于指定不同的添加行为。
+- `<file>`：要添加到暂存区的文件或目录，可以指定多个文件，用空格分隔。
 
 ```bash
 # 暂存所有
@@ -328,7 +350,15 @@ git add .
 
 # 暂存一系列文件
 git add 1.txt 2.txt ...
+
+# 暂存所有修改文件或删除文件，创建新的文件不会被暂存
+git add -u
 ```
+
+#### 注意事项
+
+- `.gitignore 文件`：git add 命令会忽略 `.gitignore` 文件中指定的文件和目录，即使使用 `git add .` 或 `git add -A` 也不会添加这些被忽略的文件。
+- `重复添加`：如果多次对同一个文件执行 `git add` 命令，只有最后一次添加的更改会被包含在提交中。
 
 ## git commit 提交文件
 
