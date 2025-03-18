@@ -26,11 +26,9 @@
 - [git add 暂存文件](#git-add-暂存文件)
 - [git commit 提交文件](#git-commit-提交文件)
 - [git push 推送远端](#git-push-推送远端)
-- [git branch 查看分支](#git-branch-查看分支)
+- [git branch 创建查看删除重命名分支](#git-branch-创建查看删除重命名分支)
 - [git checkout 切换分支](#git-checkout-切换分支)
 - [git checkout 创建分支](#git-checkout-创建分支)
-- [git branch 删除分支](#git-branch-删除分支)
-- [git branch 重命名分支](#git-branch-重命名分支)
 - [git cherry-pick 转移提交](#git-cherry-pick-转移提交)
 - [git stash 临时保存](#git-stash-临时保存)
 - [git status 文件状态](#git-status-文件状态)
@@ -179,8 +177,8 @@ git config --global --unset https.proxy
 
 #### 使用场景
 
-- `新项目初始化`：当你开始一个新的项目时，可使用 git init 命令将项目目录转换为 Git 仓库，从而方便对项目进行版本控制。
-- `已有项目纳入版本控制`：如果你有一个已经存在的项目，但尚未使用版本控制，也可以使用 git init 命令将其纳入 Git 的管理之下。
+- `新项目初始化`：当你开始一个新的项目时，可使用 `git init` 命令将项目目录转换为 Git 仓库，从而方便对项目进行版本控制。
+- `已有项目纳入版本控制`：如果你有一个已经存在的项目，但尚未使用版本控制，也可以使用 `git init` 命令将其纳入 Git 的管理之下。
 
 ```bash
 # 会在当前目录生成.git
@@ -362,9 +360,23 @@ git add -u
 
 ## git commit 提交文件
 
+`git commit` 是 Git 中用于将暂存区的内容永久保存到本地仓库历史记录中的关键命令。通过提交，你可以记录项目在某个特定时间点的状态，同时添加描述性的信息，方便后续查看和理解每次更改的目的。
+
+#### 基本语法
+
+```bash
+git commit [options] [-m <message>]
+```
+
+- `options`：可选参数，用于指定不同的提交行为。
+- `-m <message>`：用于提供本次提交的简短描述信息，`<message>` 是具体的描述内容。
+
 ```bash
 # -m 提交的描述信息
 git commit -m "changes log"
+
+# 当提交信息较为复杂，需要多行描述可以不适用 -m 参数，Git会默认打开文本编辑器让你输入提交信息
+git commit
 
 # 只提交某个文件
 git commit README.md -m "message"
@@ -379,7 +391,7 @@ git commit --allow-empty-message
 git commit --amend -m "新的提交信息"
 
 # 跳过验证, 如果使用了类似 husky 工具。
-git commit --no-verify -m "Example"
+git commit --no-verify -m "message"
 ```
 
 #### 修改提交日期
@@ -409,12 +421,25 @@ git commit --no-verify -m "Example"
 
 ## git push 推送远端
 
+`git push` 是 Git 中用于将本地仓库的提交推送到远程仓库的命令。当你在本地完成了一系列的代码修改、添加和提交操作后，就可以使用 `git push` 把这些更改同步到远程仓库。
+
+#### 基本语法
+
+```bash
+git push [options] [<repository> [<refspec>...]]
+```
+
+- `options`：可选参数，用于指定推送操作的一些额外设置。
+- `<repository>`：可选参数，指定要推送的远程仓库的名称，默认是 origin。
+- `<refspec>`：可选参数，用于指定本地分支和远程分支的映射关系，格式为 `[+]<src>:<dst>`。
+
 ```bash
 # 默认推送当前分支
 # 等价于 git push origin, 实际上推送到一个叫 origin 默认仓库名字
 git push
 
-# 推送到主分支
+# 设置上游分支并推送
+#  使用 -u 或 --set-upstream 选项，在推送的同时将本地分支与远程分支关联起来。之后，再进行该分支的推送或拉取操作时，就可以直接使用 git push 或 git pull，无需再指定远程仓库和分支名称
 git push -u origin main
 
 # 本地分支推送到远程分支， 本地分支:远程分支
@@ -422,9 +447,23 @@ git push origin <branchName>:<branchName>
 
 # 强制推送, --force 缩写
 git push -f
+
+# 删除远程分支
+git push origin :old-feature
+git push origin --delete old-feature # 或者
 ```
 
-## git branch 查看分支
+## git branch 创建查看删除重命名分支
+
+`git branch` 是 Git 中用于管理分支的核心命令
+
+#### 基本语法
+
+```bash
+git branch [options] [branch-name] [start-point]
+```
+
+#### 查看分支
 
 ```bash
 # 查看所有分支
@@ -444,6 +483,40 @@ git reflog show --date=iso main
 
 # 搜索分支, 借助 grep 命令來搜索, 包含关键字 dev
 git branch -a | grep dev
+
+# 查看哪些分支已经合并到当前分支
+# 该命令会列出已经将其更改合并到当前分支的所有分支。通常，这些分支可以安全地删除。
+git branch --merged
+
+# 查看哪些分支还未合并到当前分支
+git branch --no-merged
+```
+
+#### 创建分支
+
+```bash
+# 创建分支
+git branch new-feature
+
+# 从指定 commit 创建分支
+git branch new-feature commit-hash
+```
+
+#### 删除分支
+
+```bash
+# 删除本地已合并的main分支
+git branch -d main
+
+# 强制删除本地分支
+git branch -D branch-to-delete
+```
+
+#### 重命名分支
+
+```bash
+# 重命名分支
+git branch -m old-branch-name new-branch-name
 ```
 
 #### 给分支添加备注
@@ -531,39 +604,6 @@ git switch -c newBranch HEAD〜3
 
 # -t, 切换远端分支, 如果用了 git remote 添加一个新仓库就需要用 -t 进行切换
 git switch -t upstream/main
-```
-
-## git branch 删除分支
-
-注意：删除分支不能删除当前分支，先切换到其他分支再删除。
-
-```bash
-# 删除本地分支
-$ git branch -d <branchName>
-
-# 大写 D 强制删除未完全合并的分支
-# 等价 git branch --delete --force <branchName>
-$ git branch -D <branchName>
-
-# 删除远程分支
-$ git push origin :<branchName>
-$ git push origin --delete <branch-name>  # >= 1.7.0
-```
-
-## git branch 重命名分支
-
-```bash
-# 重命名当前分支, 通常情况下需要执行3步
-# 1、修改分支名称
-# 2、删除远程旧分支
-# 3、将重命名分支推送到远程
-git branch -m <branchName>
-git push origin :old_branch
-git push -u origin new_branch
-
-
-# 重命名指定分支
-git branch -m old_branch new_branch
 ```
 
 ## git cherry-pick 转移提交
