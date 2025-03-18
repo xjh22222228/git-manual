@@ -27,8 +27,8 @@
 - [git commit 提交文件](#git-commit-提交文件)
 - [git push 推送远端](#git-push-推送远端)
 - [git branch 创建查看删除重命名分支](#git-branch-创建查看删除重命名分支)
-- [git checkout 切换分支](#git-checkout-切换分支)
-- [git checkout 创建分支](#git-checkout-创建分支)
+- [git checkout 切换创建分支恢复文件](#git-checkout-切换创建分支恢复文件)
+- [git switch 切换创建分支](#git-switch-切换创建分支)
 - [git cherry-pick 转移提交](#git-cherry-pick-转移提交)
 - [git stash 临时保存](#git-stash-临时保存)
 - [git status 文件状态](#git-status-文件状态)
@@ -500,6 +500,9 @@ git branch new-feature
 
 # 从指定 commit 创建分支
 git branch new-feature commit-hash
+
+# 强制创建分支
+git branch -f main
 ```
 
 #### 删除分支
@@ -531,43 +534,29 @@ $ git config branch.{branch_name}.description 备注内容
 $ git config branch.hotfix/tip.description 修复细节
 ```
 
-## git checkout 切换分支
+## git checkout 切换创建分支恢复文件
 
-## git checkout 创建分支
+`git checkout` 是 Git 里一个极为常用的命令，它主要用于在不同分支间切换、恢复文件以及创建新分支并切换到该分支。
+
+#### 基本语法
 
 ```bash
-# 创建一个名为 develop 本地分支
-git branch develop
-
-# 强制创建分支, 不输出任何警告或信息
-git branch -f develop
-
-# 创建本地 develop 分支并切换
-git checkout -b develop
-
-# 创建远程分支, 实际上创建本地分支然后推送到远端
-git checkout -b develop
-git push origin develop
-
-# 创建一个空的分支, 不继承父分支，历史记录是空的，一般至少需要执行4步
-git checkout --orphan develop
-git rm -rf .  # 这一步可选，如果你真的想创建一个没有任何文件的分支
-git add -A && git commit -m "提交" # 添加并提交，否则分支是隐藏的 （执行这一步之前需要注意当前工作区必须保留一个文件，否则无法提交）
-git push --set-upstream origin develop # 推送到远程
+git checkout [options] <branch>
+git checkout [options] -- <file>
 ```
 
+- `options`：可选参数，用来指定不同的操作行为。
+- `<branch>`：要切换到的分支名称。
+- `<file>`：要恢复的文件名称。
+
+#### 切换分支
+
 ```bash
-# 切换到main分支
-git checkout main
+# 切换分支
+git checkout <branch>
 
 # 切换上一个分支
 git checkout -
-
-# 强制切换, 但是要小心，如果文件未保存修改会直接覆盖掉
-git checkout -f main
-
-# -t, 切换远端分支, 如果用了 git remote 添加一个新仓库就需要用 -t 进行切换
-git checkout -t upstream/main
 ```
 
 在克隆时使用 `--depth=1` 切换其他分支，比如切换 dev 分支：
@@ -581,7 +570,51 @@ git fetch --depth=1 origin dev
 git checkout dev
 ```
 
-除了使用 `git checkout` 还有另一种方式切换那就是 `git switch`, 在 Git 版本 `2.23` 引入, 主要用于切换和创建分支。
+#### 创建分支
+
+```bash
+# 创建本地 develop 分支并切换
+git checkout -b develop
+
+# 根据 commit hash 创建新的分支
+git checkout -b new-branch commit-hash
+
+# 创建远程分支, 实际上创建本地分支然后推送到远端
+git checkout -b develop
+git push origin develop
+
+# 创建一个空的分支, 不继承父分支，历史记录是空的，一般至少需要执行4步
+git checkout --orphan develop
+git rm -rf .  # 这一步可选，如果你真的想创建一个没有任何文件的分支
+git add -A && git commit -m "提交" # 添加并提交，否则分支是隐藏的 （执行这一步之前需要注意当前工作区必须保留一个文件，否则无法提交）
+git push --set-upstream origin develop # 推送到远程
+```
+
+#### 恢复文件到上一次提交的状态
+
+```bash
+# -- 后跟着文件名称， 表示恢复该文件到上一次提交的状态
+git checkout -- file.txt
+```
+
+## git switch 切换创建分支
+
+`git switch` 是 Git 2.23 版本引入的新命令，旨在简化分支切换操作，它是 `git checkout` 部分功能的替代，主要用于在不同分支之间进行切换，让操作更加清晰和安全。
+
+#### 基本语法
+
+```bash
+git switch [options] <branch>
+git switch [options] -c <new-branch> [start-point]
+```
+
+- `options`：可选参数，用于指定不同的操作行为。
+- `<branch>`：要切换到的目标分支名称。
+- `-c`：创建新分支并切换到该分支。
+- `<new-branch>`：要创建的新分支名称。
+- `start-point`：可选参数，指定新分支的起始提交点，默认是当前分支的最新提交。
+
+#### 切换分支
 
 ```bash
 # 切换到 develop 分支
@@ -593,6 +626,13 @@ git switch -
 # 强制切换到 develop 分支，并抛弃本地所有修改
 git switch -f develop
 
+# -t, 切换远端分支, 如果用了 git remote 添加一个新仓库就需要用 -t 进行切换
+git switch -t upstream/main
+```
+
+#### 创建分支
+
+```bash
 # 创建分支并切换
 git switch -c newBranch
 
@@ -602,8 +642,8 @@ git switch -C newBranch
 # 从前3次提交进行创建新的分支
 git switch -c newBranch HEAD〜3
 
-# -t, 切换远端分支, 如果用了 git remote 添加一个新仓库就需要用 -t 进行切换
-git switch -t upstream/main
+# 也可以从某个 commit hash 创建分支
+git switch -c new-branch commit-hash
 ```
 
 ## git cherry-pick 转移提交
