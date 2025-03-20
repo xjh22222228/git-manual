@@ -57,7 +57,7 @@
 - [仓库迁移](#仓库迁移)
 - [奇技淫巧](#奇技淫巧)
 - [GUI 客户端](#GUI-客户端)
-- [生成 SSH_Key](#生成SSH_Key)
+- [使用 SSH 克隆仓库](#使用-SSH-克隆仓库)
 - [其他](#其他)
 - [记住密码](#记住密码)
 - [清除账号](#清除账号)
@@ -1759,59 +1759,91 @@ git config --global alias.hist "log --graph --decorate --oneline --pretty=format
 - 收费 - [tower](https://www.git-tower.com/)
 - 收费 - [lazygit](https://github.com/jesseduffield/lazygit)
 
-## 生成 SSH_Key
+## 使用 SSH 克隆仓库
 
-以下适用于 `Mac` / `Linux`。
+使用 SSH 克隆仓库需要先在电脑生成 SSH 公钥和密钥，以下是生成步骤：
 
-1、进入到 ssh
+1. 进入到 ssh
 
 ```bash
 cd ~/.ssh
 ```
 
-2、替换为您的 GitHub 电子邮件地址
+2. 替换为您的 GitHub 电子邮件地址
 
 ```bash
-ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+# -t ed25519: 使用 Ed25519 算法（更现代且安全）。
+# -C: 添加注释，通常是你的邮箱，与GitHub邮箱没有关系
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# 按提示操作，可以直接回车，默认会生成 ~/.ssh/id_ed25519，你可以修改名称作为管理
 ```
 
-3、当提示“输入要在其中保存密钥的文件”时，按 Enter。接受默认文件位置。 (建议修改名字，防止以后被覆盖)
+3. 查看公钥并添加到 GitHub 账号
 
-```
-> Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
-```
-
-4、在提示符下，键入一个安全密码, 默认回车即可
+[https://github.com/settings/keys](https://github.com/settings/keys)
 
 ```bash
-> Enter passphrase (empty for no passphrase): [Type a passphrase]
-> Enter same passphrase again: [Type passphrase again]
+# 输出类似于 ssh-ed25519 AAAAC3Nza... your_email@example.com，复制整个内容。
+cat ~/.ssh/id_ed25519.pub
 ```
 
-5、生成的 SSH Key 添加到 `ssh config` 中
+4. 添加 SSH 密钥
+
+```bash
+ssh-add ~/.ssh/id_ed25519
+```
+
+5. 测试连接
+
+```bash
+# 输出以下信息说明 ssh 连接成功
+# Hi xxxxx! You've successfully authenticated, but GitHub does not provide shell access.
+ssh -T git@github.com
+```
+
+#### 管理多个 GitHub 账号
+
+如果你有多个 GitHub 账号，需要额外的配置 `ssh config`
+
+修改 `~/.ssh/config`
 
 ```bash
 vim ~/.ssh/config
+```
 
-# 粘贴
-Host *
-  IgnoreUnknown AddKeysToAgent,UseKeychain
+```bash
+# Host 是自定义名称，通常用 GitHub 账号命名
+# 账号1
+Host user1
+  HostName github.com
+  User git
   AddKeysToAgent yes
   UseKeychain yes
-  IdentityFile ~/.ssh/id_rsa
+  # 修改你的密钥文件路径
+  IdentityFile ~/.ssh/id_ed25519
+
+# 账号2
+Host user2
+  HostName github.com
+  User git
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519_2
 ```
 
-最后将公钥添加到 [https://github.com/settings/keys](https://github.com/settings/keys) 中
+使用自定义名称测试连接
 
-```
-cat ~/.ssh/id_rsa.pub
+```bash
+ssh -T git@user1
 ```
 
-<details>
-  <summary>演示生成SSH Key.gif</summary>
-  
-  <img src="media/ssh-key.gif">
-</details>
+克隆仓库
+
+```bash
+#             Host:用户/仓库
+git clone git@user1:admin/demo.git
+```
 
 ## 其他
 
