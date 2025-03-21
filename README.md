@@ -648,11 +648,30 @@ git switch -c new-branch commit-hash
 
 ## git cherry-pick 转移提交
 
-`git cherry-pick` 可以用来将一个分支的某次提交转移到当前分支中。
+`git cherry-pick` 是 Git 里一个非常实用的命令，其作用是把指定的提交应用到当前分支。
 
-假设有 `dev` 和 `main` 2 个分支, `dev` 分支中有 10 次提交记录, `main` 分支想把 `dev` 的第 5 次提交记录合并到当前分支中, 这正是此命令的使用场景。
+#### 使用场景
 
-还可以理解为将以前的某次提交再重新提交一次。
+- `同步部分提交`：当你仅需把某个分支里的部分提交同步到另一个分支时，`git cherry-pick` 就派上用场了，而无需合并整个分支。
+- `修复特定问题`：要是在某个分支发现了问题，并且已经在另一个分支修复，那么可以使用 `git cherry-pick` 把修复提交应用到有问题的分支。
+
+#### 基本用法
+
+- `--edit|-e`：在应用提交之前，允许你编辑提交信息。
+- `--no-commit`：应用提交但不自动创建新的提交，这样你可以在之后手动提交。
+- `--signoff`：在提交信息中添加你的签名，表示你对提交负责。
+
+```bash
+# 单个提交
+git cherry-pick <commit-hash>
+
+# 多个连续提交
+#  <start-commit-hash> 是起始提交的哈希值，<end-commit-hash> 是结束提交的哈希值。注意，起始提交不会被包含在内，只会应用从起始提交之后到结束提交的所有提交。
+git cherry-pick <start-commit-hash>..<end-commit-hash>
+
+# 多个不连续提交
+git cherry-pick <commit-hash-1> <commit-hash-2> <commit-hash-3>
+```
 
 ```bash
 # 可以是一个 commit_id 或者是分支名
