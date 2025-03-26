@@ -33,6 +33,8 @@
 - [git stash 临时保存](#git-stash-临时保存)
 - [git status 文件状态](#git-status-文件状态)
 - [git log 日志](#git-log-日志)
+- [git shortlog 日志](#git-shortlog-日志)
+- [git reflog 日志](#git-reflog-日志)
 - [git blame 责怪](#git-blame-责怪)
 - [git merge 合并](#git-merge-合并)
 - [git rm 删除文件](#git-rm-删除文件)
@@ -758,9 +760,9 @@ git status --ignored
 
 ## git log 日志
 
-查看历史日志可以通过 `git log` / `git shortlog` / `git reflog`。
+执行 `git log` 命令，会显示当前分支从最近到最早的所有提交记录，每条记录包含提交哈希、作者、日期以及提交说明。
 
-`git log` 命令是 3 个最强大的命令
+查看历史日志可以通过 `git log` / `git shortlog` / `git reflog`。
 
 ```bash
 # 查看完整历史提交记录
@@ -787,14 +789,22 @@ git log README.md
 # 只显示合并日志
 git log --merges
 
-# 以图形查看日志记录, --oneline 可选
+# 将每条提交记录显示为一行，仅包含提交哈希的前几位和提交说明，便于快速查看
+git log --oneline
+
+# 以图形查看日志记录
 git log --graph --oneline
 
 # 以倒序查看历史记录
 git log --reverse
+
+# --since 和 --until：显示指定时间范围内的提交记录
+git log --since="2025-03-01" --until="2025-03-25"
 ```
 
-`git shortlog` 以简短的形式输出日志, 通常用于统计贡献者代码量。
+## git shortlog 日志
+
+`git shortlog` 命令，它会按照作者对提交进行分组，并统计每个作者的提交数量，同时显示每个作者的最新提交信息。
 
 ```bash
 # 默认以贡献者分组进行输出
@@ -810,13 +820,38 @@ git shortlog -n
 git shortlog -e
 ```
 
-`git reflog` 通常被引用为 `安全网`，当 `git log` 没有想要的信息时可以尝试用 `git reflog`。
+## git reflog 日志
 
-当回滚某个版本时记录是不保存在 `git log` 中, 想要找到这条回滚版本信息时 `git reflog` 就用上了。
+`git reflog` 命令，它会展示本地仓库引用的更新历史，每条记录包含引用的哈希值、操作名称、提交信息以及时间等内容。
+
+- 显示 HEAD（或指定引用）在过去一段时间内的所有移动记录。
+- 包括提交、分支切换、重置、变基等操作，即使这些提交不再属于任何分支。
+- 面向引用变更，记录操作历史，适合救急和调试。
+
+如果你执行 `git reset --hard` 或删除分支，某些提交会变得 `“不可达”`，`git log` 不会显示。
 
 ```bash
-git reflog # 等价于 git log -g --abbrev-commit --pretty=oneline
+# 每条提交记录以一行的形式输出日志
+git reflog
+
+# 恢复丢失提交，通过 git reflog 找回 commit_id
+git reflog
+git reset --hard commit_id
+
+# 指定显示的记录数量。例如，显示最近的 5 条记录
+git reflog -n 5
+
+# 以相对时间（如 “2 days ago”）显示记录的日期
+git reflog --relative-date
+
+# 按照不同的日期格式显示记录。例如，以 iso 格式显示日期
+git reflog --date=iso
 ```
+
+#### 注意事项
+
+- 记录的是本地仓库的操作历史，不会随着代码一起推送到远程仓库。
+- 记录默认会保留 90 天（对于可达对象）或 30 天（对于不可达对象），但这个时间可以通过配置项 `gc.reflogExpire` 和 `gc.reflogExpireUnreachable` 进行调整。
 
 ## git blame 责怪
 
