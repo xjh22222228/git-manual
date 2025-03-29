@@ -35,7 +35,7 @@
 - [git log 日志](#git-log-日志)
 - [git shortlog 日志](#git-shortlog-日志)
 - [git reflog 日志](#git-reflog-日志)
-- [git blame 责怪](#git-blame-责怪)
+- [git blame 最后修改信息](#git-blame-最后修改信息)
 - [git merge 合并](#git-merge-合并)
 - [git rm 删除文件](#git-rm-删除文件)
 - [git restore 还原](#git-restore-还原)
@@ -646,6 +646,9 @@ git switch -c newBranch HEAD〜3
 
 # 也可以从某个 commit hash 创建分支
 git switch -c new-branch commit-hash
+
+# --track 创建 dev 分支并与远程 code/dev 分支关联
+git switch --track code/dev
 ```
 
 ## git cherry-pick 转移提交
@@ -762,8 +765,6 @@ git status --ignored
 
 执行 `git log` 命令，会显示当前分支从最近到最早的所有提交记录，每条记录包含提交哈希、作者、日期以及提交说明。
 
-查看历史日志可以通过 `git log` / `git shortlog` / `git reflog`。
-
 ```bash
 # 查看完整历史提交记录
 git log
@@ -853,17 +854,21 @@ git reflog --date=iso
 - 记录的是本地仓库的操作历史，不会随着代码一起推送到远程仓库。
 - 记录默认会保留 90 天（对于可达对象）或 30 天（对于不可达对象），但这个时间可以通过配置项 `gc.reflogExpire` 和 `gc.reflogExpireUnreachable` 进行调整。
 
-## git blame 责怪
+## git blame 最后修改信息
 
-`git blame` 意思是责怪，你懂的。
+`git blame` 是 Git 里一个极为实用的命令，其主要功能是逐行查看文件内容的最后修改信息，包括最后修改该内容的提交哈希、作者、日期以及提交信息。
 
-`git blame` 用于查看某个文件的修改历史记录是哪个作者进行了改动。
+#### 基本语法
 
 ```bash
-# 查看 README.md 文件的修改历史记录，包括时间、作者以及内容
+git blame <文件名>
+```
+
+```bash
+# 查看 README.md 文件的修改信息，他会以每行修改信息展示
 git blame README.md
 
-# 查看谁改动了 README.md 文件的 11行-12行
+# 查看文件的指定的行数修改信息
 git blame -L 11,12 README.md
 git blame -L 11 README.md   # 查看第11行以后
 
@@ -878,6 +883,12 @@ git blame -e README.md
 
 # 对参数进行一个组合查询
 git blame -enl -L 11 README.md
+
+# -w 忽略空格更改
+git blame -w README.md
+
+# 以更易读的格式显示时间戳
+git blame -c README.md
 ```
 
 ## git merge 合并
