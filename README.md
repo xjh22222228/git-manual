@@ -945,7 +945,7 @@ git merge develop --allow-unrelated-histories
 
 ## git rm 删除文件
 
-此命令使用相对较少，通常用于清除文件缓存，比如加入 `.gitignore` 文件不生效问题
+`git rm <file>`：此命令用于把文件从工作目录和索引中移除，并且会把这次移除操作记录到下一次提交里。
 
 ```bash
 # 删除 1.txt 文件
@@ -956,6 +956,9 @@ git rm -rf .
 
 # 清除当前工作区缓存，但不会删除文件，通常用于修改文件名不生效问题
 git rm -r --cached .
+
+# 把文件从索引中移除，工作目录里的文件会被保留。这在你想让 Git 不再追踪某个文件
+git rm --cached <file>
 ```
 
 ## git restore 还原
@@ -1887,8 +1890,6 @@ vim ~/.ssh/config
 Host user1
   HostName github.com
   User git
-  AddKeysToAgent yes
-  UseKeychain yes
   # 修改你的密钥文件路径
   IdentityFile ~/.ssh/id_ed25519
 
@@ -1896,8 +1897,6 @@ Host user1
 Host user2
   HostName github.com
   User git
-  AddKeysToAgent yes
-  UseKeychain yes
   IdentityFile ~/.ssh/id_ed25519_2
 ```
 
