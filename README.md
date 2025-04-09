@@ -51,7 +51,6 @@
 - [git subtree 子树](#git-subtree-子树)
 - [git bisect 二分查找](#git-bisect-二分查找)
 - [git archive 归档](#git-archive-归档)
-- [git log 格式化日志](#git-log-格式化日志)
 - [清空 commit 历史](#清空-commit-历史)
 - [帮助](#帮助)
 - [提交规范](#提交规范)
@@ -803,6 +802,49 @@ git log --reverse
 git log --since="2025-03-01" --until="2025-03-25"
 ```
 
+#### 格式化日志
+
+在使用 `git log` 命令时可以携带 `--pretty=format` 用来格式化日志。
+
+**常用格式如下：**
+
+| 参数 | 描述                                                                   |
+| ---- | ---------------------------------------------------------------------- |
+| %H   | 完整 commit hash                                                       |
+| %h   | 简写 commit hash 一般是前 7 位                                         |
+| %T   | 完整 hash 树                                                           |
+| %t   | 简写 hash 树                                                           |
+| %an  | 作者名称                                                               |
+| %ae  | 作者邮箱                                                               |
+| %ad  | 作者日期, RFC2822 风格：`Thu Jul 2 20:42:20 2020 +0800`                |
+| %ar  | 作者日期, 相对时间：`2 days ago`                                       |
+| %ai  | 作者日期, ISO 8601-like 风格： `2020-07-02 20:42:20 +0800`             |
+| %aI  | 作者日期, ISO 8601 风格： `2020-07-02T20:42:20+08:00`                  |
+| %cn  | 提交者名称                                                             |
+| %ce  | 提交者邮箱                                                             |
+| %cd  | 提交者日期，RFC2822 风格：`Thu Jul 2 20:42:20 2020 +0800`              |
+| %cr  | 提交者日期，相对时间：`2 days ago`                                     |
+| %ci  | 提交者日期，ISO 8601-like 风格： `2020-07-02 20:42:20 +0800`           |
+| %cI  | 提交者日期，ISO 8601 风格： `2020-07-02T20:42:20+08:00`                |
+| %d   | 引用名称： (HEAD -> main, origin/main, origin/HEAD)                    |
+| %D   | 引用名称，不带 `()` 和 换行符： HEAD -> main, origin/main, origin/HEAD |
+| %e   | 编码方式                                                               |
+| %B   | 原始提交内容                                                           |
+| %C   | 自定义颜色                                                             |
+
+例子：
+
+```bash
+git log -n 1 --pretty=format:"%an" # xjh22222228
+
+git log -n 1 --pretty=format:"%ae" # xjh22222228@gmail.com
+
+git log -n 1 --pretty=format:"%d" #  (HEAD -> main, origin/main, origin/HEAD)
+
+# 自定义输出颜色, %C后面跟着颜色名
+git log --pretty=format:"%Cgreen 作者：%an"
+```
+
 ## git shortlog 日志
 
 `git shortlog` 命令，它会按照作者对提交进行分组，并统计每个作者的提交数量，同时显示每个作者的最新提交信息。
@@ -893,7 +935,9 @@ git blame -c README.md
 
 ## git merge 合并
 
-feature/v1.0.0 分支代码合并到 develop
+`git merge`是 Git 里用于将分支的修改合并到当前分支的命令。
+
+`feature/v1.0.0` 分支代码合并到 `develop`
 
 ```bash
 git checkout develop
@@ -943,6 +987,12 @@ git checkout dev src/utils/http.js src/utils/load.js
 git merge develop --allow-unrelated-histories
 ```
 
+合并提交指定自定义的提交信息
+
+```bash
+git merge develop -m "Merge develop branch into main"
+```
+
 ## git rm 删除文件
 
 `git rm <file>`：此命令用于把文件从工作目录和索引中移除，并且会把这次移除操作记录到下一次提交里。
@@ -963,9 +1013,9 @@ git rm --cached <file>
 
 ## git restore 还原
 
-还原操作通过 `git restore` 命令。
+`git restore`是 Git 2.23 版本引入的一个命令，主要用于恢复工作区文件和暂存区的状态。
 
-`git restore` 是在 `2.23` 引入的, 是为了分离 `git checkout` / `git reset` 职责。
+是为了分离 `git checkout` / `git reset` 职责。
 
 ```bash
 # 撤销工作区文件修改, 不包括新建文件
@@ -1597,49 +1647,6 @@ git archive --output "./output.zip" main
 
 # 归档一个或多个目录, 而不是归档整个项目
 git archive --output "./output.zip" main src tests
-```
-
-## git log 格式化日志
-
-在使用 `git log` 命令时可以携带 `--pretty=format` 用来格式化日志。
-
-**常用格式如下：**
-
-| 参数 | 描述                                                                   |
-| ---- | ---------------------------------------------------------------------- |
-| %H   | 完整 commit hash                                                       |
-| %h   | 简写 commit hash 一般是前 7 位                                         |
-| %T   | 完整 hash 树                                                           |
-| %t   | 简写 hash 树                                                           |
-| %an  | 作者名称                                                               |
-| %ae  | 作者邮箱                                                               |
-| %ad  | 作者日期, RFC2822 风格：`Thu Jul 2 20:42:20 2020 +0800`                |
-| %ar  | 作者日期, 相对时间：`2 days ago`                                       |
-| %ai  | 作者日期, ISO 8601-like 风格： `2020-07-02 20:42:20 +0800`             |
-| %aI  | 作者日期, ISO 8601 风格： `2020-07-02T20:42:20+08:00`                  |
-| %cn  | 提交者名称                                                             |
-| %ce  | 提交者邮箱                                                             |
-| %cd  | 提交者日期，RFC2822 风格：`Thu Jul 2 20:42:20 2020 +0800`              |
-| %cr  | 提交者日期，相对时间：`2 days ago`                                     |
-| %ci  | 提交者日期，ISO 8601-like 风格： `2020-07-02 20:42:20 +0800`           |
-| %cI  | 提交者日期，ISO 8601 风格： `2020-07-02T20:42:20+08:00`                |
-| %d   | 引用名称： (HEAD -> main, origin/main, origin/HEAD)                    |
-| %D   | 引用名称，不带 `()` 和 换行符： HEAD -> main, origin/main, origin/HEAD |
-| %e   | 编码方式                                                               |
-| %B   | 原始提交内容                                                           |
-| %C   | 自定义颜色                                                             |
-
-例子：
-
-```bash
-git log -n 1 --pretty=format:"%an" # xjh22222228
-
-git log -n 1 --pretty=format:"%ae" # xjh22222228@gmail.com
-
-git log -n 1 --pretty=format:"%d" #  (HEAD -> main, origin/main, origin/HEAD)
-
-# 自定义输出颜色, %C后面跟着颜色名
-git log --pretty=format:"%Cgreen 作者：%an"
 ```
 
 ## 清空 commit 历史
