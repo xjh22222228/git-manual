@@ -504,6 +504,9 @@ git branch new-feature commit-hash
 
 # 强制创建分支
 git branch -f main
+
+# 创建孤立分支，没有历史记录
+git checkout --orphan new-feature
 ```
 
 #### 删除分支
@@ -1679,10 +1682,6 @@ git add .
 git commit -m "第一个提交"
 git push -f # 注意一定要强制推送
 ```
-
-这 2 种方法都是用于清空 commit 历史， 不会造成当前文件的丢失，所以放心。
-
-笔者推荐使用第二种方法，更安全可靠。
 
 ## 帮助
 
